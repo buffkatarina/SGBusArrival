@@ -1,13 +1,24 @@
 package com.buffkatarina.busarrival.ui.fragments.bus_timings
 
+import android.util.Log
+import android.util.LruCache
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.data.BusTimings
+import java.sql.Time
+import java.time.LocalDateTime
+import java.time.LocalDateTime.parse
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import java.util.TimeZone
+
 
 class BusArrivalAdapter(private val data: BusTimings) :
     RecyclerView.Adapter<BusArrivalAdapter.BusArrivalViewHolder>(){
@@ -28,12 +39,41 @@ class BusArrivalAdapter(private val data: BusTimings) :
     override fun onBindViewHolder(holder: BusArrivalViewHolder, position: Int) {
         val currentItem = data.services[position]
         holder.serviceNoHolder.text = currentItem.serviceNo
-        holder.nextBus.text = currentItem.nextBus.estimatedArrival
-        holder.nextBus2.text = currentItem.nextBus2.estimatedArrival
-        holder.nextBus3.text = currentItem.nextBus3.estimatedArrival
+        val listArrival = listOf<String>(currentItem.nextBus.estimatedArrival,
+            currentItem.nextBus2.estimatedArrival,
+            currentItem.nextBus3.estimatedArrival)
+        val listHolder = mutableListOf<TextView>(holder.nextBus, holder.nextBus2,  holder.nextBus3)
+        var foo = 0
+        while (foo < 3){
+            if (listArrival[foo].isEmpty()){
+                listHolder[foo].text = "-"
+            }
+            else{
+                val difference = timeDifference(listArrival[foo])
+                if (difference.toInt() < 1) {
+                    listHolder[foo].text = "Arr"
+                }
+                else{
+                    listHolder[foo].text = timeDifference(listArrival[foo]) + " min"
+                }
+
+            }
+            foo++
+        }
     }
 
         override fun getItemCount() = data.services.size
+
+    private fun timeDifference(time: String): String{
+        /*
+        Estimates difference between current time and given time.
+        Returns the difference in MINUTE
+        */
+        val currentTime = LocalDateTime.now()
+        val parsedTime = ZonedDateTime.parse(time).toLocalDateTime()
+        return ChronoUnit.MINUTES.between(currentTime, parsedTime).toString()
+
+    }
 
 }
 
