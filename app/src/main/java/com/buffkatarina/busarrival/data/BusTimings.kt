@@ -2,6 +2,9 @@ package com.buffkatarina.busarrival.data
 
 import com.google.gson.annotations.SerializedName
 
+
+/*Data class to for storing
+bus timings JSON data from the api */
 data class BusTimings (
     @SerializedName("odata.metadata")
     val metadata: String,
@@ -12,7 +15,6 @@ data class BusTimings (
     @SerializedName("Services")
     val services: List<BusData>
     ){
-
     data class BusData(
         @SerializedName("ServiceNo")
         val serviceNo: String,

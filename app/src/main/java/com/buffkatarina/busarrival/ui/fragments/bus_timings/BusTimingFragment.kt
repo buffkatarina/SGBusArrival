@@ -1,19 +1,14 @@
 package com.buffkatarina.busarrival.ui.fragments.bus_timings
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
-import com.buffkatarina.busarrival.data.BusTimings
-import com.buffkatarina.busarrival.model.BusApiViewModel
+import com.buffkatarina.busarrival.api.BusApiViewModel
 
 class BusTimingFragment: Fragment() {
 
@@ -35,7 +30,7 @@ class BusTimingFragment: Fragment() {
                 _, bundle ->
             val busStopCode =  bundle.getString("busStopCode")
 
-            viewModel.getBusRoutes(busStopCode)
+            viewModel.getBusTimings(busStopCode)
         }
         viewModel.busTimings.observe(viewLifecycleOwner) {
             busTimings ->

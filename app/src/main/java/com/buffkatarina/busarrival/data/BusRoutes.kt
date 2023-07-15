@@ -2,14 +2,16 @@ package com.buffkatarina.busarrival.data
 
 import com.google.gson.annotations.SerializedName
 
-data class BusRoutes (
+
+/*Data class to for storing
+ deserialised bus routes JSON data from the api */
+data class BusRoutes(
     @SerializedName("odata.metadata")
     val metadata: String,
 
     @SerializedName("value")
     val value: List<Data>
-){
-
+) {
     data class Data(
         @SerializedName("ServiceNo")
         val serviceNo: String,

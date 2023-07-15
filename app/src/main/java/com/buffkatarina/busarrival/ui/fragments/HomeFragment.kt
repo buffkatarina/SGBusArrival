@@ -9,7 +9,6 @@ import android.widget.EditText
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.buffkatarina.busarrival.R
-import com.buffkatarina.busarrival.model.BusApiViewModel
 import com.buffkatarina.busarrival.ui.fragments.bus_timings.BusTimingFragment
 
 class HomeFragment: Fragment() {
@@ -39,6 +38,8 @@ class HomeFragment: Fragment() {
         }
         super.onViewCreated(view, savedInstanceState)
     }
+
+
 
 
 }
