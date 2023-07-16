@@ -1,23 +1,15 @@
 package com.buffkatarina.busarrival.ui.fragments.bus_timings
 
-import android.util.Log
-import android.util.LruCache
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
-import com.buffkatarina.busarrival.data.BusTimings
-import java.sql.Time
+import com.buffkatarina.busarrival.data.entities.BusTimings
 import java.time.LocalDateTime
-import java.time.LocalDateTime.parse
-import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
-import java.util.TimeZone
 
 
 class BusArrivalAdapter(private val data: BusTimings) :

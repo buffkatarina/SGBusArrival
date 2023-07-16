@@ -1,4 +1,4 @@
-package com.buffkatarina.busarrival.data
+package com.buffkatarina.busarrival.data.entities
 
 import com.google.gson.annotations.SerializedName
 

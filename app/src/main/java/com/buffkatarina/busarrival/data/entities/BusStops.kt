@@ -1,10 +1,13 @@
-package com.buffkatarina.busarrival.data
+package com.buffkatarina.busarrival.data.entities
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 
 /*Data class to for storing
  deserialised bus routes json data from the api */
+
 
 data class BusStops(
     @SerializedName("odata.metadata")
@@ -12,7 +15,9 @@ data class BusStops(
     @SerializedName("value")
     val data: List<BusStopData>
 ) {
+    @Entity(tableName = "BusStops")
     data class BusStopData(
+        @PrimaryKey
         @SerializedName("BusStopCode")
         val busStopCode: String,
 
