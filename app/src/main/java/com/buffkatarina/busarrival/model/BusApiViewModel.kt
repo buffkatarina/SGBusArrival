@@ -2,12 +2,15 @@ package com.buffkatarina.busarrival.model
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.buffkatarina.busarrival.api.BusApiRepository
 import com.buffkatarina.busarrival.api.BusApiService
-import com.buffkatarina.busarrival.data.entities.BusTimings
 import com.buffkatarina.busarrival.data.db.BusArrivalDatabase
 import com.buffkatarina.busarrival.data.db.BusArrivalRepository
+import com.buffkatarina.busarrival.data.entities.BusTimings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -25,11 +28,10 @@ class BusApiViewModel(application: Application): AndroidViewModel(application) {
     init {
         val dbDao = BusArrivalDatabase.getInstance(application).BusArrivalDao()
         busArrivalRepository = BusArrivalRepository(dbDao)
-
         val busApiInterface = BusApiService.BusApi.busApi
         busApiRepository = BusApiRepository(busApiInterface)
     }
-    fun getBusTimings(busStopCode: String?){
+    fun getBusTimings(busStopCode: Int?){
         /*
 
         Get a list of bus timings for a given bus stop code
@@ -47,28 +49,59 @@ class BusApiViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun storeBusStops(){
+    fun buildDB(){
         /*
-        Parses information of all bus stops currently being serviced by
-        buses, including: Bus Stop Code, location coordinates into a sql database
+        Loads all parsed data into the database
         */
-
         viewModelScope.launch(Dispatchers.IO) {
-            var skipAmt = 0
-            try{
-                do{
-                    val busStops = busApiRepository.getBusStops(skipAmt)
-                    for (i in busStops.data){
-                            busArrivalRepository.insertBusStops(i)
-                        Log.i("ASDASD", i.toString())
-                    }
-                    skipAmt += 500
 
-                } while(busApiRepository.getBusStops(skipAmt).data.isNotEmpty())
+            try{
+                insertBusStops()
+                insertBusServices()
+                insertBusRoutes()
 
             } catch (e: Exception){
                 Log.d("GetBusStopsError", "${e.message}")
             }
         }
+    }
+
+    private suspend fun insertBusStops() {
+        /*Parse all bus stops and insert into database*/
+        var skipAmt = 0
+        do{
+            val busStops = busApiRepository.getBusStops(skipAmt)
+            for (i in busStops.data){
+                busArrivalRepository.insertBusStops(i)
+            }
+            skipAmt += 500
+        } while(busApiRepository.getBusStops(skipAmt).data.isNotEmpty())
+
+    }
+
+    private suspend fun insertBusServices() {
+        /*Parse all bus services and insert into database*/
+        var skipAmt = 0
+        do{
+            val busServices = busApiRepository.getBusServices(skipAmt)
+            for (i in busServices.data){
+                busArrivalRepository.insertBusServices(i)
+            }
+            skipAmt += 500
+        } while(busApiRepository.getBusServices(skipAmt).data.isNotEmpty())
+
+    }
+
+    private suspend fun insertBusRoutes() {
+        /*Parse all bus routes and insert into database*/
+        var skipAmt = 0
+        do{
+            val busRoutes = busApiRepository.getBusRoutes(skipAmt)
+            for (i in busRoutes.data){
+                busArrivalRepository.insertBusRoutes(i)
+            }
+            skipAmt += 500
+        } while(busApiRepository.getBusRoutes(skipAmt).data.isNotEmpty())
+
     }
 }

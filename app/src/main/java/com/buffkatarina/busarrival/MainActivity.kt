@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
             .add(R.id.fragmentHolder, HomeFragment(), "HomeFragment")
             .commit()
         val model = BusApiViewModel(application)
-        model.storeBusStops()
+        model.buildDB()
 
     }
 

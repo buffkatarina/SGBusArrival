@@ -5,4 +5,5 @@ const val API_KEY: String = "qQ1eTprPQyCFkXL+6Ur0lA=="
 const val BUS_ROUTES: String = "BusRoutes"
 const val BUS_TIMINGS: String = "BusArrivalv2"
 const val BUS_STOPS: String = "BusStops"
+const val BUS_SERVICES: String = "BusServices"
 

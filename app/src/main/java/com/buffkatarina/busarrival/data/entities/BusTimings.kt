@@ -60,7 +60,5 @@ data class BusTimings (
         @SerializedName("Type")
         val type: String,
     )
-
-
 }
 

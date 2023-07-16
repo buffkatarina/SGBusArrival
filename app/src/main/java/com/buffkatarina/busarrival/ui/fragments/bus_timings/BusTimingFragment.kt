@@ -28,7 +28,7 @@ class BusTimingFragment: Fragment() {
         parentFragmentManager.setFragmentResultListener("busStopCodeKey",
             viewLifecycleOwner) {
                 _, bundle ->
-            val busStopCode =  bundle.getString("busStopCode")
+            val busStopCode =  bundle.getString("busStopCode")?.toInt()
 
             viewModel!!.getBusTimings(busStopCode)
         }
