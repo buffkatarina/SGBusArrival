@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.model.BusApiViewModel
+import kotlinx.coroutines.launch
 
 class BusTimingFragment: Fragment() {
 
@@ -30,7 +32,9 @@ class BusTimingFragment: Fragment() {
                 _, bundle ->
             val busStopCode =  bundle.getString("busStopCode")?.toInt()
 
-            viewModel!!.getBusTimings(busStopCode)
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel!!.getBusTimings(busStopCode)
+            }
         }
         viewModel!!.busTimings.observe(viewLifecycleOwner) {
             busTimings ->

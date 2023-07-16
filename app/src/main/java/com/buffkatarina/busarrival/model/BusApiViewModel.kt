@@ -31,22 +31,19 @@ class BusApiViewModel(application: Application): AndroidViewModel(application) {
         val busApiInterface = BusApiService.BusApi.busApi
         busApiRepository = BusApiRepository(busApiInterface)
     }
-    fun getBusTimings(busStopCode: Int?){
+    suspend fun getBusTimings(busStopCode: Int?){
         /*
 
         Get a list of bus timings for a given bus stop code
         Updates the busTimings class variable with the result
         List of bus timings can be obtained by 'OBSERVING' the busTimings variable for changes
         * */
-        viewModelScope.launch{
             try {
                 _busTimings.value = busApiRepository.getBusTimings(busStopCode)
             } catch (e: Exception) {
                 Log.d("Error", "${e.message}")
 
             }
-
-        }
     }
 
     fun buildDB(){
