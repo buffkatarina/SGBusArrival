@@ -2,16 +2,15 @@ package com.buffkatarina.busarrival.model
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.buffkatarina.busarrival.api.BusApiRepository
 import com.buffkatarina.busarrival.api.BusApiService
 import com.buffkatarina.busarrival.data.db.BusArrivalDatabase
 import com.buffkatarina.busarrival.data.db.BusArrivalRepository
+import com.buffkatarina.busarrival.data.entities.BusStops
 import com.buffkatarina.busarrival.data.entities.BusTimings
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 
@@ -22,15 +21,25 @@ class BusApiViewModel(application: Application): AndroidViewModel(application) {
     val busTimings: LiveData<BusTimings>
         get() = _busTimings
 
+    private val _searchQuery  = MutableLiveData<String>()
+    val searchQuery: LiveData<String>
+        get() = _searchQuery
+
     private val busApiRepository: BusApiRepository
     private val busArrivalRepository: BusArrivalRepository
-
     init {
         val dbDao = BusArrivalDatabase.getInstance(application).BusArrivalDao()
         busArrivalRepository = BusArrivalRepository(dbDao)
         val busApiInterface = BusApiService.BusApi.busApi
         busApiRepository = BusApiRepository(busApiInterface)
+
     }
+    private val readBusStopsData = busArrivalRepository.getAllBusStops().asLiveData()
+
+    fun setSearchQuery(query: String) {
+        _searchQuery.value = query
+    }
+
     suspend fun getBusTimings(busStopCode: Int?){
         /*
 
@@ -44,6 +53,10 @@ class BusApiViewModel(application: Application): AndroidViewModel(application) {
                 Log.d("Error", "${e.message}")
 
             }
+    }
+
+    fun searchBusStops(searchQuery: String?): LiveData<List<String>> {
+        return busArrivalRepository.searchBusStops(searchQuery).asLiveData()
     }
 
     fun buildDB(){

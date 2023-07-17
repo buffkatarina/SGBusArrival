@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Bus Arrival</string>
     <string name="search_hint">Enter bus stop number</string>
-    <string name="search_label"></string>
+    <string name="search">search</string>
 </resources>

@@ -7,18 +7,34 @@ import androidx.room.Query
 import com.buffkatarina.busarrival.data.entities.BusRoutes
 import com.buffkatarina.busarrival.data.entities.BusServices
 import com.buffkatarina.busarrival.data.entities.BusStops
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BusArrivalDao{
-    @Query("SELECT * FROM BusStops")
-    fun getAll(): List<BusStops.BusStopData>
+    // BusStops table methods
+    @Query("SELECT busStopCode FROM BusStops")
+    fun getAllBusStops(): Flow<List<String>>
+
+    @Query("SELECT busStopCode FROM BusStops WHERE busStopCode LIKE :searchQuery ")
+    fun searchBusStops(searchQuery: String?): Flow<List<String>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBusStops(vararg busStops: BusStops.BusStopData)
 
+    // BusServices table methods
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBusServices(vararg busServices: BusServices.BusServicesData)
 
+    @Query("SELECT serviceNo FROM BusServices WHERE direction = 1 ")
+    //  direction = 1 to get unique bus 'serviceNo' as 1
+    //  serviceNo can have 2 directions
+    //  all serviceNo have direction = 1 but not all have direction = 2
+    fun getAllBusServices(): Flow<List<String>>
+
+    @Query("SELECT serviceNo FROM BusServices WHERE direction = 1 AND serviceNo LIKE :searchQuery ")
+    fun searchBusServices(searchQuery: String?): Flow<List<String>>
+
+    // BusRoutes table methods
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBusRoutes(vararg busRoutes: BusRoutes.BusRoutesData)
 }

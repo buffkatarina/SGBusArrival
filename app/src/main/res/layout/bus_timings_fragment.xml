@@ -8,5 +8,5 @@
         android:id="@+id/busTimings_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/recyclerview_layout"/>
+        tools:listitem="@layout/bus_timings_recyclerview_row"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

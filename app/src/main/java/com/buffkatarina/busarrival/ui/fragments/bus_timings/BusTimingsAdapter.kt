@@ -14,17 +14,9 @@ import java.time.temporal.ChronoUnit
 
 class BusArrivalAdapter(private val data: BusTimings) :
     RecyclerView.Adapter<BusArrivalAdapter.BusArrivalViewHolder>(){
-
-    class BusArrivalViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val serviceNoHolder: TextView = view.findViewById<TextView>(R.id.serviceNo)
-        val nextBus: TextView = view.findViewById<TextView>(R.id.nextBus)
-        val nextBus2: TextView = view.findViewById<TextView>(R.id.nextBus2)
-        val nextBus3: TextView = view.findViewById<TextView>(R.id.nextBus3)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BusArrivalViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recyclerview_layout, parent, false)
+            .inflate(R.layout.bus_timings_recyclerview_row, parent, false)
         return BusArrivalViewHolder(view)
     }
 
@@ -54,7 +46,7 @@ class BusArrivalAdapter(private val data: BusTimings) :
         }
     }
 
-        override fun getItemCount() = data.services.size
+    override fun getItemCount() = data.services.size
 
     private fun timeDifference(time: String): String{
         /*
@@ -66,6 +58,14 @@ class BusArrivalAdapter(private val data: BusTimings) :
         return ChronoUnit.MINUTES.between(currentTime, parsedTime).toString()
 
     }
+
+    class BusArrivalViewHolder(view: View): RecyclerView.ViewHolder(view){
+        val serviceNoHolder: TextView = view.findViewById<TextView>(R.id.serviceNo)
+        val nextBus: TextView = view.findViewById<TextView>(R.id.nextBus)
+        val nextBus2: TextView = view.findViewById<TextView>(R.id.nextBus2)
+        val nextBus3: TextView = view.findViewById<TextView>(R.id.nextBus3)
+    }
+
 
 }
 
