@@ -10,11 +10,10 @@ import com.buffkatarina.busarrival.data.db.BusArrivalRepository
 import com.buffkatarina.busarrival.data.entities.BusStops
 import com.buffkatarina.busarrival.data.entities.BusTimings
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 
-class BusApiViewModel(application: Application): AndroidViewModel(application) {
+class ActivityViewModel(application: Application): AndroidViewModel(application) {
     /*View model that handles all the HTTP requests and parsing and building of database.*/
 
     private val _busTimings  = MutableLiveData<BusTimings>()
@@ -32,9 +31,7 @@ class BusApiViewModel(application: Application): AndroidViewModel(application) {
         busArrivalRepository = BusArrivalRepository(dbDao)
         val busApiInterface = BusApiService.BusApi.busApi
         busApiRepository = BusApiRepository(busApiInterface)
-
     }
-    private val readBusStopsData = busArrivalRepository.getAllBusStops().asLiveData()
 
     fun setSearchQuery(query: String) {
         _searchQuery.value = query
@@ -55,8 +52,12 @@ class BusApiViewModel(application: Application): AndroidViewModel(application) {
             }
     }
 
-    fun searchBusStops(searchQuery: String?): LiveData<List<String>> {
+    fun searchBusStops(searchQuery: String?): LiveData<List<BusStops.BusStopData>> {
         return busArrivalRepository.searchBusStops(searchQuery).asLiveData()
+    }
+
+    fun searchBusServices(searchQuery: String?): LiveData<List<String>> {
+        return busArrivalRepository.searchBusServices(searchQuery).asLiveData()
     }
 
     fun buildDB(){

@@ -15,8 +15,9 @@ interface BusArrivalDao{
     @Query("SELECT busStopCode FROM BusStops")
     fun getAllBusStops(): Flow<List<String>>
 
-    @Query("SELECT busStopCode FROM BusStops WHERE busStopCode LIKE :searchQuery ")
-    fun searchBusStops(searchQuery: String?): Flow<List<String>>
+    @Query("SELECT * FROM BusStops" +
+            " WHERE busStopCode LIKE :searchQuery ")
+    fun searchBusStops(searchQuery: String?): Flow<List<BusStops.BusStopData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBusStops(vararg busStops: BusStops.BusStopData)
@@ -25,10 +26,10 @@ interface BusArrivalDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBusServices(vararg busServices: BusServices.BusServicesData)
 
-    @Query("SELECT serviceNo FROM BusServices WHERE direction = 1 ")
     //  direction = 1 to get unique bus 'serviceNo' as 1
     //  serviceNo can have 2 directions
     //  all serviceNo have direction = 1 but not all have direction = 2
+    @Query("SELECT serviceNo FROM BusServices WHERE direction = 1 ")
     fun getAllBusServices(): Flow<List<String>>
 
     @Query("SELECT serviceNo FROM BusServices WHERE direction = 1 AND serviceNo LIKE :searchQuery ")

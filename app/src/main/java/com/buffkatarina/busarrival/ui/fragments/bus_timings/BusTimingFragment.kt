@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
-import com.buffkatarina.busarrival.model.BusApiViewModel
+import com.buffkatarina.busarrival.model.ActivityViewModel
 import kotlinx.coroutines.launch
 
 class BusTimingFragment: Fragment() {
@@ -34,7 +34,7 @@ class BusTimingFragment: Fragment() {
     private fun getBusTimings(recyclerView: RecyclerView)
     /*Gets bus timings and loads them into the recycler view*/
     {
-        val viewModel =ViewModelProvider(requireActivity())[BusApiViewModel::class.java]
+        val viewModel =ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
         parentFragmentManager.setFragmentResultListener("busStopCodeKey",
             viewLifecycleOwner) {
                 _, bundle ->

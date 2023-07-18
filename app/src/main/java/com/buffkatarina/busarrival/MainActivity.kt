@@ -1,22 +1,17 @@
 package com.buffkatarina.busarrival
 
-import android.app.SearchManager
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
-import com.buffkatarina.busarrival.model.BusApiViewModel
+import com.buffkatarina.busarrival.model.ActivityViewModel
 import com.buffkatarina.busarrival.ui.fragments.HomeFragment
-import com.buffkatarina.busarrival.ui.fragments.bus_timings.BusTimingFragment
 import com.buffkatarina.busarrival.ui.fragments.search.SearchFragment
 
 class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.OnQueryTextListener{
-    private val model: BusApiViewModel by lazy {
-        ViewModelProvider(this)[BusApiViewModel::class.java]
+    private val model: ActivityViewModel by lazy {
+        ViewModelProvider(this)[ActivityViewModel::class.java]
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,12 +39,14 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.search -> {
-                supportFragmentManager.findFragmentByTag("HomeFragment")?.let { it ->
-                supportFragmentManager.beginTransaction()
-                    .hide(it)
-                    .addToBackStack("HomeFragment")
-                    .add(R.id.fragmentHolder, SearchFragment(), "SearchFragment")
-                    .commit()
+                if (supportFragmentManager.findFragmentByTag("SearchFragment") == null) {
+                    supportFragmentManager.findFragmentByTag("HomeFragment")?.let { it ->
+                    supportFragmentManager.beginTransaction()
+                        .hide(it)
+                        .addToBackStack("HomeFragment")
+                        .add(R.id.fragmentHolder, SearchFragment(), "SearchFragment")
+                        .commit()
+                    }
                 }
                 return true
             }
@@ -63,8 +60,8 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
-        if (query != null) {
-            model.setSearchQuery("%$query%")
+        if (query?.isNotEmpty() == true) {
+            model.setSearchQuery("$query%")
         }
         return true
     }

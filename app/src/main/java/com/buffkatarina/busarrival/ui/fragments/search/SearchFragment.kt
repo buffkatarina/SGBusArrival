@@ -1,20 +1,17 @@
 package com.buffkatarina.busarrival.ui.fragments.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
-import com.buffkatarina.busarrival.model.BusApiViewModel
+import com.buffkatarina.busarrival.model.ActivityViewModel
 
 class SearchFragment: Fragment() {
-    private val model: BusApiViewModel by lazy {
-        ViewModelProvider(requireActivity())[BusApiViewModel::class.java]
+    private val model: ActivityViewModel by lazy {
+        ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -26,16 +23,29 @@ class SearchFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val recyclerView = view.findViewById<RecyclerView>(R.id.searchFragment_recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        val searchAdapter = SearchAdapter()
-        recyclerView.adapter = searchAdapter
+        setUpRecyclerView(view)
+    }
+
+    private fun setUpRecyclerView(view: View) {
+//      Set up recyclerViews
+        val busStopsRecyclerView: RecyclerView = view.findViewById(R.id.busStops_recycler_view)
+        busStopsRecyclerView.layoutManager = LinearLayoutManager(context)
+        val busStopsSearchAdapter = BusStopsSearchAdapter()
+        busStopsRecyclerView.adapter =  busStopsSearchAdapter
+
+        val busServicesRecyclerView: RecyclerView = view.findViewById(R.id.busServices_recycler_view)
+        busServicesRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val busServicesAdapter = BusServicesSearchAdapter()
+        busServicesRecyclerView.adapter = busServicesAdapter
+
+//        Load data
         model.searchQuery.observe(viewLifecycleOwner) { query ->
-            Log.i("ASD", query)
             model.searchBusStops(query).observe(viewLifecycleOwner) {data ->
-                searchAdapter.updateData(data)
+                busStopsSearchAdapter.updateData(data)
+            }
+            model.searchBusServices(query).observe(viewLifecycleOwner) {data ->
+                busServicesAdapter.updateData(data)
             }
         }
-
     }
 }
