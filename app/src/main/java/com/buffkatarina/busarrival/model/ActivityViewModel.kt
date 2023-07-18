@@ -15,14 +15,14 @@ import kotlinx.coroutines.launch
 
 class ActivityViewModel(application: Application): AndroidViewModel(application) {
     /*View model that handles all the HTTP requests and parsing and building of database.*/
+    private val _clearSearchHandler = MutableLiveData<Boolean>()
+    val clearSearchHandler: LiveData<Boolean> get() = _clearSearchHandler
 
     private val _busTimings  = MutableLiveData<BusTimings>()
-    val busTimings: LiveData<BusTimings>
-        get() = _busTimings
+    val busTimings: LiveData<BusTimings> get() = _busTimings
 
-    private val _searchQuery  = MutableLiveData<String>()
-    val searchQuery: LiveData<String>
-        get() = _searchQuery
+    private val _searchQuery  = MutableLiveData<String?>()
+    val searchQuery: LiveData<String?> get() = _searchQuery
 
     private val busApiRepository: BusApiRepository
     private val busArrivalRepository: BusArrivalRepository
@@ -33,10 +33,6 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
         busApiRepository = BusApiRepository(busApiInterface)
     }
 
-    fun setSearchQuery(query: String) {
-        _searchQuery.value = query
-    }
-
     suspend fun getBusTimings(busStopCode: Int?){
         /*
 
@@ -44,21 +40,29 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
         Updates the busTimings class variable with the result
         List of bus timings can be obtained by 'OBSERVING' the busTimings variable for changes
         * */
-            try {
-                _busTimings.value = busApiRepository.getBusTimings(busStopCode)
-            } catch (e: Exception) {
-                Log.d("Error", "${e.message}")
+        try {
+            _busTimings.value = busApiRepository.getBusTimings(busStopCode)
+        } catch (e: Exception) {
+            Log.d("Error", "${e.message}")
 
-            }
+        }
+    }
+    val clearSearchQuery = { bool: Boolean -> _clearSearchHandler.value = bool}
+
+    fun setSearchQuery(query: String?) {
+        _searchQuery.value = query
     }
 
     fun searchBusStops(searchQuery: String?): LiveData<List<BusStops.BusStopData>> {
+        /*Returns List<BusStops.BusStopData> of matching bus stops as live data*/
         return busArrivalRepository.searchBusStops(searchQuery).asLiveData()
     }
 
     fun searchBusServices(searchQuery: String?): LiveData<List<String>> {
+        /*Returns List<String> of matching bus services as live data*/
         return busArrivalRepository.searchBusServices(searchQuery).asLiveData()
     }
+
 
     fun buildDB(){
         /*

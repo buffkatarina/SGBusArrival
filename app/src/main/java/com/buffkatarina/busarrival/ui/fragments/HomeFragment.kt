@@ -27,14 +27,16 @@ class HomeFragment: Fragment() {
         val currentFragment = parentFragmentManager.findFragmentByTag("HomeFragment")!!
         val editText = view.findViewById<EditText>(R.id.editText)
         val button = view.findViewById<Button>(R.id.button)
+        val busTimingFragment = BusTimingFragment()
         button.setOnClickListener {
             val busStopCode = editText.text.toString()
             parentFragmentManager.setFragmentResult("busStopCodeKey"
                 , bundleOf("busStopCode" to busStopCode))
             parentFragmentManager.beginTransaction()
                 .hide(currentFragment)
-                .addToBackStack("HomeFragment")
-                .add(R.id.fragmentHolder,BusTimingFragment())
+                .addToBackStack(null)
+                .attach(busTimingFragment)
+                .add(R.id.fragmentHolder, busTimingFragment, "BusTimingFragment")
                 .commit()
         }
         super.onViewCreated(view, savedInstanceState)
