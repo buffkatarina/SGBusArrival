@@ -16,7 +16,7 @@ data class BusRoutes(
 
     @Entity(
         tableName = "BusRoutes",
-        primaryKeys = ["serviceNo", "stopSequence"]
+        primaryKeys = ["serviceNo", "stopSequence", "direction"]
     )
     data class BusRoutesData(
         @SerializedName("ServiceNo")
@@ -29,7 +29,7 @@ data class BusRoutes(
         val direction: Int,
 
         @SerializedName("StopSequence")
-        val stopSequence: String,
+        val stopSequence: Int,
 
         @SerializedName("BusStopCode")
         val busStopCode: String,

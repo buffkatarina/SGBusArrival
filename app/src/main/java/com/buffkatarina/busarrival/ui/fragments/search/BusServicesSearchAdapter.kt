@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.data.entities.BusServices
 import com.buffkatarina.busarrival.data.entities.BusStops
+import com.buffkatarina.busarrival.model.ActivityViewModel
 import com.buffkatarina.busarrival.ui.fragments.bus_routes.BusRoutesFragment
 
-class BusServicesSearchAdapter(private val context: Context): RecyclerView.Adapter<BusServicesSearchAdapter.SearchAdapterViewHolder>() {
+class BusServicesSearchAdapter(private val busRoutesHandler: BusServicesSearchAdapter.ToBusRoutes): RecyclerView.Adapter<BusServicesSearchAdapter.SearchAdapterViewHolder>() {
+
     private var dataList = emptyList<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
@@ -29,19 +31,17 @@ class BusServicesSearchAdapter(private val context: Context): RecyclerView.Adapt
 
     private fun setUpViewHolder(view: View): SearchAdapterViewHolder {
         val viewHolder = SearchAdapterViewHolder(view)
-        val fragmentManager = (context as AppCompatActivity).supportFragmentManager
-        viewHolder.cardView.setOnClickListener {
-            fragmentManager.beginTransaction()
-                .replace(R.id.fragmentHolder, BusRoutesFragment())
-                .addToBackStack(null)
-                .commit()
+        val textView = viewHolder.textView
+        val cardView = viewHolder.cardView
+        cardView.setOnClickListener {
+             busRoutesHandler.addBusRoutesFragment(textView.text.toString())
         }
         return viewHolder
     }
 
     override fun onBindViewHolder(holder: SearchAdapterViewHolder, position: Int) {
         val currentItem = dataList[position]
-        holder.busServiceNo.text = currentItem
+        holder.textView.text = currentItem
     }
 
     override fun getItemCount(): Int {
@@ -55,8 +55,12 @@ class BusServicesSearchAdapter(private val context: Context): RecyclerView.Adapt
     }
 
     class SearchAdapterViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val busServiceNo: TextView = view.findViewById(R.id.busServiceNo)
+        val textView: TextView = view.findViewById(R.id.busServiceNo)
         val cardView: CardView = view.findViewById(R.id.bus_services_card)
 
+    }
+
+    interface ToBusRoutes {
+        fun addBusRoutesFragment(query: String)
     }
 }

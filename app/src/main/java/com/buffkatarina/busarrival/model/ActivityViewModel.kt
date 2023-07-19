@@ -7,6 +7,7 @@ import com.buffkatarina.busarrival.api.BusApiRepository
 import com.buffkatarina.busarrival.api.BusApiService
 import com.buffkatarina.busarrival.data.db.BusArrivalDatabase
 import com.buffkatarina.busarrival.data.db.BusArrivalRepository
+import com.buffkatarina.busarrival.data.entities.BusRoutesFiltered
 import com.buffkatarina.busarrival.data.entities.BusStops
 import com.buffkatarina.busarrival.data.entities.BusTimings
 import kotlinx.coroutines.Dispatchers
@@ -63,13 +64,16 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
         return busArrivalRepository.searchBusServices(searchQuery).asLiveData()
     }
 
+    fun searchBusRoutes(searchQuery: String?): List<BusRoutesFiltered> {
+        val test = busArrivalRepository.searchBusRoutes(searchQuery)
+        return test
+    }
 
     fun buildDB(){
         /*
         Loads all parsed data into the database
         */
         viewModelScope.launch(Dispatchers.IO) {
-
             try{
                 insertBusStops()
                 insertBusServices()

@@ -39,7 +39,6 @@ class BusTimingFragment: Fragment() {
             viewLifecycleOwner) {
                 _, bundle ->
             val busStopCode =  bundle.getString("busStopCode")?.toInt()
-
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.getBusTimings(busStopCode)
             }

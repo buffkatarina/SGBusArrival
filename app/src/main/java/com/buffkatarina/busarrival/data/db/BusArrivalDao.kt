@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.buffkatarina.busarrival.data.entities.BusRoutes
+import com.buffkatarina.busarrival.data.entities.BusRoutesFiltered
 import com.buffkatarina.busarrival.data.entities.BusServices
 import com.buffkatarina.busarrival.data.entities.BusStops
 import kotlinx.coroutines.flow.Flow
@@ -26,9 +27,7 @@ interface BusArrivalDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBusServices(vararg busServices: BusServices.BusServicesData)
 
-    //  direction = 1 to get unique bus 'serviceNo' as 1
-    //  serviceNo can have 2 directions
-    //  all serviceNo have direction = 1 but not all have direction = 2
+    //All bus services have direction = 1
     @Query("SELECT serviceNo FROM BusServices WHERE direction = 1 ")
     fun getAllBusServices(): Flow<List<String>>
 
@@ -39,7 +38,11 @@ interface BusArrivalDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBusRoutes(vararg busRoutes: BusRoutes.BusRoutesData)
 
-    @Query("SELECT * FROM BusRoutes WHERE serviceNo = :serviceNo ORDER BY stopSequence ASC")
-    fun getBusRoutes(serviceNo: String?)
+    @Query("SELECT serviceNo, stopSequence, direction, BusStops.busStopCode, description FROM BusRoutes " +
+            "INNER JOIN BusStops " +
+            "ON BusStops.busStopCode = BusRoutes.busStopCode " +
+            "WHERE serviceNo = :searchQuery " +
+            "ORDER BY direction ASC, stopSequence ASC ")
+    fun searchBusRoutes(searchQuery: String?): List<BusRoutesFiltered>
 }
 

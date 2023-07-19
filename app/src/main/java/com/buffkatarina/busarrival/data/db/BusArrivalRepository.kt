@@ -3,6 +3,7 @@ package com.buffkatarina.busarrival.data.db
 import android.util.Log
 import androidx.lifecycle.asLiveData
 import com.buffkatarina.busarrival.data.entities.BusRoutes
+import com.buffkatarina.busarrival.data.entities.BusRoutesFiltered
 import com.buffkatarina.busarrival.data.entities.BusServices
 import com.buffkatarina.busarrival.data.entities.BusStops
 import kotlinx.coroutines.flow.Flow
@@ -30,6 +31,7 @@ class BusArrivalRepository(private val busArrivalDao: BusArrivalDao) {
         busArrivalDao.insertBusRoutes(busRoutes)
     }
 
-
-
+    fun searchBusRoutes(searchQuery: String?): List<BusRoutesFiltered> {
+        return busArrivalDao.searchBusRoutes(searchQuery)
+    }
 }
