@@ -38,5 +38,8 @@ interface BusArrivalDao{
     // BusRoutes table methods
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBusRoutes(vararg busRoutes: BusRoutes.BusRoutesData)
+
+    @Query("SELECT * FROM BusRoutes WHERE serviceNo = :serviceNo ORDER BY stopSequence ASC")
+    fun getBusRoutes(serviceNo: String?)
 }
 

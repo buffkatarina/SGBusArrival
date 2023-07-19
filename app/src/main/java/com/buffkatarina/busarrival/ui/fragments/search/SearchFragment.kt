@@ -37,7 +37,7 @@ class SearchFragment: Fragment() {
 
         val busServicesRecyclerView: RecyclerView = view.findViewById(R.id.busServices_recycler_view)
         busServicesRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        val busServicesAdapter = BusServicesSearchAdapter()
+        val busServicesAdapter = BusServicesSearchAdapter(requireContext())
         busServicesRecyclerView.adapter = busServicesAdapter
 
 //        Load data

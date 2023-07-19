@@ -52,11 +52,8 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
             if (result) {
                 model.setSearchQuery(null)
                 model.clearSearchQuery(false)
-
             }
         }
-
-
         if (query?.isNotEmpty() == true) {
             Log.i("ASD", query)
             model.setSearchQuery("$query%")
