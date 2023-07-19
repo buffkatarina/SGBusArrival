@@ -12,8 +12,8 @@ import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
 
-class BusArrivalAdapter(private val data: BusTimings) :
-    RecyclerView.Adapter<BusArrivalAdapter.BusArrivalViewHolder>(){
+class BusTimingsAdapter(private val data: BusTimings) :
+    RecyclerView.Adapter<BusTimingsAdapter.BusArrivalViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BusArrivalViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.bus_timings_recyclerview_row, parent, false)

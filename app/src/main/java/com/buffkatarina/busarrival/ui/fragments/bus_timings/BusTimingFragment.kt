@@ -45,7 +45,7 @@ class BusTimingFragment: Fragment() {
         }
         viewModel.busTimings.observe(viewLifecycleOwner) {
                 busTimings ->
-            recyclerView.adapter = BusArrivalAdapter(busTimings)
+            recyclerView.adapter = BusTimingsAdapter(busTimings)
 
         }
     }
