@@ -11,8 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.model.ActivityViewModel
 import com.buffkatarina.busarrival.ui.fragments.bus_routes.BusRoutesFragment
+import com.buffkatarina.busarrival.ui.fragments.bus_timings.BusTimingFragment
 
-class SearchFragment: Fragment(), BusServicesSearchAdapter.ToBusRoutes {
+class SearchFragment: Fragment(),
+    BusServicesSearchAdapter.ToBusRoutes,
+    BusStopsSearchAdapter.ToBusTimings {
     private val model: ActivityViewModel by lazy {
         ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
     }
@@ -31,17 +34,19 @@ class SearchFragment: Fragment(), BusServicesSearchAdapter.ToBusRoutes {
     }
 
     private fun setUpRecyclerView(view: View) {
+//      Set up recycler view for bus stops
         val busStopsRecyclerView: RecyclerView = view.findViewById(R.id.busStops_recycler_view)
         busStopsRecyclerView.layoutManager = LinearLayoutManager(context)
-        val busStopsSearchAdapter = BusStopsSearchAdapter()
+        val busStopsSearchAdapter = BusStopsSearchAdapter(this)
         busStopsRecyclerView.adapter =  busStopsSearchAdapter
 
+        //      Set up recycler view for bus services
         val busServicesRecyclerView: RecyclerView = view.findViewById(R.id.busServices_recycler_view)
         busServicesRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         val busServicesAdapter = BusServicesSearchAdapter(this)
         busServicesRecyclerView.adapter = busServicesAdapter
 
-//        Load data
+        //      Load the data from the view model the respective recycler views
         model.searchQuery.observe(viewLifecycleOwner) { query ->
             model.searchBusStops(query).observe(viewLifecycleOwner) {data ->
                 busStopsSearchAdapter.updateData(data)
@@ -52,12 +57,22 @@ class SearchFragment: Fragment(), BusServicesSearchAdapter.ToBusRoutes {
         }
     }
 
-    override fun addBusRoutesFragment(query: String) {
+    override fun toBusRoutes(query: String) {
         parentFragmentManager.setFragmentResult("query", bundleOf("query" to query))
         parentFragmentManager.beginTransaction()
             .add(R.id.fragmentHolder, BusRoutesFragment(),"BusRoutesFragment")
             .hide(this)
             .addToBackStack(null)
+            .commit()
+    }
+
+    override fun toBusTimings(query: String) {
+        parentFragmentManager.setFragmentResult("busStopCodeKey"
+            , bundleOf("busStopCode" to query))
+        parentFragmentManager.beginTransaction()
+            .hide(this)
+            .addToBackStack(null)
+            .add(R.id.fragmentHolder, BusTimingFragment(), "BusTimingFragment")
             .commit()
     }
 }

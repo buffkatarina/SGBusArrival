@@ -7,8 +7,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.data.entities.BusStops
+import com.google.android.material.card.MaterialCardView
 
-class BusStopsSearchAdapter: RecyclerView.Adapter<BusStopsSearchAdapter.SearchAdapterViewHolder>() {
+class BusStopsSearchAdapter(private val busStopsHandler: ToBusTimings): RecyclerView.Adapter<BusStopsSearchAdapter.SearchAdapterViewHolder>() {
     private var dataList = emptyList<BusStops.BusStopData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
@@ -16,9 +17,16 @@ class BusStopsSearchAdapter: RecyclerView.Adapter<BusStopsSearchAdapter.SearchAd
         val view = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.bus_stops_recyclerview_row, parent, false)
-        return SearchAdapterViewHolder(view)
+       return setUpViewHolder(view)
     }
 
+    private fun setUpViewHolder(view: View): SearchAdapterViewHolder {
+        val viewHolder = SearchAdapterViewHolder(view)
+        viewHolder.card.setOnClickListener {
+            busStopsHandler.toBusTimings(viewHolder.busStopCode.text as String)
+        }
+        return  viewHolder
+    }
     override fun onBindViewHolder(holder: SearchAdapterViewHolder, position: Int) {
         val currentItem = dataList[position]
         holder.busStopCode.text = currentItem.busStopCode
@@ -35,10 +43,16 @@ class BusStopsSearchAdapter: RecyclerView.Adapter<BusStopsSearchAdapter.SearchAd
         val busStopCode: TextView = view.findViewById(R.id.busStopCode)
         val description: TextView = view.findViewById(R.id.description)
         val roadName: TextView = view.findViewById(R.id.roadName)
+        val card: MaterialCardView = view.findViewById(R.id.searchRow)
     }
 
      fun updateData(newData: List<BusStops.BusStopData>) {
         dataList = newData
         notifyDataSetChanged()
+    }
+
+    interface ToBusTimings {
+        /*Handles value of tapped bus stop*/
+        fun toBusTimings(query: String)
     }
 }

@@ -24,22 +24,7 @@ class HomeFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val currentFragment = parentFragmentManager.findFragmentByTag("HomeFragment")!!
-        val editText = view.findViewById<EditText>(R.id.editText)
-        val button = view.findViewById<Button>(R.id.button)
-        val busTimingFragment = BusTimingFragment()
-        button.setOnClickListener {
-            val busStopCode = editText.text.toString()
-            parentFragmentManager.setFragmentResult("busStopCodeKey"
-                , bundleOf("busStopCode" to busStopCode))
-            parentFragmentManager.beginTransaction()
-                .hide(currentFragment)
-                .addToBackStack(null)
-                .attach(busTimingFragment)
-                .add(R.id.fragmentHolder, busTimingFragment, "BusTimingFragment")
-                .commit()
-        }
-        super.onViewCreated(view, savedInstanceState)
+
     }
 
 
