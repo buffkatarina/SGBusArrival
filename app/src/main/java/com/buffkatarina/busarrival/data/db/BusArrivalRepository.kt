@@ -31,7 +31,7 @@ class BusArrivalRepository(private val busArrivalDao: BusArrivalDao) {
         busArrivalDao.insertBusRoutes(busRoutes)
     }
 
-    fun searchBusRoutes(searchQuery: String?): List<BusRoutesFiltered> {
-        return busArrivalDao.searchBusRoutes(searchQuery)
+    fun searchBusRoutes(searchQuery: String?, direction: String): List<BusRoutesFiltered> {
+        return busArrivalDao.searchBusRoutes(searchQuery, direction)
     }
 }

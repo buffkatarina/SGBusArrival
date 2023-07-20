@@ -25,6 +25,9 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
     private val _searchQuery  = MutableLiveData<String?>()
     val searchQuery: LiveData<String?> get() = _searchQuery
 
+    private val _busRoutesList = MutableLiveData<List<List<BusRoutesFiltered>>>()
+    val busRoutesList: LiveData<List<List<BusRoutesFiltered>>> get() = _busRoutesList
+
     private val busApiRepository: BusApiRepository
     private val busArrivalRepository: BusArrivalRepository
     init {
@@ -64,9 +67,16 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
         return busArrivalRepository.searchBusServices(searchQuery).asLiveData()
     }
 
-    fun searchBusRoutes(searchQuery: String?): List<BusRoutesFiltered> {
-        val test = busArrivalRepository.searchBusRoutes(searchQuery)
-        return test
+    fun searchBusRoutes(searchQuery: String?){
+        /*Updates busRoutesList with the queried bus routes */
+        viewModelScope.launch(Dispatchers.IO) {
+            val direction1 = busArrivalRepository.searchBusRoutes(searchQuery,"1" )
+            val direction2  = busArrivalRepository.searchBusRoutes(searchQuery,"2" )
+            viewModelScope.launch(Dispatchers.Main) {
+                _busRoutesList.value = listOf(direction1, direction2)
+            }
+
+        }
     }
 
     fun buildDB(){

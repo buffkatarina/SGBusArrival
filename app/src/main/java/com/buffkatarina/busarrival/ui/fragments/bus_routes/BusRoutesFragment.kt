@@ -32,58 +32,42 @@ class BusRoutesFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val direction1 = mutableListOf<BusRoutesFiltered>()
-        val direction2 = mutableListOf<BusRoutesFiltered>()
-        getBusRoutes(direction1, direction2)
-        setUpRecyclerView(view, direction1, direction2)
+        getBusRoutes(view)
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun getBusRoutes(direction1: MutableList<BusRoutesFiltered>,
-                             direction2: MutableList<BusRoutesFiltered>) {
-        parentFragmentManager.setFragmentResultListener("query", viewLifecycleOwner) {
-            _, bundle ->
+
+    private fun getBusRoutes(view: View)  {
+        /*Gets the bus routes from the view model */
+        parentFragmentManager.setFragmentResultListener("query", viewLifecycleOwner) { _, bundle ->
             val query = bundle.getString("query")
-            var i = 0
-            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-             val result = model.searchBusRoutes(query)
-                while (i < result.size ) {
-                    if (result[i].direction == "1") {
-                        direction1.add(result[i])
-                    }
-                    else {
-                        direction2.add(result[i])
-                    }
-                    i++
-                }
+            model.searchBusRoutes(query)
+            model.busRoutesList.observe(viewLifecycleOwner) {busRoutesList ->
+                setUpRecyclerView(view, busRoutesList)
             }
         }
     }
+     private fun setUpRecyclerView(view: View, busRoutesList: List<List<BusRoutesFiltered>>) {
+         val recyclerView = view.findViewById<RecyclerView>(R.id.bus_routes_recycler_view)
+         val currentDirection = view.findViewById<TextView>(R.id.direction)
+         val directionChange = view.findViewById<MaterialButton>(R.id.direction_change)
+         val busRoutesAdapter = BusRoutesAdapter()
+         recyclerView.layoutManager = LinearLayoutManager(context)
+         recyclerView.adapter = busRoutesAdapter
 
-    private fun setUpRecyclerView(
-        view: View,
-        direction1: MutableList<BusRoutesFiltered>,
-        direction2: MutableList<BusRoutesFiltered>) {
-        /*CURRENTLY A MESSY BUNCH OF NONSENSE*/
-        val recyclerView = view.findViewById<RecyclerView>(R.id.bus_routes_recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        val busRoutesAdapter = BusRoutesAdapter()
-        recyclerView.adapter = busRoutesAdapter
-        busRoutesAdapter.setData(direction1)
-        val currentDirection = view.findViewById<TextView>(R.id.direction)
-        val directionChange = view.findViewById<MaterialButton>(R.id.direction_change)
-        currentDirection.text = "Direction 1"
 
-        directionChange.setOnClickListener {
-            if (currentDirection.text == "Direction 1") {
-                busRoutesAdapter.setData(direction2)
-                currentDirection.text = "Direction 2"
-            }
-            else {
-                busRoutesAdapter.setData(direction1)
-                currentDirection.text = "Direction 1"
-            }
-        }
+         busRoutesAdapter.setData(busRoutesList[0]) // index 0 for bus routes at direction 1
+         currentDirection.text = "Direction 1"  //Assume direction 1 on fragment open for now
 
+         directionChange.setOnClickListener {  //Changes the displayed list of direction when button is pressed
+             if (currentDirection.text == "Direction 1") {
+                 busRoutesAdapter.setData(busRoutesList[1])
+                 currentDirection.text = "Direction 2"
+             }
+             else {
+                 busRoutesAdapter.setData(busRoutesList[0])
+                 currentDirection.text = "Direction 1"
+             }
+         }
     }
 }

@@ -61,6 +61,7 @@ class BusServicesSearchAdapter(private val busRoutesHandler: BusServicesSearchAd
     }
 
     interface ToBusRoutes {
+        /*Handles the value of the tapped service number for the fragment to use*/
         fun addBusRoutesFragment(query: String)
     }
 }

@@ -42,7 +42,8 @@ interface BusArrivalDao{
             "INNER JOIN BusStops " +
             "ON BusStops.busStopCode = BusRoutes.busStopCode " +
             "WHERE serviceNo = :searchQuery " +
+            "AND direction = :direction " +
             "ORDER BY direction ASC, stopSequence ASC ")
-    fun searchBusRoutes(searchQuery: String?): List<BusRoutesFiltered>
+    fun searchBusRoutes(searchQuery: String?, direction: String): List<BusRoutesFiltered>
 }
 
