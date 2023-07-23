@@ -11,9 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.model.ActivityViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class BusTimingFragment: Fragment() {
+class BusTimingFragment: Fragment(), BusTimingsAdapter.FavouritesHandler {
+    private val model: ActivityViewModel by lazy {
+        ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +38,7 @@ class BusTimingFragment: Fragment() {
     private fun getBusTimings(recyclerView: RecyclerView)
     /*Gets bus timings and loads them into the recycler view*/
     {
+        val currentFragment = this
         val viewModel =ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
         parentFragmentManager.setFragmentResultListener("busStopCodeKey",
             viewLifecycleOwner) {
@@ -41,14 +46,18 @@ class BusTimingFragment: Fragment() {
             val busStopCode =  bundle.getString("busStopCode")?.toInt()
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.getBusTimings(busStopCode)
+                viewModel.busTimings.observe(viewLifecycleOwner) {
+                        busTimings ->
+                    recyclerView.adapter = BusTimingsAdapter(busStopCode, busTimings, currentFragment ) //Create new instance of fragment?
+
+                }
             }
         }
-        viewModel.busTimings.observe(viewLifecycleOwner) {
-                busTimings ->
-            recyclerView.adapter = BusTimingsAdapter(busTimings)
 
-        }
     }
 
+    override fun favouritesHandler(busStopCode: Int?, serviceNo: String) {
+            model.insertFavouriteBusService(busStopCode, serviceNo)
+    }
 
 }

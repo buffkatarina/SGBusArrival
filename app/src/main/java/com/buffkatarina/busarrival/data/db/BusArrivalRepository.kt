@@ -2,10 +2,7 @@ package com.buffkatarina.busarrival.data.db
 
 import android.util.Log
 import androidx.lifecycle.asLiveData
-import com.buffkatarina.busarrival.data.entities.BusRoutes
-import com.buffkatarina.busarrival.data.entities.BusRoutesFiltered
-import com.buffkatarina.busarrival.data.entities.BusServices
-import com.buffkatarina.busarrival.data.entities.BusStops
+import com.buffkatarina.busarrival.data.entities.*
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Query
 
@@ -33,5 +30,9 @@ class BusArrivalRepository(private val busArrivalDao: BusArrivalDao) {
 
     fun searchBusRoutes(searchQuery: String?, direction: String): List<BusRoutesFiltered> {
         return busArrivalDao.searchBusRoutes(searchQuery, direction)
+    }
+
+    fun insertFavouriteBusService(favouriteBusServices: FavouriteBusServices) {
+        return busArrivalDao.insertFavouriteBusService(favouriteBusServices)
     }
 }

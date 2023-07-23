@@ -4,10 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.buffkatarina.busarrival.data.entities.BusRoutes
-import com.buffkatarina.busarrival.data.entities.BusRoutesFiltered
-import com.buffkatarina.busarrival.data.entities.BusServices
-import com.buffkatarina.busarrival.data.entities.BusStops
+import com.buffkatarina.busarrival.data.entities.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -45,5 +42,12 @@ interface BusArrivalDao{
             "AND direction = :direction " +
             "ORDER BY direction ASC, stopSequence ASC ")
     fun searchBusRoutes(searchQuery: String?, direction: String): List<BusRoutesFiltered>
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertFavouriteBusService(favouriteBusServices: FavouriteBusServices)
+
+    @Query("SELECT * FROM FavouriteBusServices")
+    fun getAllFavouriteBusServices(): Flow<List<FavouriteBusServices>>
 }
 

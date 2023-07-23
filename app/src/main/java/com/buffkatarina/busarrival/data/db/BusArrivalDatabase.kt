@@ -7,12 +7,14 @@ import androidx.room.RoomDatabase
 import com.buffkatarina.busarrival.data.entities.BusRoutes
 import com.buffkatarina.busarrival.data.entities.BusServices
 import com.buffkatarina.busarrival.data.entities.BusStops
+import com.buffkatarina.busarrival.data.entities.FavouriteBusServices
 
 @Database(
     entities = [
         BusStops.BusStopData::class,
         BusServices.BusServicesData::class,
-        BusRoutes.BusRoutesData::class
+        BusRoutes.BusRoutesData::class,
+        FavouriteBusServices::class
                ],
     version = 1,
     exportSchema = false)

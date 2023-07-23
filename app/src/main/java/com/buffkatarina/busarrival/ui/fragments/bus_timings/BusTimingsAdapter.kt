@@ -3,6 +3,7 @@ package com.buffkatarina.busarrival.ui.fragments.bus_timings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
@@ -12,18 +13,26 @@ import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
 
-class BusTimingsAdapter(private val data: BusTimings) :
+class BusTimingsAdapter(
+    private val busStopCode: Int?,
+    private val data: BusTimings,
+    private val favouritesHandler: FavouritesHandler) :
     RecyclerView.Adapter<BusTimingsAdapter.BusArrivalViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BusArrivalViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.bus_timings_recyclerview_row, parent, false)
-        return BusArrivalViewHolder(view)
+        val viewHolder = BusArrivalViewHolder(view)
+
+        viewHolder.favourite.setOnClickListener {
+            favouritesHandler.favouritesHandler(busStopCode, viewHolder.serviceNoHolder.text as String)
+        }
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: BusArrivalViewHolder, position: Int) {
         val currentItem = data.services[position]
         holder.serviceNoHolder.text = currentItem.serviceNo
-        val listArrival = listOf<String>(currentItem.nextBus.estimatedArrival,
+        val listArrival = listOf(currentItem.nextBus.estimatedArrival,
             currentItem.nextBus2.estimatedArrival,
             currentItem.nextBus3.estimatedArrival)
         val listHolder = mutableListOf<TextView>(holder.nextBus, holder.nextBus2,  holder.nextBus3)
@@ -38,12 +47,13 @@ class BusTimingsAdapter(private val data: BusTimings) :
                     listHolder[foo].text = "Arr"
                 }
                 else{
-                    listHolder[foo].text = timeDifference(listArrival[foo]) + " min"
+                    listHolder[foo].text = timeDifference(listArrival[foo])
                 }
 
             }
             foo++
         }
+        /*Redo implementation*/
     }
 
     override fun getItemCount() = data.services.size
@@ -60,12 +70,17 @@ class BusTimingsAdapter(private val data: BusTimings) :
     }
 
     class BusArrivalViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val serviceNoHolder: TextView = view.findViewById<TextView>(R.id.serviceNo)
-        val nextBus: TextView = view.findViewById<TextView>(R.id.nextBus)
-        val nextBus2: TextView = view.findViewById<TextView>(R.id.nextBus2)
-        val nextBus3: TextView = view.findViewById<TextView>(R.id.nextBus3)
+        val serviceNoHolder: TextView = view.findViewById(R.id.serviceNo)
+        val nextBus: TextView = view.findViewById(R.id.nextBus)
+        val nextBus2: TextView = view.findViewById(R.id.nextBus2)
+        val nextBus3: TextView = view.findViewById(R.id.nextBus3)
+        val favourite: ImageView = view.findViewById(R.id.favourite)
     }
 
+    interface FavouritesHandler {
+        /*Function is called after favourites icon is pressed*/
+        fun favouritesHandler(busStopCode: Int?, serviceNo: String)
+    }
 
 }
 

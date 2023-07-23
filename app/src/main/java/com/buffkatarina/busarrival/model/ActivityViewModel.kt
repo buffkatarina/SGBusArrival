@@ -10,13 +10,15 @@ import com.buffkatarina.busarrival.data.db.BusArrivalRepository
 import com.buffkatarina.busarrival.data.entities.BusRoutesFiltered
 import com.buffkatarina.busarrival.data.entities.BusStops
 import com.buffkatarina.busarrival.data.entities.BusTimings
+import com.buffkatarina.busarrival.data.entities.FavouriteBusServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
 class ActivityViewModel(application: Application): AndroidViewModel(application) {
     /*View model that handles all the HTTP requests and parsing and building of database.*/
-    private val _clearSearchHandler = MutableLiveData<Boolean>()
+
+    private val _clearSearchHandler = MutableLiveData<Boolean>() // Variable to signal to reset the search result
     val clearSearchHandler: LiveData<Boolean> get() = _clearSearchHandler
 
     private val _busTimings  = MutableLiveData<BusTimings>()
@@ -131,6 +133,14 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
             }
             skipAmt += 500
         } while(busApiRepository.getBusRoutes(skipAmt).data.isNotEmpty())
+
+    }
+
+     fun insertFavouriteBusService(busStopCode: Int?, serviceNo: String) {
+        /*Inserts newly favourite bus service*/
+         viewModelScope.launch(Dispatchers.IO) {
+             busArrivalRepository.insertFavouriteBusService(FavouriteBusServices(busStopCode!!, serviceNo))
+         }
 
     }
 }

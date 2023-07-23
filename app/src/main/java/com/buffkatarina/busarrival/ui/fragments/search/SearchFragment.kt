@@ -46,18 +46,28 @@ class SearchFragment: Fragment(),
         val busServicesAdapter = BusServicesSearchAdapter(this)
         busServicesRecyclerView.adapter = busServicesAdapter
 
-        //      Load the data from the view model the respective recycler views
-        model.searchQuery.observe(viewLifecycleOwner) { query ->
-            model.searchBusStops(query).observe(viewLifecycleOwner) {data ->
-                busStopsSearchAdapter.updateData(data)
-            }
-            model.searchBusServices(query).observe(viewLifecycleOwner) {data ->
-                busServicesAdapter.updateData(data)
+
+        model.clearSearchHandler.observe(viewLifecycleOwner) { result ->
+            //Reset query after every fragment creation
+            if (!result) {
+                //      Load the data from the view model into the respective recycler views
+                model.searchQuery.observe(viewLifecycleOwner) { query ->
+                    model.searchBusStops(query).observe(viewLifecycleOwner) { data ->
+                        busStopsSearchAdapter.updateData(data)
+                    }
+                    model.searchBusServices(query).observe(viewLifecycleOwner) { data ->
+                        busServicesAdapter.updateData(data)
+                    }
+                }
             }
         }
+
     }
 
     override fun toBusRoutes(query: String) {
+        /*Displays bus routes fragments on the screen
+        * Implementation for ToBusTimings interface in BusStopsSearchAdapter
+        * */
         parentFragmentManager.setFragmentResult("query", bundleOf("query" to query))
         parentFragmentManager.beginTransaction()
             .add(R.id.fragmentHolder, BusRoutesFragment(),"BusRoutesFragment")
@@ -67,6 +77,9 @@ class SearchFragment: Fragment(),
     }
 
     override fun toBusTimings(query: String) {
+        /*Displays bus routes fragments on the screen
+      * Implementation for ToBusRoutes interface in BusServicesSearchAdapter
+      * */
         parentFragmentManager.setFragmentResult("busStopCodeKey"
             , bundleOf("busStopCode" to query))
         parentFragmentManager.beginTransaction()

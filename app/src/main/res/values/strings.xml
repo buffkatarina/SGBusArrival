@@ -2,4 +2,6 @@
     <string name="app_name">Bus Arrival</string>
     <string name="search_hint">Enter bus stop number</string>
     <string name="search">search</string>
+    <string name="search_busStops">Bus Stops</string>
+    <string name="search_busServices">Bus Services</string>
 </resources>

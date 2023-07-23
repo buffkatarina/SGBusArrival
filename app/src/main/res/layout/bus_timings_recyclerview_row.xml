@@ -15,6 +15,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id = "@+id/favourite"
+            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_star_border"
+            app:layout_constraintStart_toEndOf="@+id/serviceNo"
+            app:layout_constraintTop_toTopOf="parent" />
         <TextView
             android:id="@+id/serviceNo"
             android:layout_width="wrap_content"

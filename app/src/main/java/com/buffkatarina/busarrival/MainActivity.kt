@@ -2,12 +2,11 @@ package com.buffkatarina.busarrival
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
 import com.buffkatarina.busarrival.model.ActivityViewModel
-import com.buffkatarina.busarrival.ui.fragments.HomeFragment
+import com.buffkatarina.busarrival.ui.fragments.home.HomeFragment
 import com.buffkatarina.busarrival.ui.fragments.search.SearchFragment
 
 class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.OnQueryTextListener{
@@ -48,14 +47,14 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
-        model.clearSearchHandler.observe(this) {result ->
-            if (result) {
-                model.setSearchQuery(null)
-                model.clearSearchQuery(false)
+        model.clearSearchHandler.observe(this) {clear ->
+            if (clear) {
+                /*Sets the clear search handler to false a*/
+
             }
         }
         if (query?.isNotEmpty() == true) {
-            Log.i("ASD", query)
+            model.clearSearchQuery(false) //Start loading new query after input is obtained
             model.setSearchQuery("$query%")
         }
         return true
