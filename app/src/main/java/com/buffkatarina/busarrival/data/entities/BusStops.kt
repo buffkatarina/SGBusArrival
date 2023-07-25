@@ -1,6 +1,5 @@
 package com.buffkatarina.busarrival.data.entities
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName

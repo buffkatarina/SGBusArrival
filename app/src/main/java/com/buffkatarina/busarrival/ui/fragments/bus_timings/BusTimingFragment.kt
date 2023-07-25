@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.model.ActivityViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class BusTimingFragment: Fragment(), BusTimingsAdapter.FavouritesHandler {
@@ -29,35 +28,55 @@ class BusTimingFragment: Fragment(), BusTimingsAdapter.FavouritesHandler {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val recyclerView = view.findViewById<RecyclerView>(R.id.busTimings_recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        getBusTimings(recyclerView)
-        super.onViewCreated(view, savedInstanceState)
+        getBusTimings(view)
+
     }
 
-    private fun getBusTimings(recyclerView: RecyclerView)
-    /*Gets bus timings and loads them into the recycler view*/
+    private fun getBusTimings(view: View)
+    /*
+    Set ups recycler view
+    Gets bus timings and loads them into the recycler view*/
     {
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.busTimings_recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(context)
         val currentFragment = this
         val viewModel =ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
         parentFragmentManager.setFragmentResultListener("busStopCodeKey",
             viewLifecycleOwner) {
                 _, bundle ->
+            //Gets the queried bus stop code
             val busStopCode =  bundle.getString("busStopCode")?.toInt()
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.getBusTimings(busStopCode)
-                viewModel.busTimings.observe(viewLifecycleOwner) {
-                        busTimings ->
-                    recyclerView.adapter = BusTimingsAdapter(busStopCode, busTimings, currentFragment ) //Create new instance of fragment?
+            busStopCode?.let{code ->
+                viewLifecycleOwner.lifecycleScope.launch {
+                    //Retrieve the bus timings
+                    viewModel.getBusTimings(busStopCode)
+                    viewModel.getFavouriteBusService(busStopCode)
 
+                    //Merge data from view model and load into recycler view
+                    viewModel.mergeFavouriteAndTimings().observe(viewLifecycleOwner) {
+                            result ->
+                        val favouriteBusServices = result.first
+                        val busTimings = result.second
+                        if (favouriteBusServices != null && busTimings != null){
+                            recyclerView.adapter = BusTimingsAdapter(code, busTimings, currentFragment, favouriteBusServices)
+                        }
+
+                    }
                 }
             }
+
         }
 
     }
 
-    override fun favouritesHandler(busStopCode: Int?, serviceNo: String) {
-            model.insertFavouriteBusService(busStopCode, serviceNo)
+    override fun addFavouriteBusService(busStopCode: Int, serviceNo: String) {
+        model.insertFavouriteBusService(busStopCode, serviceNo)
+
+    }
+
+    override fun removeFavouriteBusService(busStopCode: Int, serviceNo: String) {
+        model.removeFavouriteBusService(busStopCode, serviceNo)
     }
 
 }

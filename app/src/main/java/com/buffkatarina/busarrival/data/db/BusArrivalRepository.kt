@@ -1,10 +1,7 @@
 package com.buffkatarina.busarrival.data.db
 
-import android.util.Log
-import androidx.lifecycle.asLiveData
 import com.buffkatarina.busarrival.data.entities.*
 import kotlinx.coroutines.flow.Flow
-import retrofit2.http.Query
 
 class BusArrivalRepository(private val busArrivalDao: BusArrivalDao) {
     /*Abstracts BusArrivalDatabase(), BusArrivalDao()*/
@@ -15,7 +12,6 @@ class BusArrivalRepository(private val busArrivalDao: BusArrivalDao) {
      fun insertBusStops(busStops: BusStops.BusStopData) {
         busArrivalDao.insertBusStops(busStops)
     }
-
 
     fun searchBusServices(searchQuery: String?): Flow<List<String>> {
         return busArrivalDao.searchBusServices(searchQuery)
@@ -34,5 +30,13 @@ class BusArrivalRepository(private val busArrivalDao: BusArrivalDao) {
 
     fun insertFavouriteBusService(favouriteBusServices: FavouriteBusServices) {
         return busArrivalDao.insertFavouriteBusService(favouriteBusServices)
+    }
+
+    fun removeFavouriteBusService(busStopCode: Int, serviceNo: String) {
+        busArrivalDao.removeFavouriteBusService(busStopCode, serviceNo)
+    }
+
+    fun getFavouriteBusService(busStopCode: Int): List<String> {
+        return busArrivalDao.getFavouriteBusService(busStopCode)
     }
 }

@@ -1,10 +1,10 @@
 package com.buffkatarina.busarrival.api
 
 import com.buffkatarina.busarrival.*
-import com.buffkatarina.busarrival.data.entities.BusTimings
 import com.buffkatarina.busarrival.data.entities.BusRoutes
 import com.buffkatarina.busarrival.data.entities.BusServices
 import com.buffkatarina.busarrival.data.entities.BusStops
+import com.buffkatarina.busarrival.data.entities.BusTimings
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query

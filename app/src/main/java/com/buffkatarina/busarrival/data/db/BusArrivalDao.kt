@@ -20,22 +20,25 @@ interface BusArrivalDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBusStops(vararg busStops: BusStops.BusStopData)
 
-    // BusServices table methods
+    ///Updates bus services into database
+    // Takes in bus services stored in a busServices: BusServices.BusServicesData object as arguments
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBusServices(vararg busServices: BusServices.BusServicesData)
 
-    //All bus services have direction = 1
+    //All bus services have direction = 1 and are unique
     @Query("SELECT serviceNo FROM BusServices WHERE direction = 1 ")
     fun getAllBusServices(): Flow<List<String>>
 
     @Query("SELECT serviceNo FROM BusServices WHERE direction = 1 AND serviceNo LIKE :searchQuery ")
     fun searchBusServices(searchQuery: String?): Flow<List<String>>
 
-    // BusRoutes table methods
+    //Updates bus routes into database
+    // Takes in bus routes stored in a BusRoutes.BusRoutesData object as arguments
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBusRoutes(vararg busRoutes: BusRoutes.BusRoutesData)
 
-    @Query("SELECT serviceNo, stopSequence, direction, BusStops.busStopCode, description FROM BusRoutes " +
+    //Gets the list of bus routes with the description of the bus stop
+    @Query("SELECT serviceNo, stopSequence, direction, BusStops.busStopCode, BusStops.description FROM BusRoutes " +
             "INNER JOIN BusStops " +
             "ON BusStops.busStopCode = BusRoutes.busStopCode " +
             "WHERE serviceNo = :searchQuery " +
@@ -43,11 +46,20 @@ interface BusArrivalDao{
             "ORDER BY direction ASC, stopSequence ASC ")
     fun searchBusRoutes(searchQuery: String?, direction: String): List<BusRoutesFiltered>
 
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFavouriteBusService(favouriteBusServices: FavouriteBusServices)
 
     @Query("SELECT * FROM FavouriteBusServices")
     fun getAllFavouriteBusServices(): Flow<List<FavouriteBusServices>>
+
+    //Removes a specified favourite bus service record;
+    // takes in the bus stop code and bus service no as arguments
+    @Query("DELETE FROM FavouriteBusServices " +
+            "WHERE busStopCode = :busStopCode AND serviceNo = :serviceNo ")
+    fun removeFavouriteBusService(busStopCode: Int, serviceNo: String)
+
+    //Filter for bus services by bus stop code
+    @Query("SELECT serviceNo FROM FavouriteBusServices WHERE busStopCode = :busStopCode")
+    fun getFavouriteBusService(busStopCode: Int): List<String>
 }
 

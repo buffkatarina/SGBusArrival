@@ -7,9 +7,6 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import com.buffkatarina.busarrival.R
-import com.buffkatarina.busarrival.data.entities.BusStops
-import com.buffkatarina.busarrival.data.entities.BusTimings
-import com.buffkatarina.busarrival.ui.fragments.home.favourites.Favourites
 
 
 class HomeFragment: Fragment() {
