@@ -74,6 +74,8 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    implementation 'androidx.compose.runtime:runtime-livedata'
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
     //Open street map dependencies
     implementation 'org.osmdroid:osmdroid-android:6.1.16'

@@ -49,8 +49,12 @@ interface BusArrivalDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFavouriteBusService(favouriteBusServices: FavouriteBusServices)
 
-    @Query("SELECT * FROM FavouriteBusServices")
-    fun getAllFavouriteBusServices(): Flow<List<FavouriteBusServices>>
+    //Gets all favourite bus services together with the description of each bus stop
+    @Query("SELECT BusStops.busStopCode, serviceNo, description FROM FavouriteBusServices " +
+            "INNER JOIN BusStops " +
+            "ON BusStops.busStopCode = FavouriteBusServices.busStopCode " +
+            "ORDER BY BusStops.busStopCode ASC")
+    fun getAllFavouriteBusServices(): Flow<List<FavouriteBusServicesWithDescription>>
 
     //Removes a specified favourite bus service record;
     // takes in the bus stop code and bus service no as arguments
@@ -58,8 +62,14 @@ interface BusArrivalDao{
             "WHERE busStopCode = :busStopCode AND serviceNo = :serviceNo ")
     fun removeFavouriteBusService(busStopCode: Int, serviceNo: String)
 
-    //Filter for bus services by bus stop code
+    //Filter for favourite bus services by bus stop code
     @Query("SELECT serviceNo FROM FavouriteBusServices WHERE busStopCode = :busStopCode")
     fun getFavouriteBusService(busStopCode: Int): List<String>
+
+    //Get all bus stop codes without any duplicate
+    @Query("SELECT busStopCode FROM FavouriteBusServices " +
+            "GROUP BY busStopCode " +
+            "ORDER BY busStopCode ASC")
+    fun getFavouriteBusStops(): List<Int>
 }
 

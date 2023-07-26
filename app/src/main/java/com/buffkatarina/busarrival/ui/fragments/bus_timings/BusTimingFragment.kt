@@ -41,7 +41,7 @@ class BusTimingFragment: Fragment(), BusTimingsAdapter.FavouritesHandler {
         val recyclerView = view.findViewById<RecyclerView>(R.id.busTimings_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(context)
         val currentFragment = this
-        val viewModel =ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
+        val viewModel = ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
         parentFragmentManager.setFragmentResultListener("busStopCodeKey",
             viewLifecycleOwner) {
                 _, bundle ->

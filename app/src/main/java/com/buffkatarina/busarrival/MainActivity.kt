@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         supportFragmentManager.beginTransaction()
             .add(R.id.fragmentHolder, homeFragment, "HomeFragment")
             .commit()
+        deleteDatabase("BusArrivalDB") // for debugging
         model.buildDB()
         setSupportActionBar(findViewById(R.id.toolbar))
     }

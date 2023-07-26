@@ -10,7 +10,7 @@ data class BusTimings (
     val metadata: String,
 
     @SerializedName("BusStopCode")
-    val busStopCode: String,
+    val busStopCode: Int,
 
     @SerializedName("Services")
     val services: List<BusData>

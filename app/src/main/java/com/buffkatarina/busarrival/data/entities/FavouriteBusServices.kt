@@ -11,3 +11,14 @@ data class FavouriteBusServices(
     @ColumnInfo("serviceNo")
     val serviceNo: String,
     )
+
+data class FavouriteBusServicesWithDescription(
+    @ColumnInfo("busStopCode")
+    val busStopCode: Int,
+
+    @ColumnInfo("serviceNo")
+    val serviceNo: String,
+
+    @ColumnInfo("description")
+    val description: String
+)

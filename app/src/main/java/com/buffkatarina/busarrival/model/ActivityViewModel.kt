@@ -7,35 +7,42 @@ import com.buffkatarina.busarrival.api.BusApiRepository
 import com.buffkatarina.busarrival.api.BusApiService
 import com.buffkatarina.busarrival.data.db.BusArrivalDatabase
 import com.buffkatarina.busarrival.data.db.BusArrivalRepository
-import com.buffkatarina.busarrival.data.entities.BusRoutesFiltered
-import com.buffkatarina.busarrival.data.entities.BusStops
-import com.buffkatarina.busarrival.data.entities.BusTimings
-import com.buffkatarina.busarrival.data.entities.FavouriteBusServices
+import com.buffkatarina.busarrival.data.entities.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
 class ActivityViewModel(application: Application): AndroidViewModel(application) {
     /*View model that handles all the HTTP requests and parsing and building of database.*/
 
-    // Variable to signal to reset the search result
+    // signal to reset the search result
     private val _clearSearchHandler = MutableLiveData<Boolean>()
     val clearSearchHandler: LiveData<Boolean> get() = _clearSearchHandler
 
-    //Variable to store all the retrieved bus timings from the api
+    //tore all the retrieved bus timings from the api
     private val _busTimings  = MutableLiveData<BusTimings>()
-    private val busTimings: LiveData<BusTimings> get() = _busTimings
+     val busTimings: LiveData<BusTimings> get() = _busTimings
 
-    //Variable to store search query from the search view
+    //store search query from the search view
     private val _searchQuery  = MutableLiveData<String?>()
     val searchQuery: LiveData<String?> get() = _searchQuery
 
-    //Variable to store the retrieved list of bus routes after matching each bus stop with the description
+    //store the retrieved list of bus routes after matching each bus stop with the description
     private val _busRoutesList = MutableLiveData<List<List<BusRoutesFiltered>>>()
     val busRoutesList: LiveData<List<List<BusRoutesFiltered>>> get() = _busRoutesList
 
+    //store favourite bus services at a specified stop
     private val _favouriteBusServices = MutableLiveData<List<String>>()
     private val favouriteBusServices: LiveData<List<String>> get() = _favouriteBusServices
+
+    //store all favourite bus services
+    private val _allFavouriteBusServices = MutableLiveData<List<FavouriteBusServices>>()
+    val allFavouriteBusServices: LiveData<List<FavouriteBusServices>> get() =_allFavouriteBusServices
+
+    private val _favouriteBusTimings = MutableLiveData<MutableList<BusTimings>>()
+    val favouriteBusTimings: LiveData<MutableList<BusTimings>> get() = _favouriteBusTimings
 
     private val busApiRepository: BusApiRepository
     private val busArrivalRepository: BusArrivalRepository
@@ -168,6 +175,29 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
            val favouriteBusServices = busArrivalRepository.getFavouriteBusService(busStopCode)
             viewModelScope.launch(Dispatchers.Main){
                 _favouriteBusServices.value = favouriteBusServices
+            }
+        }
+    }
+
+    fun getAllFavouriteBusService(): LiveData<List<FavouriteBusServicesWithDescription>> {
+        return busArrivalRepository.getAllFavouriteBusServices().asLiveData()
+    }
+
+    fun getFavouriteBusTimings() {
+        val mutableList = mutableListOf<BusTimings>()
+        viewModelScope.launch(Dispatchers.IO) {
+            //retrieve unique bus stops from favourites
+            val favouriteBusStops = busArrivalRepository.getFavouriteBusStops()
+            viewModelScope.launch(Dispatchers.Main) {
+                //find timings for each favourite bus stop
+                for (busStops in favouriteBusStops) {
+                    getBusTimings(busStops)
+                    busTimings.value?.let { mutableList.add(it) }
+//                    busTimings.asFlow().collect {
+//                        favouriteBusTimings.value?.add(it)
+//                    }
+                }
+                _favouriteBusTimings.value = mutableList
             }
         }
     }

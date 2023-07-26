@@ -39,4 +39,12 @@ class BusArrivalRepository(private val busArrivalDao: BusArrivalDao) {
     fun getFavouriteBusService(busStopCode: Int): List<String> {
         return busArrivalDao.getFavouriteBusService(busStopCode)
     }
+
+    fun getAllFavouriteBusServices(): Flow<List<FavouriteBusServicesWithDescription>> {
+        return busArrivalDao.getAllFavouriteBusServices()
+    }
+
+    fun getFavouriteBusStops(): List<Int> {
+        return busArrivalDao.getFavouriteBusStops()
+    }
 }
