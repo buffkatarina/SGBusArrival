@@ -2,11 +2,13 @@
 
 # TODO:
 1. only build database periodically
-2. UI design
-3. Maps
-4. Auto refresh bus timings
-5. Searching with bus stop name
-6. favourites - remove records from home fragment, auto refresh
+2. Dialog when building database + lock user interaction
+3. UI design - favourites
+4. Maps
+5. Auto refresh bus timings
+6. Searching with bus stop name
+7. favourites - remove records from home fragment, auto refresh
+8. On click listener from bus routes to bus timings
 
 
 # DONE:
@@ -17,4 +19,5 @@
 5. bus route fragment
 6. Inserting of favourite bus service no into database
 7. Favourites - removing records(from timings fragment), displaying onto home fragment
+8. base ui design
 
