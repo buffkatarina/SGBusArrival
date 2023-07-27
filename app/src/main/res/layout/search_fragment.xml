@@ -39,5 +39,6 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/bus_stops_recyclerview_row"
         android:layout_below="@+id/busStopsHeader"
+        android:layout_marginStart="20dp"
         />
 </RelativeLayout>

@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search, menu)
         val search = menu.findItem(R.id.search)
-        search.icon?.setTint(ContextCompat.getColor(applicationContext ,R.color.white))
+        search.icon?.setTint(ContextCompat.getColor(applicationContext ,R.color.black))
         val searchView = search?.actionView as? androidx.appcompat.widget.SearchView
         searchView?.isSubmitButtonEnabled = true
         searchView?.setOnQueryTextListener(this)

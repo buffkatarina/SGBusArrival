@@ -61,7 +61,6 @@ class BusTimingFragment: Fragment(), BusTimingsAdapter.FavouritesHandler {
                         if (favouriteBusServices != null && busTimings != null){
                             recyclerView.adapter = BusTimingsAdapter(code, busTimings, currentFragment, favouriteBusServices)
                         }
-
                     }
                 }
             }

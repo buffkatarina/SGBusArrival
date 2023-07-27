@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black_800">#1B1B1B</color>
-    <color name="black_500">#313131</color>
-    <color name="brown_300">#e9b054</color>
-    <color name="blue_700">#B5CFF8</color>
-    <color name="beige_100">#f8deb5</color>
     <color name="black">#FF000000</color>
-    <color name="red_300">#ea538e</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="grey_100">#F6F6EF</color>
+    <color name="lime">#D3F26A</color>
+    <color name="black_100">#25282B</color>
+    <color name="grey_50">#B7B8B4</color>
 </resources>
