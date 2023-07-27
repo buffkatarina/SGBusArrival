@@ -10,6 +10,7 @@
     app:contentPaddingRight="20dp"
     android:id="@+id/bus_services_card"
     android:clickable="true"
+    style="@style/Card"
     >
     <TextView
         android:id="@+id/busServiceNo"

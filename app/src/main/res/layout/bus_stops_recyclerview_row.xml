@@ -6,14 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_constraintTop_toTopOf="parent"
-    android:layout_margin="8sp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="20dp"
     android:id="@+id/searchRow"
     app:contentPaddingLeft="20dp"
     app:contentPaddingTop="5dp"
     app:contentPaddingBottom="5dp"
     app:contentPaddingRight="20dp"
+    style="@style/Card"
     >
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

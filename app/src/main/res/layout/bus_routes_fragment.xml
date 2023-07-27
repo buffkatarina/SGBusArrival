@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
         android:id="@+id/direction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
+        android:textColor="?attr/colorOnPrimary"
+        android:layout_marginStart="20dp"
         />
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/direction_change"
-        android:layout_toEndOf="@id/direction"/>
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/change_direction"
+        android:layout_toEndOf="@id/direction"
+        android:src="@drawable/interchange_arrow"
+        android:clickable="true"
+        android:layout_marginStart="15dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/bus_routes_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/direction"/>
+        android:layout_below="@id/direction"
+        android:layout_marginTop="5dp"/>
 </RelativeLayout>

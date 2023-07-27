@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bus_timings_fragment"
     android:orientation="vertical">
     <TextView
@@ -10,27 +11,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/search_busServices"
-        android:layout_margin="8dp"
-        android:textSize="26sp"/>
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:textSize="26sp"
+        android:textColor="?attr/colorOnPrimary"/>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@id/busServicesHeader"
         android:id="@+id/busServices_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        />
     <TextView
         android:textSize="26sp"
-        android:layout_margin="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/busStopsHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/search_busStops"
-        android:layout_below="@id/busServices_recycler_view"/>
+        android:layout_below="@id/busServices_recycler_view"
+        android:textColor="?attr/colorOnPrimary"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/busStops_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/bus_stops_recyclerview_row"
-        android:layout_marginTop="8dp"
         android:layout_below="@+id/busStopsHeader"
         />
 </RelativeLayout>

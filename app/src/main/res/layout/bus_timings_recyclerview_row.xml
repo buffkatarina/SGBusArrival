@@ -7,57 +7,85 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:id="@+id/busTimings"
-    app:contentPaddingLeft="20dp"
+    app:contentPaddingLeft="10dp"
     app:contentPaddingTop="5dp"
     app:contentPaddingBottom="5dp"
-    app:contentPaddingRight="20dp">
+    app:contentPaddingRight="20dp"
+    style="@style/Card">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageButton
-            android:id = "@+id/favourite"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@+id/serviceNo"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/favourite_selector"/>
-        <TextView
-            android:id="@+id/serviceNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:id="@+id/serviceNoFrame"
+            android:layout_marginStart="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textSize="25sp"/>
+            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:id="@+id/serviceNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:gravity="center"/>
+        </FrameLayout>
 
-        <TextView
-            android:id="@+id/nextBus"
+        <ImageButton
+            android:id="@+id/favourite"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/favourite_selector"
+            app:layout_constraintStart_toEndOf="@+id/serviceNoFrame"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/nextBusFrame"
+            android:layout_marginEnd="32dp"
+            app:layout_constraintEnd_toStartOf="@+id/nextBus2Frame"
+            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:id="@+id/nextBus"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
-            app:layout_constraintEnd_toStartOf="@+id/nextBus2"
+            app:layout_constraintEnd_toStartOf="@+id/nextBus3Frame"
             app:layout_constraintTop_toTopOf="parent"
-            android:textSize="20sp"/>
+            android:id="@+id/nextBus2Frame">
+            <TextView
+                android:id="@+id/nextBus2"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"/>
+        </FrameLayout>
 
-        <TextView
-            android:id="@+id/nextBus2"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            app:layout_constraintEnd_toStartOf="@+id/nextBus3"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textSize="20sp"/>
-
-        <TextView
-            android:id="@+id/nextBus3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/nextBus3Frame"
             android:layout_marginEnd="32dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textSize="20sp"/>
+            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:id="@+id/nextBus3"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"/>
+        </FrameLayout>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

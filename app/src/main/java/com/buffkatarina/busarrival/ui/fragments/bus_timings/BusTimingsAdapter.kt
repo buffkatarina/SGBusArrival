@@ -1,5 +1,7 @@
 package com.buffkatarina.busarrival.ui.fragments.bus_timings
 
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.data.entities.BusTimings
 import com.buffkatarina.busarrival.timeDifference
-import java.time.LocalDateTime
-import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
 
 
 class BusTimingsAdapter(
@@ -38,6 +37,7 @@ class BusTimingsAdapter(
             if (favourite.isActivated) {
                 favouritesHandler.removeFavouriteBusService(busStopCode, serviceNo.text as String)
                 favourite.isActivated = false
+
             }
             //Add bus service from database when an deactivated button is tapped
             // Activates the button afterwards - shows up as colored star on display

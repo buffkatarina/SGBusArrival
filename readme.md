@@ -3,10 +3,11 @@
 # TODO:
 1. only build database periodically
 2. UI design
-3. Display bus stop on map functionality
-5. Auto refresh bus timings
-6. Searching with bus stop name
-7. Favourites - removing records, displaying onto home fragment
+3. Maps
+4. Auto refresh bus timings
+5. Searching with bus stop name
+6. favourites - remove records from home fragment, auto refresh
+
 
 # DONE:
 1. Database
@@ -15,3 +16,5 @@
 4. On click functions of bus stops
 5. bus route fragment
 6. Inserting of favourite bus service no into database
+7. Favourites - removing records(from timings fragment), displaying onto home fragment
+

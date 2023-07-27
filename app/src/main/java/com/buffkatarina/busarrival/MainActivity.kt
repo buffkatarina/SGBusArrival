@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.buffkatarina.busarrival.model.ActivityViewModel
 import com.buffkatarina.busarrival.ui.fragments.home.HomeFragment
@@ -30,12 +31,14 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     }
 
     override fun onBackPressed() {
+        //unfinished implementation
         supportFragmentManager.popBackStack()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search, menu)
         val search = menu.findItem(R.id.search)
+        search.icon?.setTint(ContextCompat.getColor(applicationContext ,R.color.white))
         val searchView = search?.actionView as? androidx.appcompat.widget.SearchView
         searchView?.isSubmitButtonEnabled = true
         searchView?.setOnQueryTextListener(this)
@@ -48,12 +51,6 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
-        model.clearSearchHandler.observe(this) {clear ->
-            if (clear) {
-                /*Sets the clear search handler to false a*/
-
-            }
-        }
         if (query?.isNotEmpty() == true) {
             model.clearSearchQuery(false) //Start loading new query after input is obtained
             model.setSearchQuery("$query%")
@@ -67,8 +64,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
                 if (supportFragmentManager.findFragmentByTag("SearchFragment") == null) {
                     if (homeFragment.isVisible) {
                         supportFragmentManager.beginTransaction()
-                            .hide(homeFragment)
-                            .add(R.id.fragmentHolder, SearchFragment())
+                            .replace(R.id.fragmentHolder, SearchFragment())
                             .addToBackStack(null)
                             .commit()
                     }

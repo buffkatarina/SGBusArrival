@@ -2,6 +2,9 @@ package com.buffkatarina.busarrival.model
 
 import android.app.Application
 import android.util.Log
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
 import com.buffkatarina.busarrival.api.BusApiRepository
 import com.buffkatarina.busarrival.api.BusApiService
@@ -9,8 +12,6 @@ import com.buffkatarina.busarrival.data.db.BusArrivalDatabase
 import com.buffkatarina.busarrival.data.db.BusArrivalRepository
 import com.buffkatarina.busarrival.data.entities.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.cancellable
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
@@ -23,7 +24,7 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
 
     //tore all the retrieved bus timings from the api
     private val _busTimings  = MutableLiveData<BusTimings>()
-     val busTimings: LiveData<BusTimings> get() = _busTimings
+    private val busTimings: LiveData<BusTimings> get() = _busTimings
 
     //store search query from the search view
     private val _searchQuery  = MutableLiveData<String?>()
@@ -37,9 +38,9 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
     private val _favouriteBusServices = MutableLiveData<List<String>>()
     private val favouriteBusServices: LiveData<List<String>> get() = _favouriteBusServices
 
-    //store all favourite bus services
-    private val _allFavouriteBusServices = MutableLiveData<List<FavouriteBusServices>>()
-    val allFavouriteBusServices: LiveData<List<FavouriteBusServices>> get() =_allFavouriteBusServices
+    //database building progress - true when buildDB() is completed
+    private val _databaseState  = mutableStateOf(false)
+    val databaseState: State<Boolean>  = _databaseState
 
     private val _favouriteBusTimings = MutableLiveData<MutableList<BusTimings>>()
     val favouriteBusTimings: LiveData<MutableList<BusTimings>> get() = _favouriteBusTimings
@@ -103,6 +104,9 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
                 insertBusStops()
                 insertBusServices()
                 insertBusRoutes()
+                viewModelScope.launch(Dispatchers.Main) {
+                    _databaseState.value = true
+                }
 
             } catch (e: Exception){
                 Log.d("GetBusStopsError", "${e.message}")
