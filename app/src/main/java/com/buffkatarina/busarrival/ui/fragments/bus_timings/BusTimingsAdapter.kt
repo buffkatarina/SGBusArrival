@@ -1,7 +1,5 @@
 package com.buffkatarina.busarrival.ui.fragments.bus_timings
 
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

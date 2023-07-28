@@ -1,9 +1,6 @@
 package com.buffkatarina.busarrival.ui.fragments.bus_routes
 
-import android.graphics.Color
-import android.graphics.ColorFilter
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.data.entities.BusRoutesFiltered
 import com.buffkatarina.busarrival.model.ActivityViewModel
-import com.google.android.material.button.MaterialButton
 
 class BusRoutesFragment: Fragment() {
     private val model: ActivityViewModel by lazy {

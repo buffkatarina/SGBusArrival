@@ -4,4 +4,8 @@
     <string name="search">search</string>
     <string name="search_busStops">Bus Stops</string>
     <string name="search_busServices">Bus Services</string>
+    <string name="next">Next</string>
+    <string name="second">Second</string>
+    <string name="third">Third</string>
+
 </resources>
