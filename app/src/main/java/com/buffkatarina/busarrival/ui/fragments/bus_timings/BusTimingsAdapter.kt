@@ -8,16 +8,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.data.entities.BusTimings
-import com.buffkatarina.busarrival.timeDifference
+import com.buffkatarina.busarrival.arrivalTime
 
 
 class BusTimingsAdapter(
     private val busStopCode: Int,
-    private val data: BusTimings,
-    private val favouritesHandler: FavouritesHandler,
-    private val favouriteBusServices: List<String>) :
+    private val favouritesHandler: FavouritesHandler, ) :
     RecyclerView.Adapter<BusTimingsAdapter.BusArrivalViewHolder>(){
 
+    private var busTimings = emptyList<BusTimings.BusData>()
+    private var favouriteBusServices = emptyList<String>(
+
+    )
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BusArrivalViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.bus_timings_recyclerview_row, parent, false)
@@ -47,42 +49,39 @@ class BusTimingsAdapter(
         }
     }
     override fun onBindViewHolder(holder: BusArrivalViewHolder, position: Int) {
-        val currentItem = data.services[position]
-        holder.serviceNoHolder.text = currentItem.serviceNo
+        if (busTimings.isNotEmpty()) {
+            val currentItem = busTimings[position]
+            holder.serviceNoHolder.text = currentItem.serviceNo
 
-        //Activate buttons that have are already favourited
-        holder.favourite.isActivated = currentItem.serviceNo in favouriteBusServices
+            //Activate buttons that have are already favourited
+            holder.favourite.isActivated = currentItem.serviceNo in favouriteBusServices
 
-        //Initialise tuple of estimated arrival time of bus 1/2/3: text view of bus 1/2/3
-        val pairs = listOf(
-            Pair(currentItem.nextBus.estimatedArrival, holder.nextBus),
-            Pair(currentItem.nextBus2.estimatedArrival, holder.nextBus2),
-            Pair(currentItem.nextBus3.estimatedArrival, holder.nextBus3)
-        )
-        for (pair in pairs) {
-            //If queried estimated arrival timing for a bus an empty string, text view displays '-'
-            if (pair.first.isEmpty()) {
-                pair.second.text = "-"
-            }
-            else{
-                val difference = timeDifference(pair.first)
-                // if estimated time of arrival is less than 1 minute from current time, text displays arr
-                if (difference.toInt() < 1) {
-                    pair.second.text = "Arr"
-                }
-                else{
-                    // display estimated time of arrival from current time
-                    pair.second.text = difference
-                }
-
+            //Initialise tuple of estimated arrival time of bus 1/2/3: text view of bus 1/2/3
+            val pairs = listOf(
+                Pair(currentItem.nextBus.estimatedArrival, holder.nextBus),
+                Pair(currentItem.nextBus2.estimatedArrival, holder.nextBus2),
+                Pair(currentItem.nextBus3.estimatedArrival, holder.nextBus3)
+            )
+            for (pair in pairs) {
+                pair.second.text = arrivalTime(pair.first)
             }
         }
     }
 
 
-    override fun getItemCount() = data.services.size
+    override fun getItemCount() = busTimings.size
 
+    fun updateTimings(timings: List<BusTimings.BusData>) {
+        busTimings = timings
+        notifyDataSetChanged()
+    }
 
+    fun updateFavourites(favouritesData: List<String>) {
+        if (favouriteBusServices.isEmpty()) {
+            favouriteBusServices = favouritesData
+            notifyDataSetChanged()
+        }
+    }
 
     class BusArrivalViewHolder(view: View): RecyclerView.ViewHolder(view){
         val serviceNoHolder: TextView = view.findViewById(R.id.serviceNo)

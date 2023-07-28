@@ -11,17 +11,24 @@ const val BUS_TIMINGS: String = "BusArrivalv2"
 const val BUS_STOPS: String = "BusStops"
 const val BUS_SERVICES: String = "BusServices"
 
-fun timeDifference(time: String): String{
+fun arrivalTime(time: String): String{
     /*
-    Estimates difference between current time and given time.
-    Returns the difference in MINUTES
+    Estimates difference between current time and bus timing.
+    Returns: '-' if argument passed is empty
+             'Arr' if time difference is < 1
+              Difference in timing otherwise in MINUTES
     */
     if (time.isEmpty()) {
         return "-"
     }
     val currentTime = LocalDateTime.now()
     val parsedTime = ZonedDateTime.parse(time).toLocalDateTime()
-    return ChronoUnit.MINUTES.between(currentTime, parsedTime).toString()
+    val difference = ChronoUnit.MINUTES.between(currentTime, parsedTime).toString()
+
+    if (difference.toInt() < 1) {
+        return "Arr"
+    }
+    return difference
 
 }
 

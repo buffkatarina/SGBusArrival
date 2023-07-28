@@ -15,6 +15,7 @@ data class BusTimings (
     @SerializedName("Services")
     val services: List<BusData>
     ){
+
     data class BusData(
         @SerializedName("ServiceNo")
         val serviceNo: String,

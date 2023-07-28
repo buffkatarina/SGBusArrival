@@ -5,7 +5,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import com.buffkatarina.busarrival.data.entities.BusTimings
 import com.buffkatarina.busarrival.data.entities.FavouriteBusServicesWithDescription
-import com.buffkatarina.busarrival.timeDifference
+import com.buffkatarina.busarrival.arrivalTime
 
 @Composable
 fun Favourites(
@@ -39,9 +39,9 @@ fun getTimings(
         if (obj.busStopCode == busStopCode) {
             for (each in obj.services) {
                 if (serviceNo == each.serviceNo) {
-                    val nextBus = timeDifference(each.nextBus.estimatedArrival)
-                    val nextBus2 = timeDifference(each.nextBus2.estimatedArrival)
-                    val nextBus3 = timeDifference(each.nextBus3.estimatedArrival)
+                    val nextBus = arrivalTime(each.nextBus.estimatedArrival)
+                    val nextBus2 = arrivalTime(each.nextBus2.estimatedArrival)
+                    val nextBus3 = arrivalTime(each.nextBus3.estimatedArrival)
                     return Triple(nextBus, nextBus2, nextBus3)
                 }
             }

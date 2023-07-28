@@ -196,9 +196,6 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
                 for (busStops in favouriteBusStops) {
                     getBusTimings(busStops)
                     busTimings.value?.let { mutableList.add(it) }
-//                    busTimings.asFlow().collect {
-//                        favouriteBusTimings.value?.add(it)
-//                    }
                 }
                 _favouriteBusTimings.value = mutableList
             }

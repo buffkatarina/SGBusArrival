@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         supportFragmentManager.beginTransaction()
             .add(R.id.fragmentHolder, homeFragment, "HomeFragment")
             .commit()
-//        deleteDatabase("BusArrivalDB") // for debugging
-//        model.buildDB()
+        deleteDatabase("BusArrivalDB") // for debugging
+        model.buildDB()
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }
@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
+        //unfinished
         if (query?.isNotEmpty() == true) {
             model.clearSearchQuery(false) //Start loading new query after input is obtained
             model.setSearchQuery("$query%")
@@ -60,6 +61,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        //unfinished
         when (item.itemId) {
             R.id.search -> {
                 if (supportFragmentManager.findFragmentByTag("SearchFragment") == null) {

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.model.ActivityViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class BusTimingFragment: Fragment(), BusTimingsAdapter.FavouritesHandler {
@@ -49,19 +50,25 @@ class BusTimingFragment: Fragment(), BusTimingsAdapter.FavouritesHandler {
             val busStopCode =  bundle.getString("busStopCode")?.toInt()
             busStopCode?.let{code ->
                 viewLifecycleOwner.lifecycleScope.launch {
-                    //Retrieve the bus timings
-                    viewModel.getBusTimings(busStopCode)
                     viewModel.getFavouriteBusService(busStopCode)
+                    val adapter = BusTimingsAdapter(code, currentFragment)
+                    recyclerView.adapter = adapter
 
                     //Merge data from view model and load into recycler view
-                    viewModel.mergeFavouriteAndTimings().observe(viewLifecycleOwner) {
-                            result ->
+                    viewModel.mergeFavouriteAndTimings().observe(viewLifecycleOwner) { result ->
                         val favouriteBusServices = result.first
                         val busTimings = result.second
-                        if (favouriteBusServices != null && busTimings != null){
-                            recyclerView.adapter = BusTimingsAdapter(code, busTimings, currentFragment, favouriteBusServices)
+                        if (favouriteBusServices != null && busTimings != null) {
+                            adapter.updateTimings(busTimings.services)
+                            adapter.updateFavourites(favouriteBusServices)
                         }
                     }
+                    while (true) {
+                        //Retrieve new bus timings every 1 minute
+                        viewModel.getBusTimings(busStopCode)
+                        delay(60000)
+                    }
+
                 }
             }
 
