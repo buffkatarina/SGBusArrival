@@ -1,11 +1,9 @@
 package com.buffkatarina.busarrival.ui.fragments.home.favourites
 
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import com.buffkatarina.busarrival.data.entities.BusTimings
 import com.buffkatarina.busarrival.data.entities.FavouriteBusServicesWithDescription
-import com.buffkatarina.busarrival.arrivalTime
 
 @Composable
 fun Favourites(
@@ -25,6 +23,7 @@ fun FavouritesList(
                 pair.first[pos].busStopCode,
                 pair.first[pos].description,
                 pair.second[pos].services[0])
+
         }
     }
 }

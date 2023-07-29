@@ -1,7 +1,6 @@
 package com.buffkatarina.busarrival.ui.fragments.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +8,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.data.entities.BusTimings
 import com.buffkatarina.busarrival.data.entities.FavouriteBusServicesWithDescription
 import com.buffkatarina.busarrival.model.ActivityViewModel
 import com.buffkatarina.busarrival.ui.fragments.home.favourites.Favourites
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -44,7 +44,7 @@ class HomeFragment: Fragment() {
                     while (true) {
                         //get new bus timings every 1 minute
                         parseBusTimings(result)
-                        delay(10000)
+                        delay(60000)
                     }
                 }
             }

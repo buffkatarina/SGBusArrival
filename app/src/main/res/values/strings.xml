@@ -9,5 +9,7 @@
     <string name="third">Third</string>
     <string name="direction_1">Direction 1</string>
     <string name="direction_2">Direction 2</string>
+    <string name="remove">Remove from favourites</string>
+    <string name="add">Add to favourites</string>
 
 </resources>
