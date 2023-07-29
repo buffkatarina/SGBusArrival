@@ -53,13 +53,13 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
         busApiRepository = BusApiRepository(busApiInterface)
     }
 
-     suspend fun getBusTimingsByServiceNo(busStopCode: Int?, serviceNo: String){
+     suspend fun getBusTimingsByServiceNo(busStopCode: Int?, serviceNo: String): BusTimings?{
          /*Gets a singular record of BusTimings. Requires both bus stop code and the service number*/
-         try {
-             _busTimings.value = busApiRepository.getBusTimingsByServiceNo(busStopCode, serviceNo)
+         return try {
+             busApiRepository.getBusTimingsByServiceNo(busStopCode, serviceNo)
          } catch (e: Exception) {
              Log.d("Error", "${e.message}")
-
+             null
          }
      }
 

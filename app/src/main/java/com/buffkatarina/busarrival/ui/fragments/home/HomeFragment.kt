@@ -38,13 +38,13 @@ class HomeFragment: Fragment() {
 //        val databaseBuildState by viewModel.databaseState
         val databaseBuildState = true
         if (databaseBuildState) {
-                //Get all the favourite bus services records from the database
+            //Get all the favourite bus services records from the database
             viewModel.getAllFavouriteBusServices().observe(viewLifecycleOwner) { result ->
-                parseBusTimings(result)
                 viewLifecycleOwner.lifecycleScope.launch {
                     while (true) {
                         //get new bus timings every 1 minute
-                        delay(60000)
+                        parseBusTimings(result)
+                        delay(10000)
                     }
                 }
             }
@@ -72,11 +72,10 @@ class HomeFragment: Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             for (favourite in result) {
                 viewModel.getBusTimingsByServiceNo(favourite.busStopCode, favourite.serviceNo)
-                viewModel.busTimings.observe(viewLifecycleOwner) { timings->
-                    mutableList.add(timings)
-                }
+                    ?.let { mutableList.add(it) }
             }
             favouriteTimings.value = mutableList
+
         }
     }
 }
