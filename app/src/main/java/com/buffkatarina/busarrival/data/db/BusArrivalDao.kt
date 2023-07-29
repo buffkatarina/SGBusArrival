@@ -66,10 +66,6 @@ interface BusArrivalDao{
     @Query("SELECT serviceNo FROM FavouriteBusServices WHERE busStopCode = :busStopCode")
     fun getFavouriteBusService(busStopCode: Int): List<String>
 
-    //Get all bus stop codes without any duplicate
-    @Query("SELECT busStopCode FROM FavouriteBusServices " +
-            "GROUP BY busStopCode " +
-            "ORDER BY busStopCode ASC")
-    fun getFavouriteBusStops(): List<Int>
+
 }
 

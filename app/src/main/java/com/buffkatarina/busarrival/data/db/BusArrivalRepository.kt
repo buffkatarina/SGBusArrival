@@ -44,7 +44,4 @@ class BusArrivalRepository(private val busArrivalDao: BusArrivalDao) {
         return busArrivalDao.getAllFavouriteBusServices()
     }
 
-    fun getFavouriteBusStops(): List<Int> {
-        return busArrivalDao.getFavouriteBusStops()
-    }
 }

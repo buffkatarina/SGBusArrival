@@ -38,7 +38,7 @@ class BusRoutesFragment: Fragment() {
         /*Gets the bus routes from the view model */
         parentFragmentManager.setFragmentResultListener("query", viewLifecycleOwner) { _, bundle ->
             val query = bundle.getString("query")
-            model.searchBusRoutes(query)
+            model.getBusRoutes(query)
             model.busRoutesList.observe(viewLifecycleOwner) {busRoutesList ->
                 setUpLayout(view, busRoutesList)
             }
@@ -49,12 +49,15 @@ class BusRoutesFragment: Fragment() {
          val currentDirection = view.findViewById<TextView>(R.id.direction)
          val directionChange = view.findViewById<ImageView>(R.id.change_direction)
          val busRoutesAdapter = BusRoutesAdapter()
+         val directionOne = resources.getString(R.string.direction_1)
+         val directionTwo = resources.getString(R.string.direction_2)
+
          recyclerView.layoutManager = LinearLayoutManager(context)
          recyclerView.adapter = busRoutesAdapter
          busRoutesAdapter.setData(busRoutesList[0]) // index 0 for bus routes at direction 1
-         currentDirection.text = "Direction 1"  //Assume direction 1 on fragment open for now
-
+         currentDirection.text = directionOne  //Assume direction 1 on fragment open for now
          directionChange.setColorFilter(ContextCompat.getColor(requireContext(), R.color.lime))
+
          //when there is no direction 2 for this bus service
          if (busRoutesList[1].isEmpty()) {
              directionChange.alpha = 0.3F
@@ -63,13 +66,13 @@ class BusRoutesFragment: Fragment() {
 
          else {
              directionChange.setOnClickListener {  //Changes the displayed list of direction when button is pressed
-                 if (currentDirection.text == "Direction 1") {
+                 if (currentDirection.text == directionOne) {
                      busRoutesAdapter.setData(busRoutesList[1])
-                     currentDirection.text = "Direction 2"
+                     currentDirection.text = directionTwo
                  }
                  else{
                      busRoutesAdapter.setData(busRoutesList[0])
-                     currentDirection.text = "Direction 1"
+                     currentDirection.text = directionOne
                  }
              }
          }

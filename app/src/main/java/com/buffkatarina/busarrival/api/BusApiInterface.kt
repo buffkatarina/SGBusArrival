@@ -17,6 +17,13 @@ interface BusApiInterface {
     suspend fun getBusTimings(@Query("BusStopCode") busStopCode: Int?): BusTimings
 
     @Headers("AccountKey:$API_KEY")
+    @GET(BUS_TIMINGS)
+    suspend fun getBusTimingsByServiceNo(
+        @Query("BusStopCode") busStopCode: Int?,
+        @Query("ServiceNo") serviceNo : String?
+    ): BusTimings
+
+    @Headers("AccountKey:$API_KEY")
     @GET(BUS_ROUTES)
     suspend fun getBusRoutes(@Query("\$skip") skipAmt: Int?): BusRoutes
 
@@ -27,5 +34,7 @@ interface BusApiInterface {
     @Headers("AccountKey:$API_KEY")
     @GET(BUS_SERVICES)
     suspend fun getBusServices(@Query("\$skip") skipAmt: Int?): BusServices
+
+
 }
 

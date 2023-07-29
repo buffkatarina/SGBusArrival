@@ -7,5 +7,7 @@
     <string name="next">Next</string>
     <string name="second">Second</string>
     <string name="third">Third</string>
+    <string name="direction_1">Direction 1</string>
+    <string name="direction_2">Direction 2</string>
 
 </resources>

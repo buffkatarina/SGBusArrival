@@ -16,7 +16,7 @@ class BusTimingsAdapter(
     private val favouritesHandler: FavouritesHandler, ) :
     RecyclerView.Adapter<BusTimingsAdapter.BusArrivalViewHolder>(){
 
-    private var busTimings = emptyList<BusTimings.BusData>()
+    var busTimings = emptyList<BusTimings.BusData>()
     private var favouriteBusServices = emptyList<String>(
 
     )

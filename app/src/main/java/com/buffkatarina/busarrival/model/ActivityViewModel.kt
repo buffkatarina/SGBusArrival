@@ -23,7 +23,7 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
 
     //tore all the retrieved bus timings from the api
     private val _busTimings  = MutableLiveData<BusTimings>()
-    private val busTimings: LiveData<BusTimings> get() = _busTimings
+    val busTimings: LiveData<BusTimings> get() = _busTimings
 
     //store search query from the search view
     private val _searchQuery  = MutableLiveData<String?>()
@@ -41,8 +41,8 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
     private val _databaseState  = mutableStateOf(false)
     val databaseState: State<Boolean>  = _databaseState
 
-    private val _favouriteBusTimings = MutableLiveData<MutableList<BusTimings>>()
-    val favouriteBusTimings: LiveData<MutableList<BusTimings>> get() = _favouriteBusTimings
+    private val _allFavouriteBusServices = MutableLiveData<List<FavouriteBusServicesWithDescription>>()
+    val allFavouriteBusServices: LiveData<List<FavouriteBusServicesWithDescription>> = _allFavouriteBusServices
 
     private val busApiRepository: BusApiRepository
     private val busArrivalRepository: BusArrivalRepository
@@ -52,6 +52,16 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
         val busApiInterface = BusApiService.BusApi.busApi
         busApiRepository = BusApiRepository(busApiInterface)
     }
+
+     suspend fun getBusTimingsByServiceNo(busStopCode: Int?, serviceNo: String){
+         /*Gets a singular record of BusTimings. Requires both bus stop code and the service number*/
+         try {
+             _busTimings.value = busApiRepository.getBusTimingsByServiceNo(busStopCode, serviceNo)
+         } catch (e: Exception) {
+             Log.d("Error", "${e.message}")
+
+         }
+     }
 
     suspend fun getBusTimings(busStopCode: Int?){
         /*
@@ -83,12 +93,12 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
         return busArrivalRepository.searchBusServices(searchQuery).asLiveData()
     }
 
-    fun searchBusRoutes(searchQuery: String?){
+    fun getBusRoutes(searchQuery: String?){
         /*Updates busRoutesList variable with the queried bus routes */
         viewModelScope.launch(Dispatchers.IO) {
             val direction1 = busArrivalRepository.searchBusRoutes(searchQuery,"1" )
             val direction2  = busArrivalRepository.searchBusRoutes(searchQuery,"2" )
-            viewModelScope.launch(Dispatchers.Main) {
+            launch(Dispatchers.Main) {
                 _busRoutesList.value = listOf(direction1, direction2)
             }
         }
@@ -103,7 +113,7 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
                 insertBusStops()
                 insertBusServices()
                 insertBusRoutes()
-                viewModelScope.launch(Dispatchers.Main) {
+                launch(Dispatchers.Main) {
                     _databaseState.value = true
                 }
 
@@ -172,34 +182,19 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
         }
     }
 
-    fun getFavouriteBusService(busStopCode: Int) {
+    fun getFavouriteBusServices(busStopCode: Int) {
         //Get list of favourite bus services after filtered against bus stop code
         viewModelScope.launch(Dispatchers.IO){
            val favouriteBusServices = busArrivalRepository.getFavouriteBusService(busStopCode)
-            viewModelScope.launch(Dispatchers.Main){
+            launch(Dispatchers.Main){
                 _favouriteBusServices.value = favouriteBusServices
             }
         }
     }
 
-    fun getAllFavouriteBusService(): LiveData<List<FavouriteBusServicesWithDescription>> {
+     @JvmName("getAllFavouriteBusServices1")
+     fun getAllFavouriteBusServices(): LiveData<List<FavouriteBusServicesWithDescription>> {
         return busArrivalRepository.getAllFavouriteBusServices().asLiveData()
-    }
-
-    fun getFavouriteBusTimings() {
-        val mutableList = mutableListOf<BusTimings>()
-        viewModelScope.launch(Dispatchers.IO) {
-            //retrieve unique bus stops from favourites
-            val favouriteBusStops = busArrivalRepository.getFavouriteBusStops()
-            viewModelScope.launch(Dispatchers.Main) {
-                //find timings for each favourite bus stop
-                for (busStops in favouriteBusStops) {
-                    getBusTimings(busStops)
-                    busTimings.value?.let { mutableList.add(it) }
-                }
-                _favouriteBusTimings.value = mutableList
-            }
-        }
     }
 
     //Combines favouriteBusServices and BusTimings for usage by BusTimingFragment

@@ -9,43 +9,24 @@ import com.buffkatarina.busarrival.arrivalTime
 
 @Composable
 fun Favourites(
-    favourites: List<FavouriteBusServicesWithDescription>,
-    timings: MutableList<BusTimings>) {
-    FavouritesList(favourites, timings)
+    pair: Pair<List<FavouriteBusServicesWithDescription>,
+            MutableList<BusTimings>>) {
+    FavouritesList(pair)
 }
 
 @Composable
 fun FavouritesList(
-    favourites: List<FavouriteBusServicesWithDescription>,
-    timings: MutableList<BusTimings>) {
+    pair: Pair<List<FavouriteBusServicesWithDescription>,
+            MutableList<BusTimings>>) {
     LazyColumn{
-        items(favourites) {favourite ->
-            val result = getTimings(favourite.serviceNo, favourite.busStopCode, timings)
-            FavouritesRow(favourite.serviceNo,
-                favourite.busStopCode,
-                favourite.description,
-                result as Triple<String, String, String>)
+        items(pair.first.size) {pos ->
+            FavouritesRow(
+                pair.first[pos].serviceNo,
+                pair.first[pos].busStopCode,
+                pair.first[pos].description,
+                pair.second[pos].services[0])
         }
     }
 }
 
-fun getTimings(
-    serviceNo: String,
-    busStopCode: Int,
-    timings: MutableList<BusTimings> ): Triple<String, String, String>? {
 
-    //Improve algorithm??
-    for (obj in timings) {
-        if (obj.busStopCode == busStopCode) {
-            for (each in obj.services) {
-                if (serviceNo == each.serviceNo) {
-                    val nextBus = arrivalTime(each.nextBus.estimatedArrival)
-                    val nextBus2 = arrivalTime(each.nextBus2.estimatedArrival)
-                    val nextBus3 = arrivalTime(each.nextBus3.estimatedArrival)
-                    return Triple(nextBus, nextBus2, nextBus3)
-                }
-            }
-        }
-    }
-    return null
-}

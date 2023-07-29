@@ -22,4 +22,8 @@ class BusApiRepository(private val busApiInterface: BusApiInterface) {
         return busApiInterface.getBusRoutes(query)
     }
 
+    suspend fun getBusTimingsByServiceNo(busStop: Int?, serviceNo: String?): BusTimings {
+        return busApiInterface.getBusTimingsByServiceNo(busStop, serviceNo)
+    }
+
 }

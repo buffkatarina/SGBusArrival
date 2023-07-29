@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.model.ActivityViewModel
+
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -38,7 +40,6 @@ class BusTimingFragment: Fragment(), BusTimingsAdapter.FavouritesHandler {
     Set ups recycler view
     Gets bus timings and loads them into the recycler view*/
     {
-
         val recyclerView = view.findViewById<RecyclerView>(R.id.busTimings_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(context)
         val currentFragment = this
@@ -50,9 +51,11 @@ class BusTimingFragment: Fragment(), BusTimingsAdapter.FavouritesHandler {
             val busStopCode =  bundle.getString("busStopCode")?.toInt()
             busStopCode?.let{code ->
                 viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.getFavouriteBusService(busStopCode)
+                    viewModel.getFavouriteBusServices(busStopCode)
                     val adapter = BusTimingsAdapter(code, currentFragment)
                     recyclerView.adapter = adapter
+                    val swipeHelper = ItemTouchHelper(SwipeFavourite(adapter, requireContext()))
+                    swipeHelper.attachToRecyclerView(recyclerView)
 
                     //Merge data from view model and load into recycler view
                     viewModel.mergeFavouriteAndTimings().observe(viewLifecycleOwner) { result ->
@@ -84,5 +87,6 @@ class BusTimingFragment: Fragment(), BusTimingsAdapter.FavouritesHandler {
     override fun removeFavouriteBusService(busStopCode: Int, serviceNo: String) {
         model.removeFavouriteBusService(busStopCode, serviceNo)
     }
+
 
 }
