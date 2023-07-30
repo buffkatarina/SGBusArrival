@@ -1,12 +1,11 @@
 # Sg Bus Arrival App
 
 # TODO:
-1. only build database periodically
-2. Dialog when building database + lock user interaction
-4. Maps
-6. Searching with bus stop name
-7. favourites - remove records from home fragment
-8. On click listener from bus routes to bus timings
+1. only build database periodically 
+2. Maps
+3. Searching with bus stop name
+4. favourites - remove records from home fragment
+5. On click listener from bus routes to bus timings
 
 
 # DONE:
@@ -18,5 +17,6 @@
 6. Inserting of favourite bus service no into database
 7. Favourites - removing records(from timings fragment), displaying onto home fragment
 8. base ui design
-9. auto refresh
+9. auto refresh 
+10. Dialog when building database + lock user interaction
 

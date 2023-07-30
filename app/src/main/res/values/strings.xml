@@ -11,5 +11,9 @@
     <string name="direction_2">Direction 2</string>
     <string name="remove">Remove from favourites</string>
     <string name="add">Add to favourites</string>
+    <string name="building_database">Building database</string>
+    <string name="building_database_complete">Done!</string>
+    <string name="latest">Getting the latest bus routes and stops!</string>
+    <string name="ok">OK</string>
 
 </resources>

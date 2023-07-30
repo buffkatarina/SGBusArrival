@@ -41,8 +41,9 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
     private val _databaseState  = mutableStateOf(false)
     val databaseState: State<Boolean>  = _databaseState
 
-    private val _allFavouriteBusServices = MutableLiveData<List<FavouriteBusServicesWithDescription>>()
-    val allFavouriteBusServices: LiveData<List<FavouriteBusServicesWithDescription>> = _allFavouriteBusServices
+    //button clicked from dialog
+    private val _dialogState = mutableStateOf(false)
+    val dialogState: State<Boolean> = _dialogState
 
     private val busApiRepository: BusApiRepository
     private val busArrivalRepository: BusArrivalRepository
@@ -53,6 +54,9 @@ class ActivityViewModel(application: Application): AndroidViewModel(application)
         busApiRepository = BusApiRepository(busApiInterface)
     }
 
+    fun setDialogState(bool: Boolean) {
+        _dialogState.value = bool
+    }
      suspend fun getBusTimingsByServiceNo(busStopCode: Int?, serviceNo: String): BusTimings?{
          /*Gets a singular record of BusTimings. Requires both bus stop code and the service number*/
          return try {
