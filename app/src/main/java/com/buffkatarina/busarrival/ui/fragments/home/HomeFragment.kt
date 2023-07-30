@@ -1,6 +1,7 @@
 package com.buffkatarina.busarrival.ui.fragments.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +49,6 @@ class HomeFragment: Fragment() {
                 }
             }
         }
-
         composeView.apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
@@ -60,10 +60,15 @@ class HomeFragment: Fragment() {
                 }
                 if (databaseBuildState) {
                     val favourites by viewModel.getAllFavouriteBusServices().observeAsState()
+                    Log.i("ASD",favourites.toString())
                     val timings by favouriteTimings.observeAsState()
                     if (favourites != null && timings != null) {
-                        Favourites(
-                            (favourites to timings) as Pair<List<FavouriteBusServicesWithDescription>, MutableList<BusTimings>>)
+                        if (favourites!!.size == timings!!.size){
+                            Favourites(
+                                (favourites to timings) as Pair<List<FavouriteBusServicesWithDescription>,
+                                        MutableList<BusTimings>>)
+                        }
+
                     }
                 }
             }
