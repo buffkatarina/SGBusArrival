@@ -36,7 +36,8 @@ class HomeFragment: Fragment() {
         val view = inflater.inflate(R.layout.home_fragment, container, false)
         val composeView: androidx.compose.ui.platform.ComposeView =
             view.findViewById(R.id.compose_view)
-        val databaseBuildState by viewModel.databaseState
+       // val databaseBuildState by viewModel.databaseState
+        val databaseBuildState = true
         if (databaseBuildState) {
             //Get all the favourite bus services records from the database
             viewModel.getAllFavouriteBusServices().observe(viewLifecycleOwner) { result ->
@@ -54,19 +55,19 @@ class HomeFragment: Fragment() {
             setContent {
 
                 //Only show dialog on app launch
-                val dialogState by viewModel.dialogState
-                if (!dialogState) {
-                    Dialog(databaseBuildState, viewModel::setDialogState)
-                }
+//                val dialogState by viewModel.dialogState
+//                if (!dialogState) {
+//                    Dialog(databaseBuildState, viewModel::setDialogState)
+//                }
                 if (databaseBuildState) {
                     val favourites by viewModel.getAllFavouriteBusServices().observeAsState()
-                    Log.i("ASD",favourites.toString())
                     val timings by favouriteTimings.observeAsState()
                     if (favourites != null && timings != null) {
                         if (favourites!!.size == timings!!.size){
                             Favourites(
                                 (favourites to timings) as Pair<List<FavouriteBusServicesWithDescription>,
-                                        MutableList<BusTimings>>)
+                                        MutableList<BusTimings>>,
+                                viewModel::removeFavouriteBusService)
                         }
 
                     }

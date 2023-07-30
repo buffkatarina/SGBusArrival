@@ -4,8 +4,7 @@
 1. only build database periodically 
 2. Maps
 3. Searching with bus stop name
-4. favourites - remove records from home fragment
-5. On click listener from bus routes to bus timings
+4. On click listener from bus routes to bus timings
 
 
 # DONE:
@@ -19,4 +18,5 @@
 8. base ui design
 9. auto refresh 
 10. Dialog when building database + lock user interaction
+11. favourites - remove records from home fragment
 

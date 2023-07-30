@@ -24,9 +24,9 @@ import com.buffkatarina.busarrival.data.entities.BusTimings
 @Composable
 fun FavouritesRow(
     serviceNo: String,
-    busStopCode: Int,
     description: String,
-    timings: BusTimings.BusData) {
+    timings: BusTimings.BusData
+) {
 
     val nextBus = arrivalTime(timings.nextBus.estimatedArrival)
     val nextBus2 = arrivalTime(timings.nextBus2.estimatedArrival)

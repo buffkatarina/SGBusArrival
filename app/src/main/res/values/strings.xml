@@ -15,5 +15,6 @@
     <string name="building_database_complete">Done!</string>
     <string name="latest">Getting the latest bus routes and stops!</string>
     <string name="ok">OK</string>
+    <string name="delete">Delete</string>
 
 </resources>
