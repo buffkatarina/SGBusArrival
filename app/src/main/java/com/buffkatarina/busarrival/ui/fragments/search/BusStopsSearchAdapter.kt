@@ -9,15 +9,16 @@ import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.data.entities.BusStops
 import com.google.android.material.card.MaterialCardView
 
-class BusStopsSearchAdapter(private val busStopsHandler: ToBusTimings): RecyclerView.Adapter<BusStopsSearchAdapter.SearchAdapterViewHolder>() {
+class BusStopsSearchAdapter(private val busStopsHandler: ToBusTimings) :
+    RecyclerView.Adapter<BusStopsSearchAdapter.SearchAdapterViewHolder>() {
     private var dataList = emptyList<BusStops.BusStopData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-    : SearchAdapterViewHolder {
+            : SearchAdapterViewHolder {
         val view = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.bus_stops_recyclerview_row, parent, false)
-       return setUpViewHolder(view)
+        return setUpViewHolder(view)
     }
 
     private fun setUpViewHolder(view: View): SearchAdapterViewHolder {
@@ -25,8 +26,9 @@ class BusStopsSearchAdapter(private val busStopsHandler: ToBusTimings): Recycler
         viewHolder.card.setOnClickListener {
             busStopsHandler.toBusTimings(viewHolder.busStopCode.text as String)
         }
-        return  viewHolder
+        return viewHolder
     }
+
     override fun onBindViewHolder(holder: SearchAdapterViewHolder, position: Int) {
         val currentItem = dataList[position]
         holder.busStopCode.text = currentItem.busStopCode
@@ -39,14 +41,14 @@ class BusStopsSearchAdapter(private val busStopsHandler: ToBusTimings): Recycler
     }
 
 
-    class SearchAdapterViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class SearchAdapterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val busStopCode: TextView = view.findViewById(R.id.busStopCode)
         val description: TextView = view.findViewById(R.id.description)
         val roadName: TextView = view.findViewById(R.id.roadName)
         val card: MaterialCardView = view.findViewById(R.id.searchRow)
     }
 
-     fun updateData(newData: List<BusStops.BusStopData>) {
+    fun updateData(newData: List<BusStops.BusStopData>) {
         dataList = newData
         notifyDataSetChanged()
     }

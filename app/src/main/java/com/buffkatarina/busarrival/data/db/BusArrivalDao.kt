@@ -8,7 +8,7 @@ import com.buffkatarina.busarrival.data.entities.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface BusArrivalDao{
+interface BusArrivalDao {
     // BusStops table methods
     @Query("SELECT busStopCode FROM BusStops")
     fun getAllBusStops(): Flow<List<String>>

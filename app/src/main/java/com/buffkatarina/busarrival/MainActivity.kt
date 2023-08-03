@@ -10,7 +10,7 @@ import com.buffkatarina.busarrival.model.ActivityViewModel
 import com.buffkatarina.busarrival.ui.fragments.home.HomeFragment
 import com.buffkatarina.busarrival.ui.fragments.search.SearchFragment
 
-class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.OnQueryTextListener{
+class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.OnQueryTextListener {
     private val model: ActivityViewModel by lazy {
         ViewModelProvider(this)[ActivityViewModel::class.java]
     }
@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         supportFragmentManager.beginTransaction()
             .add(R.id.fragmentHolder, homeFragment, "HomeFragment")
             .commit()
-//        deleteDatabase("BusArrivalDB") // for debugging
-//        model.buildDB()
+        deleteDatabase("BusArrivalDB") // for debugging
+        model.buildDB()
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search, menu)
         val search = menu.findItem(R.id.search)
-        search.icon?.setTint(ContextCompat.getColor(applicationContext ,R.color.black))
+        search.icon?.setTint(ContextCompat.getColor(applicationContext, R.color.black))
         val searchView = search?.actionView as? androidx.appcompat.widget.SearchView
         searchView?.isSubmitButtonEnabled = true
         searchView?.setOnQueryTextListener(this)

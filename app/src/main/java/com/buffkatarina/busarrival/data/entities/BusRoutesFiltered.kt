@@ -18,5 +18,5 @@ data class BusRoutesFiltered(
     val busStopCode: String,
 
     @ColumnInfo("description")
-    val description: String
+    val description: String,
 )

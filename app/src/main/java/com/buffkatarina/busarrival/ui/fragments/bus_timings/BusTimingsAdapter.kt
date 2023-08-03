@@ -1,55 +1,65 @@
 package com.buffkatarina.busarrival.ui.fragments.bus_timings
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginEnd
+import androidx.core.view.marginStart
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
-import com.buffkatarina.busarrival.data.entities.BusTimings
 import com.buffkatarina.busarrival.arrivalTime
+import com.buffkatarina.busarrival.data.entities.BusTimings
 import com.google.android.material.card.MaterialCardView
+import kotlin.properties.Delegates
 
 
 class BusTimingsAdapter(
     private val busStopCode: Int,
     private val favouritesHandler: FavouritesHandler,
-    private val context: Context ) :
-    RecyclerView.Adapter<BusTimingsAdapter.BusArrivalViewHolder>(){
+    private val context: Context,
+) :
+    RecyclerView.Adapter<BusTimingsAdapter.BusArrivalViewHolder>() {
 
     var busTimings = emptyList<BusTimings.BusData>()
     private var favouriteBusServices = emptyList<String>(
 
     )
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BusArrivalViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.bus_timings_recyclerview_row, parent, false)
         val viewHolder = BusArrivalViewHolder(view)
-       setUpListener(viewHolder)
+        setUpListener(viewHolder)
         return viewHolder
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setUpListener(holder: BusArrivalViewHolder) {
         val serviceNo = holder.serviceNoHolder
         val swipeFrame = holder.swipeFrame
+        var buttonVisibility = false
+        val itemView = holder.itemView
+        val mainCard: MaterialCardView = holder.mainCard
+        var cardMargin = 0
+        var swipeFrameMarginStart = 0
+        var cardWidth = 0f
         swipeFrame.setOnClickListener {
             //Removes bus service from database when an activated button is tapped
             // Deactivates the button afterwards - shows up as uncolored star on display
             if (swipeFrame.cardBackgroundColor.defaultColor == Color.Red.toArgb()) {
                 favouritesHandler.removeFavouriteBusService(busStopCode, serviceNo.text as String)
-                holder.swipeFrame.setCardBackgroundColor(ContextCompat.getColor(context, R.color.lime))
+                holder.swipeFrame.setCardBackgroundColor(ContextCompat.getColor(context,
+                    R.color.lime))
                 holder.actionText.setText(R.string.add)
                 holder.actionIcon.setBackgroundResource(R.drawable.star_on)
-
             }
             //Add bus service from database when an deactivated button is tapped
             // Activates the button afterwards - shows up as colored star on display
@@ -59,19 +69,83 @@ class BusTimingsAdapter(
                 holder.actionText.setText(R.string.remove)
                 holder.actionIcon.setBackgroundResource(R.drawable.ic_baseline_delete_24)
             }
-            holder.itemView.scrollTo(0 ,0)
+            mainCard.animate().x(0f + cardMargin).setDuration(0).start()
+            swipeFrame.animate().x(-cardWidth - swipeFrameMarginStart).setDuration(0).start()
+            buttonVisibility = false
+        }
+
+
+        itemView.post {
+            val limit = swipeFrame.width.toFloat()
+            cardWidth = mainCard.width.toFloat()
+            swipeFrameMarginStart = swipeFrame.marginStart
+            val swipeFrameMarginEnd = swipeFrame.marginEnd
+            cardMargin = mainCard.marginStart
+            var dX by Delegates.notNull<Float>()
+            var offSet = 0f
+            val threshold = 0.5
+            itemView.setOnTouchListener { _, event ->
+
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        dX = 0f - event.rawX
+                    }
+
+                    MotionEvent.ACTION_MOVE -> {
+                        offSet = event.rawX + dX
+
+                        if (!buttonVisibility) {//allow dragging left if button is not visible
+                            if (offSet >= -limit - swipeFrameMarginEnd && offSet <= 0f) {
+                                mainCard.animate().x(offSet).setDuration(0).start()
+                                swipeFrame.animate()
+                                    .x(offSet + cardWidth + swipeFrameMarginStart)
+                                    .setDuration(0)
+                                    .start()
+                            }
+                        }
+                    }
+
+                    MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                        if (offSet <= -limit * threshold) { // Complete swipe when drag is longer threshold of 0.5f
+                            if (!buttonVisibility) {
+                                offSet = -limit - swipeFrameMarginEnd
+                                mainCard.animate().x(offSet).setDuration(0).start()
+                                swipeFrame.animate()
+                                    .x(offSet + cardWidth + swipeFrameMarginStart)
+                                    .setDuration(0)
+                                    .start()
+                                buttonVisibility = true
+
+                            }
+                        }
+                        if (offSet > -limit * threshold) { //undo swipe if below threshold
+                            mainCard.animate().x(0f + cardMargin).setDuration(0).start()
+                            swipeFrame.animate().x(-cardWidth - swipeFrameMarginStart)
+                                .setDuration(0).start()
+                            buttonVisibility = false
+
+                        }
+                    }
+                }
+                true
+            }
         }
     }
+
+
     override fun onBindViewHolder(holder: BusArrivalViewHolder, position: Int) {
         if (busTimings.isNotEmpty()) {
             val currentItem = busTimings[position]
+
             holder.serviceNoHolder.text = currentItem.serviceNo
+
             if (currentItem.serviceNo in favouriteBusServices) {
                 holder.swipeFrame.setCardBackgroundColor(Color.Red.toArgb())
                 holder.actionText.setText(R.string.remove)
                 holder.actionIcon.setBackgroundResource(R.drawable.ic_baseline_delete_24)
             } else {
-                holder.swipeFrame.setCardBackgroundColor(ContextCompat.getColor(context, R.color.lime))
+                holder.swipeFrame.setCardBackgroundColor(ContextCompat.getColor(context,
+                    R.color.lime))
                 holder.actionText.setText(R.string.add)
                 holder.actionIcon.setBackgroundResource(R.drawable.star_on)
             }
@@ -103,7 +177,7 @@ class BusTimingsAdapter(
         }
     }
 
-    class BusArrivalViewHolder(view: View): RecyclerView.ViewHolder(view){
+    class BusArrivalViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val serviceNoHolder: TextView = view.findViewById(R.id.serviceNo)
         val nextBus: TextView = view.findViewById(R.id.nextBus)
         val nextBus2: TextView = view.findViewById(R.id.nextBus2)

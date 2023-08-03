@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bus_services_card"
+    style="@style/Card"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
-    app:contentPaddingLeft="20dp"
-    app:contentPaddingTop="5dp"
-    app:contentPaddingBottom="5dp"
-    app:contentPaddingRight="20dp"
-    android:id="@+id/bus_services_card"
     android:clickable="true"
-    style="@style/Card"
-    >
+    app:contentPaddingBottom="5dp"
+    app:contentPaddingLeft="20dp"
+    app:contentPaddingRight="20dp"
+    app:contentPaddingTop="5dp">
+
     <TextView
         android:id="@+id/busServiceNo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="25sp"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textSize="25sp" />
 </com.google.android.material.card.MaterialCardView>

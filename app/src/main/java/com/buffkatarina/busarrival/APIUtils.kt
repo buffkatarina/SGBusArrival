@@ -11,7 +11,7 @@ const val BUS_TIMINGS: String = "BusArrivalv2"
 const val BUS_STOPS: String = "BusStops"
 const val BUS_SERVICES: String = "BusServices"
 
-fun arrivalTime(time: String): String{
+fun arrivalTime(time: String): String {
     /*
     Estimates difference between current time and bus timing.
     Returns: '-' if argument passed is empty

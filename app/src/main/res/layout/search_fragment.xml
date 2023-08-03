@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bus_timings_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/bus_timings_fragment"
     android:orientation="vertical">
+
     <TextView
         android:id="@+id/busServicesHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/search_busServices"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:textSize="26sp"
-        android:textColor="?attr/colorOnPrimary"/>
+        android:text="@string/search_busServices"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="26sp" />
+
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@id/busServicesHeader"
         android:id="@+id/busServices_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_below="@id/busServicesHeader"
         android:layout_marginStart="20dp"
-        />
+        android:layout_marginEnd="20dp" />
+
     <TextView
-        android:textSize="26sp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
         android:id="@+id/busStopsHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/search_busStops"
         android:layout_below="@id/busServices_recycler_view"
-        android:textColor="?attr/colorOnPrimary"/>
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/search_busStops"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="26sp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/busStops_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/bus_stops_recyclerview_row"
         android:layout_below="@+id/busStopsHeader"
         android:layout_marginStart="20dp"
-        />
+        tools:listitem="@layout/bus_stops_recyclerview_row" />
 </RelativeLayout>

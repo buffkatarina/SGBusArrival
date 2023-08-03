@@ -15,10 +15,10 @@ import com.buffkatarina.busarrival.data.entities.FavouriteBusServices
         BusServices.BusServicesData::class,
         BusRoutes.BusRoutesData::class,
         FavouriteBusServices::class
-               ],
+    ],
     version = 1,
     exportSchema = false)
-abstract class BusArrivalDatabase: RoomDatabase() {
+abstract class BusArrivalDatabase : RoomDatabase() {
     abstract fun BusArrivalDao(): BusArrivalDao
 
     companion object {

@@ -8,7 +8,7 @@ data class BusServices(
     val metadata: String,
 
     @SerializedName("value")
-    val data: List<BusServicesData>
+    val data: List<BusServicesData>,
 ) {
     @Entity(tableName = "BusServices", primaryKeys = ["serviceNo", "direction"])
     data class BusServicesData(
@@ -43,6 +43,6 @@ data class BusServices(
         val pmOffPeakFreq: String,
 
         @SerializedName("LoopDesc")
-        val loopDesc: String
+        val loopDesc: String,
     )
 }

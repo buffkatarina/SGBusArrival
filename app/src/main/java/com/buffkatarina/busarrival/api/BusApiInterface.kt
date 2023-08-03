@@ -20,7 +20,7 @@ interface BusApiInterface {
     @GET(BUS_TIMINGS)
     suspend fun getBusTimingsByServiceNo(
         @Query("BusStopCode") busStopCode: Int?,
-        @Query("ServiceNo") serviceNo : String?
+        @Query("ServiceNo") serviceNo: String?,
     ): BusTimings
 
     @Headers("AccountKey:$API_KEY")

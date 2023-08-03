@@ -11,7 +11,7 @@ data class BusRoutes(
     val metadata: String,
 
     @SerializedName("value")
-    val data: List<BusRoutesData>
+    val data: List<BusRoutesData>,
 ) {
 
     @Entity(
@@ -50,7 +50,7 @@ data class BusRoutes(
         val sunFirstBus: String,
 
         @SerializedName("SUN_LastBus")
-        val sunLastBus: String
+        val sunLastBus: String,
     )
 }
 

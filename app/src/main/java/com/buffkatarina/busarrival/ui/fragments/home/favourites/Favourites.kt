@@ -2,20 +2,14 @@ package com.buffkatarina.busarrival.ui.fragments.home.favourites
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -26,7 +20,7 @@ import com.buffkatarina.busarrival.data.entities.FavouriteBusServicesWithDescrip
 @Composable
 fun Favourites(
     pair: Pair<List<FavouriteBusServicesWithDescription>, MutableList<BusTimings>>,
-    removeFromFavourites: (Int, String) -> Unit
+    removeFromFavourites: (Int, String) -> Unit,
 ) {
     FavouritesList(pair, removeFromFavourites)
 }
@@ -37,9 +31,10 @@ fun Favourites(
 fun FavouritesList(
     pair: Pair<List<FavouriteBusServicesWithDescription>,
             MutableList<BusTimings>>,
-    removeFromFavourites: (Int, String) -> Unit) {
-    LazyColumn{
-        items(pair.first.size, ) { pos  ->
+    removeFromFavourites: (Int, String) -> Unit,
+) {
+    LazyColumn {
+        items(pair.first.size) { pos ->
 
             val serviceNo = pair.first[pos].serviceNo
             val busStopCode = pair.first[pos].busStopCode
@@ -59,7 +54,9 @@ fun FavouritesList(
                     val color by animateColorAsState(
                         when (dismissState.dismissDirection) {
                             DismissDirection.EndToStart -> Color.Red
-                            else -> {Color.Transparent}
+                            else -> {
+                                Color.Transparent
+                            }
                         }
                     )
                     Card(
@@ -73,7 +70,7 @@ fun FavouritesList(
                         Row(
                             horizontalArrangement = Arrangement.End,
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.fillMaxSize()){
+                            modifier = Modifier.fillMaxSize()) {
                             Image(
                                 modifier = Modifier.padding(end = 10.dp),
                                 painter = painterResource(id = R.drawable.ic_baseline_delete_24),
@@ -81,7 +78,7 @@ fun FavouritesList(
                             )
                         }
 
-                        }
+                    }
                 },
                 dismissContent = {
                     FavouritesRow(

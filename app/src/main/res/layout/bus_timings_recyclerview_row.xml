@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-   >
+    android:layout_height="wrap_content">
+
     <com.google.android.material.card.MaterialCardView
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/busTimings"
+        style="@style/Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:id="@+id/busTimings"
-        app:contentPaddingLeft="20dp"
-        app:contentPaddingTop="5dp"
         app:contentPaddingBottom="5dp"
+        app:contentPaddingLeft="20dp"
         app:contentPaddingRight="20dp"
-        style="@style/Card">
+        app:contentPaddingTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:id="@+id/serviceNo"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:textSize="30sp"
-                android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,9 +37,9 @@
                 android:id="@+id/nextBusLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
+                android:gravity="center"
                 android:text="@string/next"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@id/nextBus"
@@ -48,8 +49,8 @@
                 android:id="@+id/nextBus"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginEnd="32dp"
+                android:gravity="center"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/nextBus2" />
@@ -60,9 +61,9 @@
                 android:id="@+id/nextBus2Label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="8dp"
+                android:gravity="center"
                 android:text="@string/second"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@id/nextBus2"
@@ -72,8 +73,8 @@
                 android:id="@+id/nextBus2"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginEnd="32dp"
+                android:gravity="center"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/nextBus3" />
@@ -86,9 +87,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="8dp"
+                android:gravity="center"
                 android:text="@string/third"
                 android:textSize="20sp"
-                android:gravity="center"
                 app:layout_constraintBottom_toTopOf="@id/nextBus3"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -96,46 +97,49 @@
                 android:id="@+id/nextBus3"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginEnd="24dp"
+                android:gravity="center"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/swipe_action"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="70dp"
-        app:layout_constraintStart_toEndOf="@id/busTimings"
-        app:layout_constraintTop_toTopOf="parent"
-        app:contentPaddingLeft="20dp"
-        app:contentPaddingTop="5dp"
-        app:contentPaddingBottom="5dp"
-        app:contentPaddingRight="20dp"
         android:layout_margin="8dp"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="20dp"
+        app:contentPaddingBottom="5dp"
+        app:contentPaddingLeft="20dp"
+        app:contentPaddingRight="20dp"
+        app:contentPaddingTop="5dp"
+        app:layout_constraintStart_toEndOf="@id/busTimings"
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:id="@+id/action_button_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:gravity="center"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                app:layout_constraintTop_toBottomOf="@id/action_button_text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
                 android:id="@+id/action_button_icon"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/action_button_text" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>

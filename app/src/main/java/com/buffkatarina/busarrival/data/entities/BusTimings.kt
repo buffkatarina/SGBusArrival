@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 /*Data class to for storing
 bus timings JSON data from the api */
-data class BusTimings (
+data class BusTimings(
     @SerializedName("odata.metadata")
     val metadata: String,
 
@@ -13,8 +13,8 @@ data class BusTimings (
     val busStopCode: Int,
 
     @SerializedName("Services")
-    val services: List<BusData>
-    ){
+    val services: List<BusData>,
+) {
 
     data class BusData(
         @SerializedName("ServiceNo")
@@ -30,7 +30,7 @@ data class BusTimings (
         val nextBus2: NextBusData,
 
         @SerializedName("NextBus3")
-        val nextBus3: NextBusData
+        val nextBus3: NextBusData,
     )
 
     data class NextBusData(

@@ -10,7 +10,7 @@ data class FavouriteBusServices(
 
     @ColumnInfo("serviceNo")
     val serviceNo: String,
-    )
+)
 
 data class FavouriteBusServicesWithDescription(
     @ColumnInfo("busStopCode")
@@ -20,5 +20,5 @@ data class FavouriteBusServicesWithDescription(
     val serviceNo: String,
 
     @ColumnInfo("description")
-    val description: String
+    val description: String,
 )

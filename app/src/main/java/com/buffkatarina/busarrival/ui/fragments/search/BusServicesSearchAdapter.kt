@@ -8,12 +8,13 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
 
-class BusServicesSearchAdapter(private val busRoutesHandler: ToBusRoutes): RecyclerView.Adapter<BusServicesSearchAdapter.SearchAdapterViewHolder>() {
+class BusServicesSearchAdapter(private val busRoutesHandler: ToBusRoutes) :
+    RecyclerView.Adapter<BusServicesSearchAdapter.SearchAdapterViewHolder>() {
 
     private var dataList = emptyList<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-    : SearchAdapterViewHolder {
+            : SearchAdapterViewHolder {
         val view = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.bus_services_recyclerview_row, parent, false)
@@ -26,7 +27,7 @@ class BusServicesSearchAdapter(private val busRoutesHandler: ToBusRoutes): Recyc
         val textView = viewHolder.textView
         val cardView = viewHolder.cardView
         cardView.setOnClickListener {
-             busRoutesHandler.toBusRoutes(textView.text.toString())
+            busRoutesHandler.toBusRoutes(textView.text.toString())
         }
         return viewHolder
     }
@@ -41,12 +42,12 @@ class BusServicesSearchAdapter(private val busRoutesHandler: ToBusRoutes): Recyc
     }
 
 
-     fun updateData(newData: List<String>) {
+    fun updateData(newData: List<String>) {
         dataList = newData
         notifyDataSetChanged()
     }
 
-    class SearchAdapterViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class SearchAdapterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.busServiceNo)
         val cardView: CardView = view.findViewById(R.id.bus_services_card)
 

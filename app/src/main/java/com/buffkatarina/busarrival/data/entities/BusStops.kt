@@ -13,7 +13,7 @@ data class BusStops(
     @SerializedName("odata.metadata")
     val metadata: String,
     @SerializedName("value")
-    val data: List<BusStopData>
+    val data: List<BusStopData>,
 ) {
     @Entity(tableName = "BusStops")
     data class BusStopData(
@@ -31,7 +31,7 @@ data class BusStops(
         val latitude: Float,
 
         @SerializedName("Longitude")
-        val longitude: Float
+        val longitude: Float,
     )
 }
 

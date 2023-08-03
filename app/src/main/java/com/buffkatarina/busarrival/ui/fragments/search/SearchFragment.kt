@@ -14,7 +14,7 @@ import com.buffkatarina.busarrival.model.ActivityViewModel
 import com.buffkatarina.busarrival.ui.fragments.bus_routes.BusRoutesFragment
 import com.buffkatarina.busarrival.ui.fragments.bus_timings.BusTimingFragment
 
-class SearchFragment: Fragment(),
+class SearchFragment : Fragment(),
     BusServicesSearchAdapter.ToBusRoutes,
     BusStopsSearchAdapter.ToBusTimings {
     private val model: ActivityViewModel by lazy {
@@ -39,11 +39,13 @@ class SearchFragment: Fragment(),
         val busStopsRecyclerView: RecyclerView = view.findViewById(R.id.busStops_recycler_view)
         busStopsRecyclerView.layoutManager = LinearLayoutManager(context)
         val busStopsSearchAdapter = BusStopsSearchAdapter(this)
-        busStopsRecyclerView.adapter =  busStopsSearchAdapter
+        busStopsRecyclerView.adapter = busStopsSearchAdapter
 
         //      Set up recycler view for bus services
-        val busServicesRecyclerView: RecyclerView = view.findViewById(R.id.busServices_recycler_view)
-        busServicesRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val busServicesRecyclerView: RecyclerView =
+            view.findViewById(R.id.busServices_recycler_view)
+        busServicesRecyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         val busServicesAdapter = BusServicesSearchAdapter(this)
         busServicesRecyclerView.adapter = busServicesAdapter
 
@@ -71,7 +73,7 @@ class SearchFragment: Fragment(),
         * */
         parentFragmentManager.setFragmentResult("query", bundleOf("query" to query))
         parentFragmentManager.beginTransaction()
-            .add(R.id.fragmentHolder, BusRoutesFragment(),"BusRoutesFragment")
+            .add(R.id.fragmentHolder, BusRoutesFragment(), "BusRoutesFragment")
             .hide(this)
             .addToBackStack(null)
             .commit()
@@ -81,8 +83,7 @@ class SearchFragment: Fragment(),
         /*Displays bus routes fragments on the screen
       * Implementation for ToBusRoutes interface in BusServicesSearchAdapter
       * */
-        parentFragmentManager.setFragmentResult("busStopCodeKey"
-            , bundleOf("busStopCode" to query))
+        parentFragmentManager.setFragmentResult("busStopCodeKey", bundleOf("busStopCode" to query))
         parentFragmentManager.beginTransaction()
             .hide(this)
             .addToBackStack(null)

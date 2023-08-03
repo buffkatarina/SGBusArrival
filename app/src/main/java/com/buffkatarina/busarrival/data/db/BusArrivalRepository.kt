@@ -9,13 +9,15 @@ class BusArrivalRepository(private val busArrivalDao: BusArrivalDao) {
     fun searchBusStops(searchQuery: String?): Flow<List<BusStops.BusStopData>> {
         return busArrivalDao.searchBusStops(searchQuery)
     }
-     fun insertBusStops(busStops: BusStops.BusStopData) {
+
+    fun insertBusStops(busStops: BusStops.BusStopData) {
         busArrivalDao.insertBusStops(busStops)
     }
 
     fun searchBusServices(searchQuery: String?): Flow<List<String>> {
         return busArrivalDao.searchBusServices(searchQuery)
     }
+
     fun insertBusServices(busServices: BusServices.BusServicesData) {
         busArrivalDao.insertBusServices(busServices)
     }

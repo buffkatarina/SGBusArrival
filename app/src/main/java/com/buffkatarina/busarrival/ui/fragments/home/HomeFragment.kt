@@ -1,7 +1,6 @@
 package com.buffkatarina.busarrival.ui.fragments.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +20,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class HomeFragment: Fragment() {
+class HomeFragment : Fragment() {
     private val viewModel by lazy {
         ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
     }
@@ -36,8 +35,7 @@ class HomeFragment: Fragment() {
         val view = inflater.inflate(R.layout.home_fragment, container, false)
         val composeView: androidx.compose.ui.platform.ComposeView =
             view.findViewById(R.id.compose_view)
-       // val databaseBuildState by viewModel.databaseState
-        val databaseBuildState = true
+        val databaseBuildState by viewModel.databaseState
         if (databaseBuildState) {
             //Get all the favourite bus services records from the database
             viewModel.getAllFavouriteBusServices().observe(viewLifecycleOwner) { result ->
@@ -55,15 +53,15 @@ class HomeFragment: Fragment() {
             setContent {
 
                 //Only show dialog on app launch
-//                val dialogState by viewModel.dialogState
-//                if (!dialogState) {
-//                    Dialog(databaseBuildState, viewModel::setDialogState)
-//                }
+                val dialogState by viewModel.dialogState
+                if (!dialogState) {
+                    Dialog(databaseBuildState, viewModel::setDialogState)
+                }
                 if (databaseBuildState) {
                     val favourites by viewModel.getAllFavouriteBusServices().observeAsState()
                     val timings by favouriteTimings.observeAsState()
                     if (favourites != null && timings != null) {
-                        if (favourites!!.size == timings!!.size){
+                        if (favourites!!.size == timings!!.size) {
                             Favourites(
                                 (favourites to timings) as Pair<List<FavouriteBusServicesWithDescription>,
                                         MutableList<BusTimings>>,
@@ -79,7 +77,7 @@ class HomeFragment: Fragment() {
 
     private fun parseBusTimings(result: List<FavouriteBusServicesWithDescription>) {
         /*Adds bus timings for favourite bus services to a favourite timings list */
-        val mutableList =  mutableListOf<BusTimings>()
+        val mutableList = mutableListOf<BusTimings>()
         viewLifecycleOwner.lifecycleScope.launch {
             for (favourite in result) {
                 viewModel.getBusTimingsByServiceNo(favourite.busStopCode, favourite.serviceNo)
