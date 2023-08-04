@@ -24,7 +24,6 @@ import kotlin.properties.Delegates
 class BusTimingsAdapter(
     private val busStopCode: Int,
     private val favouritesHandler: FavouritesHandler,
-    private val context: Context,
 ) :
     RecyclerView.Adapter<BusTimingsAdapter.BusArrivalViewHolder>() {
 
@@ -56,8 +55,7 @@ class BusTimingsAdapter(
             // Deactivates the button afterwards - shows up as uncolored star on display
             if (swipeFrame.cardBackgroundColor.defaultColor == Color.Red.toArgb()) {
                 favouritesHandler.removeFavouriteBusService(busStopCode, serviceNo.text as String)
-                holder.swipeFrame.setCardBackgroundColor(ContextCompat.getColor(context,
-                    R.color.lime))
+                holder.swipeFrame.setCardBackgroundColor(favouritesHandler.getColor(R.color.lime))
                 holder.actionText.setText(R.string.add)
                 holder.actionIcon.setBackgroundResource(R.drawable.star_on)
             }
@@ -144,8 +142,7 @@ class BusTimingsAdapter(
                 holder.actionText.setText(R.string.remove)
                 holder.actionIcon.setBackgroundResource(R.drawable.ic_baseline_delete_24)
             } else {
-                holder.swipeFrame.setCardBackgroundColor(ContextCompat.getColor(context,
-                    R.color.lime))
+                holder.swipeFrame.setCardBackgroundColor(favouritesHandler.getColor(R.color.lime))
                 holder.actionText.setText(R.string.add)
                 holder.actionIcon.setBackgroundResource(R.drawable.star_on)
             }
@@ -194,6 +191,8 @@ class BusTimingsAdapter(
         fun addFavouriteBusService(busStopCode: Int, serviceNo: String)
 
         fun removeFavouriteBusService(busStopCode: Int, serviceNo: String)
+
+        fun getColor(color: Int): Int //helper function to get color from resources
     }
 
 }

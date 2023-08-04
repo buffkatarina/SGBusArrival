@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -51,7 +52,7 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FavouritesHandler {
             busStopCode?.let { code ->
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.getFavouriteBusServices(busStopCode)
-                    val adapter = BusTimingsAdapter(code, currentFragment, requireContext())
+                    val adapter = BusTimingsAdapter(code, currentFragment)
                     recyclerView.adapter = adapter
 
                     //Merge data from view model and load into recycler view
@@ -83,5 +84,9 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FavouritesHandler {
 
     override fun removeFavouriteBusService(busStopCode: Int, serviceNo: String) {
         model.removeFavouriteBusService(busStopCode, serviceNo)
+    }
+
+    override fun getColor(color: Int): Int {
+        return ContextCompat.getColor(requireContext(), color)
     }
 }

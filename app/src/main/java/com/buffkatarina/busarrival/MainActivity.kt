@@ -1,6 +1,7 @@
 package com.buffkatarina.busarrival
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.buffkatarina.busarrival.model.ActivityViewModel
 import com.buffkatarina.busarrival.ui.fragments.home.HomeFragment
 import com.buffkatarina.busarrival.ui.fragments.search.SearchFragment
+import java.time.Duration
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
+import kotlin.time.DurationUnit
 
 class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.OnQueryTextListener {
     private val model: ActivityViewModel by lazy {
@@ -22,13 +27,38 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setUpDatabase()
         supportFragmentManager.beginTransaction()
             .add(R.id.fragmentHolder, homeFragment, "HomeFragment")
             .commit()
-        deleteDatabase("BusArrivalDB") // for debugging
-        model.buildDB()
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false)
+    }
+
+    private fun setUpDatabase() {
+        model.getBuildDate()
+        val currentDate = LocalDate.now()
+        model.buildDate.observe(this) { date ->
+            if (date?.id != 9) { // ignore first value of buildDate
+                if (date == null) {
+                    model.buildDB()
+                    model.insertBuildDate(currentDate.toString())
+                }
+                else {
+                    val parsedDate =  LocalDate.parse(date.buildDate)
+                    //Builds database every 3 days
+                    if (ChronoUnit.DAYS.between(parsedDate, currentDate)> 3) {
+                        model.buildDB()
+                        model.insertBuildDate(currentDate.toString())
+                    }
+
+                    else {
+                        model.setDatabaseState(true)
+                        model.setDialogState(true)
+                    }
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {

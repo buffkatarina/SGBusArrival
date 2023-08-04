@@ -7,7 +7,7 @@ class BusArrivalRepository(private val busArrivalDao: BusArrivalDao) {
     /*Abstracts BusArrivalDatabase(), BusArrivalDao()*/
 
     fun searchBusStops(searchQuery: String?): Flow<List<BusStops.BusStopData>> {
-        return busArrivalDao.searchBusStops(searchQuery)
+        return busArrivalDao.searchBusStops(searchQuery, searchQuery)
     }
 
     fun insertBusStops(busStops: BusStops.BusStopData) {
@@ -27,7 +27,7 @@ class BusArrivalRepository(private val busArrivalDao: BusArrivalDao) {
     }
 
     fun searchBusRoutes(searchQuery: String?, direction: String): List<BusRoutesFiltered> {
-        return busArrivalDao.searchBusRoutes(searchQuery, direction)
+        return busArrivalDao.getBusRoutes(searchQuery, direction)
     }
 
     fun insertFavouriteBusService(favouriteBusServices: FavouriteBusServices) {
@@ -45,5 +45,14 @@ class BusArrivalRepository(private val busArrivalDao: BusArrivalDao) {
     fun getAllFavouriteBusServices(): Flow<List<FavouriteBusServicesWithDescription>> {
         return busArrivalDao.getAllFavouriteBusServices()
     }
+
+    fun getBuildDate(): BuildDate? {
+        return busArrivalDao.getBuildDate()
+    }
+
+    fun insertBuildDate(date: String) {
+        return busArrivalDao.insertBuildDate(BuildDate(1, date))
+    }
+
 
 }

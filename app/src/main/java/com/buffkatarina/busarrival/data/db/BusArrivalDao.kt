@@ -1,9 +1,7 @@
 package com.buffkatarina.busarrival.data.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import android.app.ActivityManager.TaskDescription
+import androidx.room.*
 import com.buffkatarina.busarrival.data.entities.*
 import kotlinx.coroutines.flow.Flow
 
@@ -14,8 +12,8 @@ interface BusArrivalDao {
     fun getAllBusStops(): Flow<List<String>>
 
     @Query("SELECT * FROM BusStops" +
-            " WHERE busStopCode LIKE :searchQuery ")
-    fun searchBusStops(searchQuery: String?): Flow<List<BusStops.BusStopData>>
+            " WHERE busStopCode LIKE :busStopCode OR description LIKE :description ")
+    fun searchBusStops(busStopCode: String?, description: String?): Flow<List<BusStops.BusStopData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBusStops(vararg busStops: BusStops.BusStopData)
@@ -44,7 +42,7 @@ interface BusArrivalDao {
             "WHERE serviceNo = :searchQuery " +
             "AND direction = :direction " +
             "ORDER BY direction ASC, stopSequence ASC ")
-    fun searchBusRoutes(searchQuery: String?, direction: String): List<BusRoutesFiltered>
+    fun getBusRoutes(searchQuery: String?, direction: String): List<BusRoutesFiltered>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFavouriteBusService(favouriteBusServices: FavouriteBusServices)
@@ -66,6 +64,12 @@ interface BusArrivalDao {
     @Query("SELECT serviceNo FROM FavouriteBusServices WHERE busStopCode = :busStopCode")
     fun getFavouriteBusService(busStopCode: Int): List<String>
 
+    //Get latest build date
+    @Query("SELECT * FROM BuildDate")
+    fun getBuildDate(): BuildDate?
 
+    //Insert new date of update
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertBuildDate(buildDate: BuildDate)
 }
 

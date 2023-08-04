@@ -17,18 +17,11 @@ import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.data.entities.BusTimings
 import com.buffkatarina.busarrival.data.entities.FavouriteBusServicesWithDescription
 
-@Composable
-fun Favourites(
-    pair: Pair<List<FavouriteBusServicesWithDescription>, MutableList<BusTimings>>,
-    removeFromFavourites: (Int, String) -> Unit,
-) {
-    FavouritesList(pair, removeFromFavourites)
-}
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavouritesList(
+fun Favourites(
+    modifier: Modifier  = Modifier,
     pair: Pair<List<FavouriteBusServicesWithDescription>,
             MutableList<BusTimings>>,
     removeFromFavourites: (Int, String) -> Unit,

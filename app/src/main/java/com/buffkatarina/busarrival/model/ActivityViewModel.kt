@@ -45,6 +45,9 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     private val _dialogState = mutableStateOf(false)
     val dialogState: State<Boolean> = _dialogState
 
+    private val _buildDate = MutableLiveData(BuildDate(9, ""))
+    val buildDate: LiveData<BuildDate?> = _buildDate
+
     private val busApiRepository: BusApiRepository
     private val busArrivalRepository: BusArrivalRepository
 
@@ -58,7 +61,9 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     fun setDialogState(bool: Boolean) {
         _dialogState.value = bool
     }
-
+    fun setDatabaseState(bool: Boolean) {
+        _databaseState.value = bool
+    }
     suspend fun getBusTimingsByServiceNo(busStopCode: Int?, serviceNo: String): BusTimings? {
         /*Gets a singular record of BusTimings. Requires both bus stop code and the service number*/
         return try {
@@ -93,6 +98,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     fun searchBusStops(searchQuery: String?): LiveData<List<BusStops.BusStopData>> {
         /*Returns a list of BusStops.BusStopData entities for matching bus stops as live data*/
         return busArrivalRepository.searchBusStops(searchQuery).asLiveData()
+
     }
 
     fun searchBusServices(searchQuery: String?): LiveData<List<String>> {
@@ -197,6 +203,22 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
             launch(Dispatchers.Main) {
                 _favouriteBusServices.value = favouriteBusServices
             }
+        }
+    }
+
+    fun getBuildDate() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val date = busArrivalRepository.getBuildDate()
+            launch(Dispatchers.Main) {
+                _buildDate.value = date
+            }
+        }
+    }
+
+    //Inserts newly updated date into the database
+    fun insertBuildDate(date: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            busArrivalRepository.insertBuildDate(date)
         }
     }
 
