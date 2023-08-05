@@ -1,15 +1,18 @@
 package com.buffkatarina.busarrival.ui.fragments.home
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import com.buffkatarina.busarrival.data.entities.BusTimings
 import com.buffkatarina.busarrival.data.entities.FavouriteBusServicesWithDescription
 import com.buffkatarina.busarrival.model.ActivityViewModel
 import com.buffkatarina.busarrival.ui.fragments.home.favourites.Favourites
+import com.buffkatarina.busarrival.ui.fragments.home.map.MapView
 
 @Composable
 fun HomeFragment(
@@ -26,7 +29,8 @@ fun HomeFragment(
     }
     if (databaseBuildState) {
         Column {
-//          MapView(modifier = Modifier.weight(1f))
+            MapView(modifier = Modifier.padding(8.dp).weight(1f))
+
             val favourites by viewModel.getAllFavouriteBusServices().observeAsState()
             val timings by favouriteTimings.observeAsState()
             if (favourites != null && timings != null) {

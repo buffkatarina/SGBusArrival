@@ -138,6 +138,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
 
     private suspend fun insertBusStops() {
         /*Parse all bus stops and insert into database*/
+
         var skipAmt = 0
         do {
             val busStops = busApiRepository.getBusStops(skipAmt)

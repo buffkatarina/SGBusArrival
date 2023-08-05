@@ -26,7 +26,7 @@ fun Favourites(
             MutableList<BusTimings>>,
     removeFromFavourites: (Int, String) -> Unit,
 ) {
-    LazyColumn {
+    LazyColumn(modifier = modifier) {
         items(pair.first.size) { pos ->
 
             val serviceNo = pair.first[pos].serviceNo

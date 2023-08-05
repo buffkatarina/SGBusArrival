@@ -2,6 +2,7 @@ package com.buffkatarina.busarrival.ui.fragments.bus_timings
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -82,6 +83,7 @@ class BusTimingsAdapter(
             var dX by Delegates.notNull<Float>()
             var offSet = 0f
             val threshold = 0.5
+
             itemView.setOnTouchListener { _, event ->
 
                 when (event.action) {

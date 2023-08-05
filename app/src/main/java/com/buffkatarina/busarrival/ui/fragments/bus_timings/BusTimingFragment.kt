@@ -19,9 +19,6 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FavouritesHandler {
     private val model: ActivityViewModel by lazy {
         ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
     }
-    private val recyclerView by lazy {
-        requireView().findViewById<RecyclerView>(R.id.busTimings_recycler_view)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,15 +30,14 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FavouritesHandler {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        getBusTimings(view)
-
+        setUpView(view)
     }
 
-    private fun getBusTimings(view: View)
+    private fun setUpView(view: View)
             /*
             Set ups recycler view
             Gets bus timings and loads them into the recycler view*/ {
-
+        val recyclerView: RecyclerView = view.findViewById(R.id.busTimings_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(context)
         val currentFragment = this
         val viewModel = ViewModelProvider(requireActivity())[ActivityViewModel::class.java]

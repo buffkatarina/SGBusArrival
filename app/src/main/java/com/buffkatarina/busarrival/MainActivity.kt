@@ -1,19 +1,26 @@
 package com.buffkatarina.busarrival
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.buffkatarina.busarrival.model.ActivityViewModel
 import com.buffkatarina.busarrival.ui.fragments.home.HomeFragment
 import com.buffkatarina.busarrival.ui.fragments.search.SearchFragment
+import org.osmdroid.config.Configuration
 import java.time.Duration
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import kotlin.time.DurationUnit
+
 
 class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.OnQueryTextListener {
     private val model: ActivityViewModel by lazy {
@@ -28,12 +35,46 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setUpDatabase()
+        Configuration.getInstance().load(
+            applicationContext,
+            PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        )
+        requestPermission()
         supportFragmentManager.beginTransaction()
             .add(R.id.fragmentHolder, homeFragment, "HomeFragment")
             .commit()
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }
+
+    private fun requestPermission() {
+        val requestPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    // Permission is granted. Continue the action or workflow in your
+                    // app.
+                } else {
+
+                }
+            }
+        when {
+            ContextCompat.checkSelfPermission(
+                this,
+                ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED -> {
+
+            }
+
+
+            else -> {
+              requestPermissionLauncher.launch(
+                  ACCESS_FINE_LOCATION
+              )
+            }
+        }
+    }
+
 
     private fun setUpDatabase() {
         model.getBuildDate()

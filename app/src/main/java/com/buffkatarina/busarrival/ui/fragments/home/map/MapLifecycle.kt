@@ -15,6 +15,7 @@ fun mapLifeCycle(): MapView {
     val context = LocalContext.current
     val mapView = remember {
         MapView(context).apply {
+            clipToOutline = true
             R.id.map
         }
     }
