@@ -66,7 +66,6 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
 
             }
 
-
             else -> {
               requestPermissionLauncher.launch(
                   ACCESS_FINE_LOCATION
@@ -157,7 +156,6 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
                 return true
             }
         }
-
         return false
     }
 
