@@ -1,6 +1,9 @@
 package com.buffkatarina.busarrival.data.db
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.buffkatarina.busarrival.data.entities.*
 import kotlinx.coroutines.flow.Flow
 

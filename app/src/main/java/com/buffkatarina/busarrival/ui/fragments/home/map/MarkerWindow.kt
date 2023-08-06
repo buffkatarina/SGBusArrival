@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.ui.fragments.bus_timings.BusTimingFragment
-import com.buffkatarina.busarrival.ui.fragments.home.HomeFragment
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.infowindow.InfoWindow
 
@@ -16,7 +15,7 @@ class MarkerWindow(
     context: Context,
     private val title: String,
     private val description: String,
-): InfoWindow(R.layout.map_info_window, map) {
+) : InfoWindow(R.layout.map_info_window, map) {
     private val activity = context as AppCompatActivity
 
     override fun onOpen(item: Any?) {

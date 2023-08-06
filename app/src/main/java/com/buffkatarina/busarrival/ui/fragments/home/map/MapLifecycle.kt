@@ -34,7 +34,7 @@ fun mapLifeCycle(): MapView {
 
 @Composable
 fun mapLifeCycleObserver(mapView: MapView): LifecycleEventObserver = remember(mapView) {
-    LifecycleEventObserver {_, event ->
+    LifecycleEventObserver { _, event ->
         when (event) {
             Lifecycle.Event.ON_RESUME -> mapView.onResume()
             Lifecycle.Event.ON_PAUSE -> mapView.onPause()

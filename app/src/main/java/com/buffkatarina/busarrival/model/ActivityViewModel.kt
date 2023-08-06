@@ -2,7 +2,6 @@ package com.buffkatarina.busarrival.model
 
 import android.app.Application
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
@@ -65,9 +64,11 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     fun setDialogState(bool: Boolean) {
         _dialogState.value = bool
     }
+
     fun setDatabaseState(bool: Boolean) {
         _databaseState.value = bool
     }
+
     suspend fun getBusTimingsByServiceNo(busStopCode: Int?, serviceNo: String): BusTimings? {
         /*Gets a singular record of BusTimings. Requires both bus stop code and the service number*/
         return try {

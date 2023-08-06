@@ -13,5 +13,5 @@ data class BuildDate(
     @PrimaryKey
     val id: Int,
 
-    val buildDate: String
+    val buildDate: String,
 )

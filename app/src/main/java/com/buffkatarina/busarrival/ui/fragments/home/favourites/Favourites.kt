@@ -21,7 +21,7 @@ import com.buffkatarina.busarrival.data.entities.FavouriteBusServicesWithDescrip
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Favourites(
-    modifier: Modifier  = Modifier,
+    modifier: Modifier = Modifier,
     pair: Pair<List<FavouriteBusServicesWithDescription>,
             MutableList<BusTimings>>,
     removeFromFavourites: (Int, String) -> Unit,

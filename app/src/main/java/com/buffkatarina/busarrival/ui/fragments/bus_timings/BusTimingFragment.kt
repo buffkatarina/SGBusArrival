@@ -46,7 +46,8 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FavouritesHandler {
             viewLifecycleOwner) { _, bundle ->
             //Gets the queried bus stop code
             val busStopCode = bundle.getString("busStopCode")?.toInt()
-            (requireActivity() as AppCompatActivity).supportActionBar?.title = busStopCode.toString()
+            (requireActivity() as AppCompatActivity).supportActionBar?.title =
+                busStopCode.toString()
             busStopCode?.let { code ->
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.getFavouriteBusServices(busStopCode)
@@ -77,9 +78,9 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FavouritesHandler {
 
     override fun onDestroy() {
         super.onDestroy()
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.default_title)
+        (requireActivity() as AppCompatActivity).supportActionBar?.title =
+            getString(R.string.default_title)
     }
-
 
 
     override fun addFavouriteBusService(busStopCode: Int, serviceNo: String) {

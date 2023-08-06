@@ -4,22 +4,18 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.buffkatarina.busarrival.model.ActivityViewModel
 import com.buffkatarina.busarrival.ui.fragments.home.HomeFragment
 import com.buffkatarina.busarrival.ui.fragments.search.SearchFragment
 import org.osmdroid.config.Configuration
-import java.time.Duration
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
-import kotlin.time.DurationUnit
 
 
 class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -30,6 +26,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     private val homeFragment by lazy {
         HomeFragment()
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,9 +64,9 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
             }
 
             else -> {
-              requestPermissionLauncher.launch(
-                  ACCESS_FINE_LOCATION
-              )
+                requestPermissionLauncher.launch(
+                    ACCESS_FINE_LOCATION
+                )
             }
         }
     }
@@ -83,16 +80,13 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
                 if (date == null) {
                     model.buildDB()
                     model.insertBuildDate(currentDate.toString())
-                }
-                else {
-                    val parsedDate =  LocalDate.parse(date.buildDate)
+                } else {
+                    val parsedDate = LocalDate.parse(date.buildDate)
                     //Builds database every 3 days
-                    if (ChronoUnit.DAYS.between(parsedDate, currentDate)> 3) {
+                    if (ChronoUnit.DAYS.between(parsedDate, currentDate) > 3) {
                         model.buildDB()
                         model.insertBuildDate(currentDate.toString())
-                    }
-
-                    else {
+                    } else {
                         model.setDatabaseState(true)
                         model.setDialogState(true)
                     }
@@ -102,8 +96,12 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     }
 
     override fun onBackPressed() {
-        //unfinished implementation
-        supportFragmentManager.popBackStack()
+        if (supportFragmentManager.findFragmentByTag("HomeFragment")?.isVisible == true) {
+            super.onBackPressed()
+        } else {
+            supportFragmentManager.popBackStack()
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
