@@ -8,8 +8,7 @@
 5. No ads
 
 # Sample
-![Alt text](sample/home.png?raw=true)
-![Alt text](sample/timings.png?raw=true)
-
+<img src = "sample/home.png?raw=true"/>
+<img src = "sample/timings.png?raw=true"/>
 
 
