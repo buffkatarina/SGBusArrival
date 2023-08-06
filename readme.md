@@ -1,4 +1,5 @@
-# Sg Bus Arrival App
+# Bus Arrival
+A simple android application to get the timings of buses in Singapore.
 
 # Features
 1. Maps
