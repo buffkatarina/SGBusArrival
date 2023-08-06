@@ -8,7 +8,7 @@
 5. No ads
 
 # Sample
-<p float="left>
+<p float="left">
   <img src = "sample/home.png?raw=true" width=352.8 height=627.2/>
   <img src = "sample/timings.png?raw=true" width=352.8 height=627.2/>
 </p>
