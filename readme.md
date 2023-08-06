@@ -1,5 +1,5 @@
 # Bus Arrival
-A simple android application to get the timings of buses in Singapore.
+<p>A simple android application to get the timings of buses in Singapore.</p>
 
 # Features
 1. Maps
