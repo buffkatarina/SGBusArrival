@@ -66,7 +66,7 @@ fun Favourites(
                             modifier = Modifier.fillMaxSize()) {
                             Image(
                                 modifier = Modifier.padding(end = 10.dp),
-                                painter = painterResource(id = R.drawable.ic_baseline_delete_24),
+                                painter = painterResource(id = R.drawable.delete_icon),
                                 contentDescription = stringResource(id = R.string.delete),
                             )
                         }

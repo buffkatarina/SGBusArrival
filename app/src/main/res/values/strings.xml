@@ -16,5 +16,6 @@
     <string name="latest">Getting the latest bus routes and stops!</string>
     <string name="ok">OK</string>
     <string name="delete">Delete</string>
+    <string name="default_title">"Bus Arrival"</string>
 
 </resources>

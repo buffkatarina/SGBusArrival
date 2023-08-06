@@ -59,7 +59,7 @@ class BusRoutesFragment : Fragment(), BusRoutesAdapter.ToBusTimings {
         recyclerView.adapter = busRoutesAdapter
         busRoutesAdapter.setData(busRoutesList[0]) // index 0 for bus routes at direction 1
         currentDirection.text = directionOne  //Assume direction 1 on fragment open for now
-        directionChange.setColorFilter(ContextCompat.getColor(requireContext(), R.color.lime))
+        directionChange.setColorFilter(ContextCompat.getColor(requireContext(), R.color.black))
 
         //when there is no direction 2 for this bus service
         if (busRoutesList[1].isEmpty()) {

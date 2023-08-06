@@ -1,8 +1,6 @@
 package com.buffkatarina.busarrival.ui.fragments.bus_timings
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -11,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.content.ContextCompat
 import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
 import androidx.recyclerview.widget.RecyclerView
@@ -66,7 +63,7 @@ class BusTimingsAdapter(
                 favouritesHandler.addFavouriteBusService(busStopCode, serviceNo.text as String)
                 holder.swipeFrame.setCardBackgroundColor(Color.Red.toArgb())
                 holder.actionText.setText(R.string.remove)
-                holder.actionIcon.setBackgroundResource(R.drawable.ic_baseline_delete_24)
+                holder.actionIcon.setBackgroundResource(R.drawable.delete_icon)
             }
             mainCard.animate().x(0f + cardMargin).setDuration(0).start()
             swipeFrame.animate().x(-cardWidth - swipeFrameMarginStart).setDuration(0).start()
@@ -142,7 +139,7 @@ class BusTimingsAdapter(
             if (currentItem.serviceNo in favouriteBusServices) {
                 holder.swipeFrame.setCardBackgroundColor(Color.Red.toArgb())
                 holder.actionText.setText(R.string.remove)
-                holder.actionIcon.setBackgroundResource(R.drawable.ic_baseline_delete_24)
+                holder.actionIcon.setBackgroundResource(R.drawable.delete_icon)
             } else {
                 holder.swipeFrame.setCardBackgroundColor(favouritesHandler.getColor(R.color.lime))
                 holder.actionText.setText(R.string.add)

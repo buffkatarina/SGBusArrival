@@ -54,5 +54,8 @@ class BusArrivalRepository(private val busArrivalDao: BusArrivalDao) {
         return busArrivalDao.insertBuildDate(BuildDate(1, date))
     }
 
+    fun getAllBusStops(): List<BusStops.BusStopData> {
+        return busArrivalDao.getAllBusStops()
+    }
 
 }

@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
             .add(R.id.fragmentHolder, homeFragment, "HomeFragment")
             .commit()
         setSupportActionBar(findViewById(R.id.toolbar))
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayShowTitleEnabled(true)
     }
 
     private fun requestPermission() {

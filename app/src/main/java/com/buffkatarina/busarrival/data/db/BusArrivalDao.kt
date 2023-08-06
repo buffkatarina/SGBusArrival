@@ -1,6 +1,5 @@
 package com.buffkatarina.busarrival.data.db
 
-import android.app.ActivityManager.TaskDescription
 import androidx.room.*
 import com.buffkatarina.busarrival.data.entities.*
 import kotlinx.coroutines.flow.Flow
@@ -8,8 +7,12 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface BusArrivalDao {
     // BusStops table methods
+
+    @Query("SELECT * FROM BusStops")
+    fun getAllBusStops(): List<BusStops.BusStopData>
+
     @Query("SELECT busStopCode FROM BusStops")
-    fun getAllBusStops(): Flow<List<String>>
+    fun getAllBusStopCode(): Flow<List<String>>
 
     @Query("SELECT * FROM BusStops" +
             " WHERE busStopCode LIKE :busStopCode OR description LIKE :description ")

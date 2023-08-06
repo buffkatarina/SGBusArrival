@@ -6,5 +6,6 @@
     <color name="lime">#D3F26A</color>
     <color name="black_100">#25282B</color>
     <color name="grey_50">#B7B8B4</color>
-    <color name="red"></color>
+    <color name="cyan">#22B1B0</color>
+    <color name="green">#22B14C</color>
 </resources>

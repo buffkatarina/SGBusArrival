@@ -2,6 +2,7 @@ package com.buffkatarina.busarrival.model
 
 import android.app.Application
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
@@ -47,6 +48,9 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
 
     private val _buildDate = MutableLiveData(BuildDate(9, ""))
     val buildDate: LiveData<BuildDate?> = _buildDate
+
+    private val _busStops = MutableLiveData<List<BusStops.BusStopData>>()
+    val busStops: LiveData<List<BusStops.BusStopData>> = _busStops
 
     private val busApiRepository: BusApiRepository
     private val busArrivalRepository: BusArrivalRepository
@@ -208,6 +212,9 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun getBuildDate() {
+        /*
+        * Gets build date from the BuildDate table
+        * */
         viewModelScope.launch(Dispatchers.IO) {
             val date = busArrivalRepository.getBuildDate()
             launch(Dispatchers.Main) {
@@ -216,10 +223,22 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    //Inserts newly updated date into the database
+
     fun insertBuildDate(date: String) {
+        /*
+        * Inserts specified parameter into BuildDate table
+        * */
         viewModelScope.launch(Dispatchers.IO) {
             busArrivalRepository.insertBuildDate(date)
+        }
+    }
+
+    fun getAllBusStops() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val allBusStops = busArrivalRepository.getAllBusStops()
+            launch(Dispatchers.Main) {
+                _busStops.value = allBusStops
+            }
         }
     }
 

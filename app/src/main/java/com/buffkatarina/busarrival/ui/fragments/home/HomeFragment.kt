@@ -40,13 +40,14 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.home_fragment, container, false)
         val composeView: androidx.compose.ui.platform.ComposeView =
             view.findViewById(R.id.compose_view)
+
         composeView.apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 val databaseBuildState by viewModel.databaseState
                 val dialogState by viewModel.dialogState
                 loadFavouritesAndTimings(databaseBuildState)
-                HomeFragment(
+                HomeCompose(
                     databaseBuildState = databaseBuildState,
                     dialogState = dialogState,
                     favouriteTimings = favouriteTimings,
