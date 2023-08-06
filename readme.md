@@ -8,7 +8,7 @@
 5. No ads
 
 # Sample
-<img src = "sample/home.png?raw=true"/>
-<img src = "sample/timings.png?raw=true"/>
+<img src = "sample/home.png?raw=true" width=720 height=1280/>
+<img src = "sample/timings.png?raw=true" width=720 height=1280/>
 
 
