@@ -1,5 +1,6 @@
 package com.buffkatarina.busarrival.ui.fragments.home
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -35,24 +36,25 @@ fun HomeCompose(
         val timings by favouriteTimings.observeAsState()
 
         Column {
-
             MapView(
                 modifier = Modifier
                     .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
                     .weight(1f),
                 busStops = busStops,
             )
+            Box(modifier = Modifier.weight(1f)) {
+                if (favourites != null && timings != null) {
+                    if (favourites!!.size == timings!!.size) {
+                        Favourites(
+                            (favourites to timings) as Pair<List<FavouriteBusServicesWithDescription>, MutableList<BusTimings>>,
+                            viewModel::removeFavouriteBusService
+                        )
 
-            if (favourites != null && timings != null) {
-                if (favourites!!.size == timings!!.size) {
-                    Favourites(
-                        modifier = Modifier.weight(1f),
-                        (favourites to timings) as Pair<List<FavouriteBusServicesWithDescription>, MutableList<BusTimings>>,
-                        viewModel::removeFavouriteBusService
-                    )
+                    }
                 }
-
             }
+
+
         }
     }
 }

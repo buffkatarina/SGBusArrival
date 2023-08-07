@@ -15,6 +15,7 @@
         android:id="@+id/busTimings_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constrainedHeight="true"
         tools:listitem="@layout/bus_timings_recyclerview_row" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -36,13 +37,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.95" />
+        app:layout_constraintGuide_percent="0.98" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
+        app:layout_constraintGuide_percent="0.01" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

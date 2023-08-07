@@ -112,6 +112,7 @@ fun MapView(
             myLocationOverlay(mapView, context)
             val mapController = mapView.controller
             location?.let { that ->
+                mapController.setZoom(18.0) //zoom in once location is found
                 busStops?.let {
                     for (busStop in it) {
                         //Only display bus stops < 1km away due to performance reasons
@@ -132,7 +133,7 @@ fun MapView(
                             )
                         }
                     }
-                    mapController.setZoom(18.0) //zoom in once location is found
+
                 }
             }
             mapView.invalidate()

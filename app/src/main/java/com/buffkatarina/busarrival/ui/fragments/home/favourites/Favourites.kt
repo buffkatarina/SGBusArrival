@@ -7,9 +7,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -21,19 +25,20 @@ import com.buffkatarina.busarrival.data.entities.FavouriteBusServicesWithDescrip
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Favourites(
-    modifier: Modifier = Modifier,
     pair: Pair<List<FavouriteBusServicesWithDescription>,
             MutableList<BusTimings>>,
     removeFromFavourites: (Int, String) -> Unit,
 ) {
-    LazyColumn(modifier = modifier) {
+    LazyColumn {
         items(pair.first.size) { pos ->
 
             val serviceNo = pair.first[pos].serviceNo
             val busStopCode = pair.first[pos].busStopCode
             val description = pair.first[pos].description
             val timings = pair.second[pos].services[0]
-
+            var favouriteRowHeight by remember {
+                mutableStateOf(0)
+            }
             val dismissState = rememberDismissState(
                 confirmValueChange = {
                     if (it == DismissValue.DismissedToStart) {
@@ -56,7 +61,7 @@ fun Favourites(
                         modifier = Modifier
                             .padding(10.dp)
                             .fillMaxWidth()
-                            .height(60.dp),
+                            .height(favouriteRowHeight.dp),
                         shape = MaterialTheme.shapes.medium,
                         colors = CardDefaults.cardColors(color)
                     ) {
@@ -78,7 +83,10 @@ fun Favourites(
                     FavouritesRow(
                         serviceNo,
                         description,
-                        timings
+                        timings,
+                        Modifier.onGloballyPositioned {
+                            favouriteRowHeight = it.size.height
+                        }
                     )
                 },
                 directions = setOf(DismissDirection.EndToStart)

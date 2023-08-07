@@ -15,7 +15,6 @@
         app:layout_constraintTop_toTopOf="@id/guidelineTop" />
 
     <ImageView
-        android:layout_marginTop="10dp"
         android:id="@+id/change_direction"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -25,14 +24,15 @@
         android:contentDescription="@string/direction_1"
         android:src="@drawable/interchange_arrow"
         app:layout_constraintStart_toEndOf="@id/direction"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/guidelineTop" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/bus_routes_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/direction"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="10dp"
+        app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@id/guidelineBottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
@@ -58,14 +58,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
+        app:layout_constraintGuide_percent="0.01" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineBottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.95" />
+        app:layout_constraintGuide_percent="0.98" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

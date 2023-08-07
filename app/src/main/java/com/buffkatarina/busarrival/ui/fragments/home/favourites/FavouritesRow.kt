@@ -26,13 +26,14 @@ fun FavouritesRow(
     serviceNo: String,
     description: String,
     timings: BusTimings.BusData,
+    modifier: Modifier,
 ) {
 
     val nextBus = arrivalTime(timings.nextBus.estimatedArrival)
     val nextBus2 = arrivalTime(timings.nextBus2.estimatedArrival)
     val nextBus3 = arrivalTime(timings.nextBus3.estimatedArrival)
     Card(
-        modifier = Modifier
+        modifier = modifier
             .padding(10.dp)
             .fillMaxWidth()
             .wrapContentHeight(),
