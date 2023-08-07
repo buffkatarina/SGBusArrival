@@ -17,8 +17,10 @@ interface BusArrivalDao {
     @Query("SELECT busStopCode FROM BusStops")
     fun getAllBusStopCode(): Flow<List<String>>
 
-    @Query("SELECT * FROM BusStops" +
-            " WHERE busStopCode LIKE :busStopCode OR description LIKE :description ")
+    @Query(
+        "SELECT * FROM BusStops" +
+                " WHERE busStopCode LIKE :busStopCode OR description LIKE :description "
+    )
     fun searchBusStops(busStopCode: String?, description: String?): Flow<List<BusStops.BusStopData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -42,28 +44,34 @@ interface BusArrivalDao {
     fun insertBusRoutes(vararg busRoutes: BusRoutes.BusRoutesData)
 
     //Gets the list of bus routes with the description of the bus stop
-    @Query("SELECT serviceNo, stopSequence, direction, BusStops.busStopCode, BusStops.description FROM BusRoutes " +
-            "INNER JOIN BusStops " +
-            "ON BusStops.busStopCode = BusRoutes.busStopCode " +
-            "WHERE serviceNo = :searchQuery " +
-            "AND direction = :direction " +
-            "ORDER BY direction ASC, stopSequence ASC ")
+    @Query(
+        "SELECT serviceNo, stopSequence, direction, BusStops.busStopCode, BusStops.description FROM BusRoutes " +
+                "INNER JOIN BusStops " +
+                "ON BusStops.busStopCode = BusRoutes.busStopCode " +
+                "WHERE serviceNo = :searchQuery " +
+                "AND direction = :direction " +
+                "ORDER BY direction ASC, stopSequence ASC "
+    )
     fun getBusRoutes(searchQuery: String?, direction: String): List<BusRoutesFiltered>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFavouriteBusService(favouriteBusServices: FavouriteBusServices)
 
     //Gets all favourite bus services together with the description of each bus stop
-    @Query("SELECT BusStops.busStopCode, serviceNo, description FROM FavouriteBusServices " +
-            "INNER JOIN BusStops " +
-            "ON BusStops.busStopCode = FavouriteBusServices.busStopCode " +
-            "ORDER BY BusStops.busStopCode ASC")
+    @Query(
+        "SELECT BusStops.busStopCode, serviceNo, description FROM FavouriteBusServices " +
+                "INNER JOIN BusStops " +
+                "ON BusStops.busStopCode = FavouriteBusServices.busStopCode " +
+                "ORDER BY BusStops.busStopCode ASC"
+    )
     fun getAllFavouriteBusServices(): Flow<List<FavouriteBusServicesWithDescription>>
 
     //Removes a specified favourite bus service record;
     // takes in the bus stop code and bus service no as arguments
-    @Query("DELETE FROM FavouriteBusServices " +
-            "WHERE busStopCode = :busStopCode AND serviceNo = :serviceNo ")
+    @Query(
+        "DELETE FROM FavouriteBusServices " +
+                "WHERE busStopCode = :busStopCode AND serviceNo = :serviceNo "
+    )
     fun removeFavouriteBusService(busStopCode: Int, serviceNo: String)
 
     //Filter for favourite bus services by bus stop code

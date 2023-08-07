@@ -4,7 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.buffkatarina.busarrival.data.entities.*
+import com.buffkatarina.busarrival.data.entities.BuildDate
+import com.buffkatarina.busarrival.data.entities.BusRoutes
+import com.buffkatarina.busarrival.data.entities.BusServices
+import com.buffkatarina.busarrival.data.entities.BusStops
+import com.buffkatarina.busarrival.data.entities.FavouriteBusServices
 
 @Database(
     entities = [
@@ -15,7 +19,8 @@ import com.buffkatarina.busarrival.data.entities.*
         BuildDate::class
     ],
     version = 1,
-    exportSchema = false)
+    exportSchema = false
+)
 abstract class BusArrivalDatabase : RoomDatabase() {
     abstract fun BusArrivalDao(): BusArrivalDao
 

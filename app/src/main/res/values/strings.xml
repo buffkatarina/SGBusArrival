@@ -16,6 +16,7 @@
     <string name="latest">Getting the latest bus routes and stops!</string>
     <string name="ok">OK</string>
     <string name="delete">Delete</string>
-    <string name="default_title">"Bus Arrival"</string>
-
+    <string name="default_title">Bus Arrival</string>
+    <string name="map_disabled">Grant location permissions and turn on location services to use maps</string>
+    <string name="enable_location">Enable Location</string>
 </resources>

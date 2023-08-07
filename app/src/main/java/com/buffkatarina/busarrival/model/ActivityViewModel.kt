@@ -187,8 +187,12 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
                      service number -> string
                      * */
         viewModelScope.launch(Dispatchers.IO) {
-            busArrivalRepository.insertFavouriteBusService(FavouriteBusServices(busStopCode,
-                serviceNo))
+            busArrivalRepository.insertFavouriteBusService(
+                FavouriteBusServices(
+                    busStopCode,
+                    serviceNo
+                )
+            )
         }
     }
 

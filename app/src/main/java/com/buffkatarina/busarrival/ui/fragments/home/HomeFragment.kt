@@ -1,10 +1,6 @@
 package com.buffkatarina.busarrival.ui.fragments.home
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
@@ -32,9 +27,6 @@ class HomeFragment : Fragment() {
 
     private val favouriteTimings = MutableLiveData<MutableList<BusTimings>>()
 
-    private val LOCATION_REFRESH_TIME: Long = 150000
-    private val LOCATION_REFRESH_DISTANCE = 1000f
-    private val mLocation = MutableLiveData<Location>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,23 +39,6 @@ class HomeFragment : Fragment() {
         val locationManager =
             requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-        if (ActivityCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(
-                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                100
-            )
-        }
-
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-            LOCATION_REFRESH_DISTANCE, mLocationListener)
 
         composeView.apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
@@ -75,16 +50,13 @@ class HomeFragment : Fragment() {
                     databaseBuildState = databaseBuildState,
                     dialogState = dialogState,
                     favouriteTimings = favouriteTimings,
-                    viewModel = viewModel,
-                    location = mLocation)
+                    viewModel = viewModel
+                )
             }
         }
         return view
     }
 
-    private val mLocationListener = LocationListener { location ->
-        mLocation.value = location
-    }
 
     private fun parseBusTimings(result: List<FavouriteBusServicesWithDescription>) {
         /*Adds bus timings for favourite bus services to a favourite timings list */
@@ -113,6 +85,4 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
-
 }

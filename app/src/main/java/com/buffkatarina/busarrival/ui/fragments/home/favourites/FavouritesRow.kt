@@ -42,61 +42,75 @@ fun FavouritesRow(
         Row(
             modifier = Modifier.padding(top = 3.dp, bottom = 3.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.End) {
+            horizontalArrangement = Arrangement.End
+        ) {
 
             Column(
                 modifier = Modifier.padding(end = 60.dp, start = 10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center) {
+                verticalArrangement = Arrangement.Center
+            ) {
                 Text(text = serviceNo, fontSize = 20.sp)
                 Text(
                     text = description,
                     fontSize = 15.sp,
                     modifier = Modifier
                         .width(100.dp)
-                        .basicMarquee(iterations = Int.MAX_VALUE,
+                        .basicMarquee(
+                            iterations = Int.MAX_VALUE,
                             delayMillis = 0,
-                            initialDelayMillis = 0),
-                    textAlign = TextAlign.Center)
+                            initialDelayMillis = 0
+                        ),
+                    textAlign = TextAlign.Center
+                )
             }
 
             Column(
                 modifier = Modifier.padding(end = 20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center) {
+                verticalArrangement = Arrangement.Center
+            ) {
                 Text(
                     text = stringResource(R.string.next),
-                    fontSize = 20.sp)
+                    fontSize = 20.sp
+                )
                 Text(
                     text = nextBus,
                     fontSize = 20.sp,
-                    modifier = Modifier.padding(top = 3.dp))
+                    modifier = Modifier.padding(top = 3.dp)
+                )
             }
 
             Column(
                 modifier = Modifier.padding(end = 20.dp, top = 0.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center) {
+                verticalArrangement = Arrangement.Center
+            ) {
                 Text(
                     text = stringResource(R.string.second),
-                    fontSize = 20.sp)
+                    fontSize = 20.sp
+                )
                 Text(
                     text = nextBus2,
                     fontSize = 20.sp,
-                    modifier = Modifier.padding(top = 3.dp))
+                    modifier = Modifier.padding(top = 3.dp)
+                )
             }
 
             Column(
                 modifier = Modifier.padding(end = 10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center) {
+                verticalArrangement = Arrangement.Center
+            ) {
                 Text(
                     text = stringResource(R.string.third),
-                    fontSize = 20.sp)
+                    fontSize = 20.sp
+                )
                 Text(
                     text = nextBus3,
                     fontSize = 20.sp,
-                    modifier = Modifier.padding(top = 3.dp))
+                    modifier = Modifier.padding(top = 3.dp)
+                )
             }
 
         }

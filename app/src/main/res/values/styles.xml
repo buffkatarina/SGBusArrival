@@ -22,4 +22,5 @@
         <item name="contentPaddingRight">20dp</item>
         <item name="contentPaddingTop">20dp</item>
     </style>
+
 </resources>

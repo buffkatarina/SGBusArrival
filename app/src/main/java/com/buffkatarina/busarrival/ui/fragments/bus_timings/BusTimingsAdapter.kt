@@ -1,7 +1,6 @@
 package com.buffkatarina.busarrival.ui.fragments.bus_timings
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -11,7 +10,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
@@ -101,7 +99,7 @@ class BusTimingsAdapter(
                         }
                     }
 
-                  MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP-> {
+                    MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
                         if (offSet <= -limit * threshold) { // Complete swipe when drag is longer threshold of 0.5f
                             if (!buttonVisibility) {
                                 offSet = -limit
@@ -115,7 +113,7 @@ class BusTimingsAdapter(
                         if (offSet > -limit * threshold) { //undo swipe if below threshold
                             mainCard.animate().x(0f + cardMargin).setDuration(0).start()
                             buttonVisibility = false
-                            swipeFrame.visibility =  View.INVISIBLE
+                            swipeFrame.visibility = View.INVISIBLE
 
                         }
                     }

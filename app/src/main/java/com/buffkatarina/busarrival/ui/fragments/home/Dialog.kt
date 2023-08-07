@@ -37,9 +37,11 @@ fun Dialog(dbProgress: Boolean, setDialogState: (bool: Boolean) -> Unit) {
                 .clip(RoundedCornerShape(10.dp))
                 .wrapContentSize()
                 .background(colorResource(id = R.color.grey_100)),
-            properties = DialogProperties(dismissOnBackPress = false,
+            properties = DialogProperties(
+                dismissOnBackPress = false,
                 dismissOnClickOutside = false,
-                SecureFlagPolicy.SecureOff),
+                SecureFlagPolicy.SecureOff
+            ),
             content = {
                 Column(
                     horizontalAlignment = Alignment.Start,
@@ -49,8 +51,10 @@ fun Dialog(dbProgress: Boolean, setDialogState: (bool: Boolean) -> Unit) {
                         .padding(10.dp)
 
                 ) {
-                    Text(text = stringResource(id = R.string.latest),
-                        fontSize = 20.sp)
+                    Text(
+                        text = stringResource(id = R.string.latest),
+                        fontSize = 20.sp
+                    )
 
                     Row(
                         horizontalArrangement = Arrangement.Start,
@@ -61,20 +65,25 @@ fun Dialog(dbProgress: Boolean, setDialogState: (bool: Boolean) -> Unit) {
                     ) {
 
                         if (!dbProgress) { //when data base is not done building
-                            Text(text = stringResource(id = R.string.building_database),
+                            Text(
+                                text = stringResource(id = R.string.building_database),
                                 fontSize = 15.sp,
-                                color = colorResource(id = R.color.grey_50))
+                                color = colorResource(id = R.color.grey_50)
+                            )
                             Spacer(Modifier.weight(1f))
                             CircularProgressIndicator(
                                 color = Color.Magenta,
                                 modifier = Modifier
                                     .height(20.dp)
-                                    .width(20.dp))
+                                    .width(20.dp)
+                            )
                         } else {
-                            Text(text = stringResource(id = R.string.building_database_complete),
+                            Text(
+                                text = stringResource(id = R.string.building_database_complete),
                                 fontSize = 15.sp,
                                 color = colorResource(id = R.color.grey_50),
-                                modifier = Modifier.wrapContentSize(align = Alignment.TopCenter))
+                                modifier = Modifier.wrapContentSize(align = Alignment.TopCenter)
+                            )
                             Spacer(Modifier.weight(1f))
                             Text(text = stringResource(id = R.string.ok),
                                 fontSize = 15.sp,

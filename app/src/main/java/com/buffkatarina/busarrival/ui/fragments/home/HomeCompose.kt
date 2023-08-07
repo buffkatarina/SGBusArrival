@@ -1,6 +1,5 @@
 package com.buffkatarina.busarrival.ui.fragments.home
 
-import android.location.Location
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -21,8 +20,8 @@ fun HomeCompose(
     dialogState: Boolean,
     favouriteTimings: MutableLiveData<MutableList<BusTimings>>,
     viewModel: ActivityViewModel,
-    location: MutableLiveData<Location>,
-) {
+
+    ) {
 
 //Only show dialog on app launch
 
@@ -34,24 +33,23 @@ fun HomeCompose(
         val busStops by viewModel.busStops.observeAsState()
         val favourites by viewModel.getAllFavouriteBusServices().observeAsState()
         val timings by favouriteTimings.observeAsState()
-        val mLocation by location.observeAsState()
 
         Column {
 
-                    MapView(
-                        modifier = Modifier
-                            .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
-                            .weight(1f),
-                        busStops = busStops,
-                        location = mLocation
-                    )
+            MapView(
+                modifier = Modifier
+                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
+                    .weight(1f),
+                busStops = busStops,
+            )
 
             if (favourites != null && timings != null) {
                 if (favourites!!.size == timings!!.size) {
                     Favourites(
                         modifier = Modifier.weight(1f),
                         (favourites to timings) as Pair<List<FavouriteBusServicesWithDescription>, MutableList<BusTimings>>,
-                        viewModel::removeFavouriteBusService)
+                        viewModel::removeFavouriteBusService
+                    )
                 }
 
             }

@@ -63,8 +63,7 @@ class BusRoutesFragment : Fragment(), BusRoutesAdapter.ToBusTimings {
 
         //when there is no direction 2 for this bus service
         if (busRoutesList[1].isEmpty()) {
-            directionChange.alpha = 0.3F
-            directionChange.isClickable = false
+            directionChange.visibility = View.GONE
         } else {
             directionChange.setOnClickListener {  //Changes the displayed list of direction when button is pressed
                 if (currentDirection.text == directionOne) {

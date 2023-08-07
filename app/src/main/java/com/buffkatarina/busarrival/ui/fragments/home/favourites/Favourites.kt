@@ -63,7 +63,8 @@ fun Favourites(
                         Row(
                             horizontalArrangement = Arrangement.End,
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.fillMaxSize()) {
+                            modifier = Modifier.fillMaxSize()
+                        ) {
                             Image(
                                 modifier = Modifier.padding(end = 10.dp),
                                 painter = painterResource(id = R.drawable.delete_icon),
@@ -77,9 +78,11 @@ fun Favourites(
                     FavouritesRow(
                         serviceNo,
                         description,
-                        timings)
+                        timings
+                    )
                 },
-                directions = setOf(DismissDirection.EndToStart))
+                directions = setOf(DismissDirection.EndToStart)
+            )
         }
     }
 }

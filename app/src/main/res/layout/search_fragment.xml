@@ -11,45 +11,45 @@
         android:id="@+id/busServicesHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="@string/search_busServices"
         android:textColor="?attr/colorOnPrimary"
+        android:textSize="26sp"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="26sp" />
+        app:layout_constraintTop_toTopOf="@id/guidelineTop" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/busServices_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/busServicesHeader"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintEnd_toStartOf="@id/guidelineEnd"
-        app:layout_constraintTop_toBottomOf="@id/busServicesHeader"
-        />
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/busServicesHeader" />
 
     <TextView
         android:id="@+id/busStopsHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/busServices_recycler_view"
+        android:layout_marginTop="8dp"
         android:text="@string/search_busStops"
         android:textColor="?attr/colorOnPrimary"
         android:textSize="26sp"
-        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/busServices_recycler_view"/>
+        app:layout_constraintTop_toBottomOf="@id/busServices_recycler_view" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/busStops_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/busStopsHeader"
-        tools:listitem="@layout/bus_stops_recyclerview_row"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintBottom_toTopOf="@id/guidelineBottom"
         app:layout_constraintEnd_toStartOf="@id/guidelineEnd"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/busStopsHeader"
-        android:layout_marginBottom="8dp"/>
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/bus_stops_recyclerview_row" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineStart"
@@ -63,6 +63,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.95" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

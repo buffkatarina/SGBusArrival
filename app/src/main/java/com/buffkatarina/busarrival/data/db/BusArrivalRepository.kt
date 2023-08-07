@@ -1,6 +1,12 @@
 package com.buffkatarina.busarrival.data.db
 
-import com.buffkatarina.busarrival.data.entities.*
+import com.buffkatarina.busarrival.data.entities.BuildDate
+import com.buffkatarina.busarrival.data.entities.BusRoutes
+import com.buffkatarina.busarrival.data.entities.BusRoutesFiltered
+import com.buffkatarina.busarrival.data.entities.BusServices
+import com.buffkatarina.busarrival.data.entities.BusStops
+import com.buffkatarina.busarrival.data.entities.FavouriteBusServices
+import com.buffkatarina.busarrival.data.entities.FavouriteBusServicesWithDescription
 import kotlinx.coroutines.flow.Flow
 
 class BusArrivalRepository(private val busArrivalDao: BusArrivalDao) {

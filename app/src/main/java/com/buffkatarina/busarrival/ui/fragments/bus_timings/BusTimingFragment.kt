@@ -42,8 +42,10 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FavouritesHandler {
         recyclerView.layoutManager = LinearLayoutManager(context)
         val currentFragment = this
         val viewModel = ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
-        parentFragmentManager.setFragmentResultListener("busStopCodeKey",
-            viewLifecycleOwner) { _, bundle ->
+        parentFragmentManager.setFragmentResultListener(
+            "busStopCodeKey",
+            viewLifecycleOwner
+        ) { _, bundle ->
             //Gets the queried bus stop code
             val busStopCode = bundle.getString("busStopCode")?.toInt()
             (requireActivity() as AppCompatActivity).supportActionBar?.title =
