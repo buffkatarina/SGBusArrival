@@ -39,7 +39,8 @@
                 android:gravity="center"
                 android:textSize="30sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/nextBusLabel"
+                app:layout_constraintEnd_toStartOf="@+id/nextBusLabel"
+                app:layout_constraintHorizontal_weight="3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,16 +48,15 @@
 
             <TextView
                 android:id="@+id/nextBusLabel"
-                android:layout_width="84dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/next"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@id/nextBus"
-                app:layout_constraintEnd_toStartOf="@id/nextBus2Label"
+                app:layout_constraintEnd_toStartOf="@+id/nextBus2Label"
+                app:layout_constraintHorizontal_weight="2"
                 app:layout_constraintStart_toEndOf="@id/serviceNo"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/nextBus"
@@ -67,7 +67,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/nextBusLabel"
                 app:layout_constraintStart_toStartOf="@id/nextBusLabel"
-                app:layout_constraintTop_toBottomOf="@id/nextBusLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/nextBusLabel" />
 
             <!--Next bus 2-->
 
@@ -76,14 +76,14 @@
 
             <TextView
                 android:id="@+id/nextBus2Label"
-                android:layout_width="85dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/second"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/nextBus2"
-                app:layout_constraintEnd_toStartOf="@id/nextBus3Label"
-                app:layout_constraintStart_toEndOf="@id/nextBusLabel"
+                app:layout_constraintEnd_toStartOf="@+id/nextBus3Label"
+                app:layout_constraintHorizontal_weight="2"
+                app:layout_constraintStart_toEndOf="@+id/nextBusLabel"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -95,17 +95,17 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/nextBus2Label"
                 app:layout_constraintStart_toStartOf="@id/nextBus2Label"
-                app:layout_constraintTop_toBottomOf="@id/nextBus2Label" />
+                app:layout_constraintTop_toBottomOf="@+id/nextBus2Label" />
 
             <TextView
                 android:id="@+id/nextBus3Label"
-                android:layout_width="85dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/third"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/nextBus3"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="2"
                 app:layout_constraintStart_toEndOf="@+id/nextBus2Label"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -118,7 +118,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/nextBus3Label"
                 app:layout_constraintStart_toStartOf="@id/nextBus3Label"
-                app:layout_constraintTop_toBottomOf="@id/nextBus3Label" />
+                app:layout_constraintTop_toBottomOf="@+id/nextBus3Label" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
