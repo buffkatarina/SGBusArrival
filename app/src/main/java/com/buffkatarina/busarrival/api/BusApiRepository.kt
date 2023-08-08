@@ -6,7 +6,7 @@ import com.buffkatarina.busarrival.data.entities.BusStops
 import com.buffkatarina.busarrival.data.entities.BusTimings
 
 class BusApiRepository(private val busApiInterface: BusApiInterface) {
-    suspend fun getBusTimings(query: Int?): BusTimings {
+    suspend fun getBusTimings(query: String?): BusTimings {
         return busApiInterface.getBusTimings(query)
     }
 
@@ -22,7 +22,7 @@ class BusApiRepository(private val busApiInterface: BusApiInterface) {
         return busApiInterface.getBusRoutes(query)
     }
 
-    suspend fun getBusTimingsByServiceNo(busStop: Int?, serviceNo: String?): BusTimings {
+    suspend fun getBusTimingsByServiceNo(busStop: String?, serviceNo: String?): BusTimings {
         return busApiInterface.getBusTimingsByServiceNo(busStop, serviceNo)
     }
 

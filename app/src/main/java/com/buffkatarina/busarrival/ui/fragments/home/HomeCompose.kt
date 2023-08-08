@@ -1,5 +1,6 @@
 package com.buffkatarina.busarrival.ui.fragments.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -43,18 +44,24 @@ fun HomeCompose(
                 busStops = busStops,
             )
             Box(modifier = Modifier.weight(1f)) {
-                if (favourites != null && timings != null) {
-                    if (favourites!!.size == timings!!.size) {
-                        Favourites(
-                            (favourites to timings) as Pair<List<FavouriteBusServicesWithDescription>, MutableList<BusTimings>>,
-                            viewModel::removeFavouriteBusService
-                        )
+                favourites?.let { favourites ->
+                    timings?.let { timings ->
+                        Log.i("ASD",favourites.toString())
+                        Log.i("ASD",timings.toString())
+                        if (favourites.isNotEmpty() && timings.isNotEmpty()) {
+                            if (favourites.size == timings.size) {
+                                Favourites(
+                                    (favourites to timings) ,
+                                    viewModel::removeFavouriteBusService
+                                )
+
+                            }
+                        }
 
                     }
                 }
+
             }
-
-
         }
     }
 }

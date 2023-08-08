@@ -14,12 +14,12 @@ interface BusApiInterface {
 
     @Headers("AccountKey:$API_KEY")
     @GET(BUS_TIMINGS)
-    suspend fun getBusTimings(@Query("BusStopCode") busStopCode: Int?): BusTimings
+    suspend fun getBusTimings(@Query("BusStopCode") busStopCode: String?): BusTimings
 
     @Headers("AccountKey:$API_KEY")
     @GET(BUS_TIMINGS)
     suspend fun getBusTimingsByServiceNo(
-        @Query("BusStopCode") busStopCode: Int?,
+        @Query("BusStopCode") busStopCode: String?,
         @Query("ServiceNo") serviceNo: String?,
     ): BusTimings
 

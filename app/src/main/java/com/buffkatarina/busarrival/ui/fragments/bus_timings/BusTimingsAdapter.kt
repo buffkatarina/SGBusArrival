@@ -21,7 +21,7 @@ import kotlin.properties.Delegates
 
 
 class BusTimingsAdapter(
-    private val busStopCode: Int,
+    private val busStopCode: String,
     private val favouritesHandler: FavouritesHandler,
 ) :
     RecyclerView.Adapter<BusTimingsAdapter.BusArrivalViewHolder>() {
@@ -178,9 +178,9 @@ class BusTimingsAdapter(
 
     interface FavouritesHandler {
         /*For recycler view to be able to call view model to remove or add favourite bus services*/
-        fun addFavouriteBusService(busStopCode: Int, serviceNo: String)
+        fun addFavouriteBusService(busStopCode: String, serviceNo: String)
 
-        fun removeFavouriteBusService(busStopCode: Int, serviceNo: String)
+        fun removeFavouriteBusService(busStopCode: String, serviceNo: String)
 
         fun getColor(color: Int): Int //helper function to get color from resources
     }

@@ -40,11 +40,11 @@ class BusArrivalRepository(private val busArrivalDao: BusArrivalDao) {
         return busArrivalDao.insertFavouriteBusService(favouriteBusServices)
     }
 
-    fun removeFavouriteBusService(busStopCode: Int, serviceNo: String) {
+    fun removeFavouriteBusService(busStopCode: String, serviceNo: String) {
         busArrivalDao.removeFavouriteBusService(busStopCode, serviceNo)
     }
 
-    fun getFavouriteBusService(busStopCode: Int): List<String> {
+    fun getFavouriteBusService(busStopCode: String): List<String> {
         return busArrivalDao.getFavouriteBusService(busStopCode)
     }
 

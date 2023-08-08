@@ -6,7 +6,7 @@ import androidx.room.Entity
 @Entity(tableName = "FavouriteBusServices", primaryKeys = ["serviceNo", "busStopCode"])
 data class FavouriteBusServices(
     @ColumnInfo("busStopCode")
-    val busStopCode: Int,
+    val busStopCode: String,
 
     @ColumnInfo("serviceNo")
     val serviceNo: String,
@@ -14,7 +14,7 @@ data class FavouriteBusServices(
 
 data class FavouriteBusServicesWithDescription(
     @ColumnInfo("busStopCode")
-    val busStopCode: Int,
+    val busStopCode: String,
 
     @ColumnInfo("serviceNo")
     val serviceNo: String,

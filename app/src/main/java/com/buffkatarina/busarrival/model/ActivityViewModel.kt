@@ -66,7 +66,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         _databaseState.value = bool
     }
 
-    suspend fun getBusTimingsByServiceNo(busStopCode: Int?, serviceNo: String): BusTimings? {
+    suspend fun getBusTimingsByServiceNo(busStopCode: String?, serviceNo: String): BusTimings? {
         /*Gets a singular record of BusTimings. Requires both bus stop code and the service number*/
         return try {
             busApiRepository.getBusTimingsByServiceNo(busStopCode, serviceNo)
@@ -76,7 +76,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    suspend fun getBusTimings(busStopCode: Int?) {
+    suspend fun getBusTimings(busStopCode: String?) {
         /*
 
         Get a list of bus timings for a given bus stop code
@@ -175,7 +175,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
 
     }
 
-    fun insertFavouriteBusService(busStopCode: Int, serviceNo: String) {
+    fun insertFavouriteBusService(busStopCode: String, serviceNo: String) {
         /*Inserts newly favourite bus service
         * Arguments: bus stop code -> Integer
                      service number -> string
@@ -190,7 +190,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun removeFavouriteBusService(busStopCode: Int, serviceNo: String) {
+    fun removeFavouriteBusService(busStopCode: String, serviceNo: String) {
         /*Remove a favourite bus service record
           Arguments: bus stop code -> Integer
                      service number -> string
@@ -200,7 +200,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun getFavouriteBusServices(busStopCode: Int) {
+    fun getFavouriteBusServices(busStopCode: String) {
         //Get list of favourite bus services after filtered against bus stop code
         viewModelScope.launch(Dispatchers.IO) {
             _favouriteBusServices.postValue(busArrivalRepository.getFavouriteBusService(busStopCode))

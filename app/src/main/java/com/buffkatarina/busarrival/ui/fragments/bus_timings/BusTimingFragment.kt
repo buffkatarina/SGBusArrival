@@ -48,15 +48,15 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FavouritesHandler {
             viewLifecycleOwner
         ) { _, bundle ->
             //Gets the queried bus stop code
-            val busStopCode = bundle.getString("busStopCode")?.toInt()
+            val busStopCode = bundle.getString("busStopCode")
             (requireActivity() as AppCompatActivity).supportActionBar?.title =
                 busStopCode.toString()
             busStopCode?.let { code ->
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.getFavouriteBusServices(busStopCode)
+
                     val adapter = BusTimingsAdapter(code, currentFragment)
                     recyclerView.adapter = adapter
-
                     //Merge data from view model and load into recycler view
                     viewModel.mergeFavouriteAndTimings().observe(viewLifecycleOwner) { result ->
                         val favouriteBusServices = result.first
@@ -84,12 +84,12 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FavouritesHandler {
     }
 
 
-    override fun addFavouriteBusService(busStopCode: Int, serviceNo: String) {
+    override fun addFavouriteBusService(busStopCode: String, serviceNo: String) {
         model.insertFavouriteBusService(busStopCode, serviceNo)
 
     }
 
-    override fun removeFavouriteBusService(busStopCode: Int, serviceNo: String) {
+    override fun removeFavouriteBusService(busStopCode: String, serviceNo: String) {
         model.removeFavouriteBusService(busStopCode, serviceNo)
     }
 

@@ -72,11 +72,11 @@ interface BusArrivalDao {
         "DELETE FROM FavouriteBusServices " +
                 "WHERE busStopCode = :busStopCode AND serviceNo = :serviceNo "
     )
-    fun removeFavouriteBusService(busStopCode: Int, serviceNo: String)
+    fun removeFavouriteBusService(busStopCode: String, serviceNo: String)
 
     //Filter for favourite bus services by bus stop code
     @Query("SELECT serviceNo FROM FavouriteBusServices WHERE busStopCode = :busStopCode")
-    fun getFavouriteBusService(busStopCode: Int): List<String>
+    fun getFavouriteBusService(busStopCode: String): List<String>
 
     //Get latest build date
     @Query("SELECT * FROM BuildDate")

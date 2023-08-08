@@ -2,6 +2,7 @@ package com.buffkatarina.busarrival
 
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -81,6 +82,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         searchView?.isSubmitButtonEnabled = true
         searchView?.setOnQueryTextListener(this)
         searchView?.isIconified = false
+
         return true
     }
 
@@ -89,6 +91,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
+
         //unfinished
         query?.let {
             model.setSearchQuery("$it%")

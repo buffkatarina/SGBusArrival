@@ -1,5 +1,6 @@
 package com.buffkatarina.busarrival.ui.fragments.home.favourites
 
+import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -7,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,7 +29,7 @@ import com.buffkatarina.busarrival.data.entities.FavouriteBusServicesWithDescrip
 fun Favourites(
     pair: Pair<List<FavouriteBusServicesWithDescription>,
             MutableList<BusTimings>>,
-    removeFromFavourites: (Int, String) -> Unit,
+    removeFromFavourites: (String, String) -> Unit,
 ) {
     LazyColumn {
         items(pair.first.size) { pos ->
@@ -37,7 +39,7 @@ fun Favourites(
             val description = pair.first[pos].description
             val timings = pair.second[pos].services[0]
             var favouriteRowHeight by remember {
-                mutableStateOf(0)
+                mutableIntStateOf(0)
             }
             val dismissState = rememberDismissState(
                 confirmValueChange = {
