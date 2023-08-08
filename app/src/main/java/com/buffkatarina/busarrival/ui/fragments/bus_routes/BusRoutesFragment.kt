@@ -83,9 +83,8 @@ class BusRoutesFragment : Fragment(), BusRoutesAdapter.ToBusTimings {
       * */
         parentFragmentManager.setFragmentResult("busStopCodeKey", bundleOf("busStopCode" to query))
         parentFragmentManager.beginTransaction()
-            .hide(this)
             .addToBackStack(null)
-            .add(R.id.fragmentHolder, BusTimingFragment(), "BusTimingFragment")
+            .replace(R.id.fragmentHolder, BusTimingFragment())
             .commit()
     }
 

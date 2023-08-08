@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.buffkatarina.busarrival.R
@@ -41,13 +40,13 @@ fun FavouritesRow(
         colors = CardDefaults.cardColors(containerColor = colorResource(R.color.white))
     ) {
         Row(
-            modifier = Modifier.padding(top = 3.dp, bottom = 3.dp),
+            modifier = Modifier.padding(top = 5.dp, bottom = 5.dp, end = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.End
         ) {
 
             Column(
-                modifier = Modifier.padding(end = 60.dp, start = 10.dp),
+                modifier = Modifier.weight(2f),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -56,18 +55,16 @@ fun FavouritesRow(
                     text = description,
                     fontSize = 15.sp,
                     modifier = Modifier
-                        .width(100.dp)
                         .basicMarquee(
                             iterations = Int.MAX_VALUE,
                             delayMillis = 0,
                             initialDelayMillis = 0
                         ),
-                    textAlign = TextAlign.Center
                 )
             }
 
             Column(
-                modifier = Modifier.padding(end = 20.dp),
+                modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -83,7 +80,7 @@ fun FavouritesRow(
             }
 
             Column(
-                modifier = Modifier.padding(end = 20.dp, top = 0.dp),
+                modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -99,7 +96,7 @@ fun FavouritesRow(
             }
 
             Column(
-                modifier = Modifier.padding(end = 10.dp),
+                modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -117,4 +114,7 @@ fun FavouritesRow(
         }
     }
 }
+
+
+
 

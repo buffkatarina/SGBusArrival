@@ -73,8 +73,7 @@ class SearchFragment : Fragment(),
         * */
         parentFragmentManager.setFragmentResult("query", bundleOf("query" to query))
         parentFragmentManager.beginTransaction()
-            .add(R.id.fragmentHolder, BusRoutesFragment(), "BusRoutesFragment")
-            .hide(this)
+            .replace(R.id.fragmentHolder, BusRoutesFragment(), "BusRoutesFragment")
             .addToBackStack(null)
             .commit()
     }
@@ -85,9 +84,8 @@ class SearchFragment : Fragment(),
       * */
         parentFragmentManager.setFragmentResult("busStopCodeKey", bundleOf("busStopCode" to query))
         parentFragmentManager.beginTransaction()
-            .hide(this)
+            .replace(R.id.fragmentHolder, BusTimingFragment(), "BusTimingFragment")
             .addToBackStack(null)
-            .add(R.id.fragmentHolder, BusTimingFragment(), "BusTimingFragment")
             .commit()
     }
 }

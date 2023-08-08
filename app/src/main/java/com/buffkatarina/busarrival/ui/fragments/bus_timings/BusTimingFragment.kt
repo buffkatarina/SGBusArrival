@@ -73,9 +73,7 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FavouritesHandler {
 
                 }
             }
-
         }
-
     }
 
     override fun onDestroy() {

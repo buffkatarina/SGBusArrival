@@ -20,11 +20,6 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         ViewModelProvider(this)[ActivityViewModel::class.java]
     }
 
-    private val homeFragment by lazy {
-        HomeFragment()
-    }
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,7 +29,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
             PreferenceManager.getDefaultSharedPreferences(applicationContext)
         )
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentHolder, homeFragment, "HomeFragment")
+            .add(R.id.fragmentHolder, HomeFragment(), "HomeFragment")
             .commit()
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(true)
@@ -67,10 +62,15 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     override fun onBackPressed() {
         if (supportFragmentManager.findFragmentByTag("HomeFragment")?.isVisible == true) {
             super.onBackPressed()
+        } else if (supportFragmentManager.findFragmentByTag("SearchFragment")?.isVisible == true) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragmentHolder, HomeFragment(), "HomeFragment")
+                .commit()
         } else {
+
             supportFragmentManager.popBackStack()
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -98,34 +98,22 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        //unfinished
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.search -> {
-                if (supportFragmentManager.findFragmentByTag("SearchFragment") == null) {
-                    if (homeFragment.isVisible) {
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragmentHolder, SearchFragment())
-                            .addToBackStack(null)
-                            .commit()
-                    }
-
-                    supportFragmentManager.findFragmentByTag("BusTimingFragment")
-                        ?.let { busTimingFragment ->
-                            if (busTimingFragment.isVisible) {
-                                supportFragmentManager.beginTransaction()
-                                    .hide(busTimingFragment)
-                                    .add(R.id.fragmentHolder, SearchFragment())
-                                    .addToBackStack(null)
-                                    .commit()
-                            }
-                        }
-                }
-                return true
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragmentHolder, SearchFragment(), "SearchFragment")
+                    .commit()
+                true
             }
-        }
-        return false
-    }
 
+            else -> {
+                false
+            }
+
+        }
+
+    }
 }
 
 
