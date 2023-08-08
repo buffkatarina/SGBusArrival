@@ -8,8 +8,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.drawable.VectorDrawable
-import android.location.Location
-import android.location.LocationListener
 import android.location.LocationManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -62,8 +60,6 @@ fun MapView(
     val mapViewState = mapLifeCycle()
     val context = LocalContext.current
     var mapEnabled by remember { mutableStateOf(false) }
-    val LOCATION_REFRESH_TIME: Long = 150000
-    val LOCATION_REFRESH_DISTANCE = 1000f
     val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     mapEnabled = locationPermissions.allPermissionsGranted && locationManager.isLocationEnabled
 
@@ -91,16 +87,7 @@ fun MapView(
         }
     } else {
         //Update location
-        var location by remember { mutableStateOf<Location?>(null) }
-
-        val mLocationListener = LocationListener { myLocation ->
-            location = myLocation
-        }
-        locationManager.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-            LOCATION_REFRESH_DISTANCE, mLocationListener
-        )
-
+        var location by remember { mutableStateOf<GeoPoint?>(null) }
         AndroidView(
             modifier = modifier,
             factory = { mapViewState },
@@ -109,7 +96,12 @@ fun MapView(
             mapView.setBuiltInZoomControls(false)
             mapView.setMultiTouchControls(true)
             mapView.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE)
-            myLocationOverlay(mapView, context)
+
+            val myLocationOverlay = myLocationOverlay(mapView, context)
+            myLocationOverlay.runOnFirstFix {
+                location = myLocationOverlay.myLocation
+            }
+
             val mapController = mapView.controller
             location?.let { that ->
                 mapController.setZoom(18.0) //zoom in once location is found
@@ -172,7 +164,7 @@ fun vectorToBitMap(context: Context, drawable: Int): Bitmap {
     ) as VectorDrawable).toBitmap()
 }
 
-fun myLocationOverlay(mapView: MapView, context: Context) {
+fun myLocationOverlay(mapView: MapView, context: Context): MyLocationNewOverlay {
     /*
     * Centers map on current location
     * */
@@ -184,6 +176,7 @@ fun myLocationOverlay(mapView: MapView, context: Context) {
     mLocationOverlay.setPersonIcon(icon)
     mLocationOverlay.setDirectionIcon(icon)
     mapView.overlays.add(mLocationOverlay)
+    return mLocationOverlay
 }
 
 fun setMarker(

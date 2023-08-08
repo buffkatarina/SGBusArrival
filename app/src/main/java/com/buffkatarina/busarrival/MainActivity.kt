@@ -85,14 +85,13 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        return true
+        return false
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
         //unfinished
-        if (query?.isNotEmpty() == true) {
-            model.clearSearchQuery(false) //Start loading new query after input is obtained
-            model.setSearchQuery("$query%")
+        query?.let {
+            model.setSearchQuery("$it%")
         }
         return true
     }

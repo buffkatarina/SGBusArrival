@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -30,8 +31,13 @@ class SearchFragment : Fragment(),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        model.clearSearchQuery(true)
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
         setUpRecyclerView(view)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(true)
     }
 
     private fun setUpRecyclerView(view: View) {
@@ -49,22 +55,14 @@ class SearchFragment : Fragment(),
         val busServicesAdapter = BusServicesSearchAdapter(this)
         busServicesRecyclerView.adapter = busServicesAdapter
 
-
-        model.clearSearchHandler.observe(viewLifecycleOwner) { result ->
-            //Reset query after every fragment creation
-            if (!result) {
-                //      Load the data from the view model into the respective recycler views
-                model.searchQuery.observe(viewLifecycleOwner) { query ->
-                    model.searchBusStops(query).observe(viewLifecycleOwner) { data ->
-                        busStopsSearchAdapter.updateData(data)
-                    }
-                    model.searchBusServices(query).observe(viewLifecycleOwner) { data ->
-                        busServicesAdapter.updateData(data)
-                    }
-                }
+        model.searchQuery.observe(viewLifecycleOwner) { query ->
+            model.searchBusStops(query).observe(viewLifecycleOwner) { data ->
+                busStopsSearchAdapter.updateData(data)
+            }
+            model.searchBusServices(query).observe(viewLifecycleOwner) { data ->
+                busServicesAdapter.updateData(data)
             }
         }
-
     }
 
     override fun toBusRoutes(query: String) {

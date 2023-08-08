@@ -31,6 +31,7 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FavouritesHandler {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(true)
         setUpView(view)
     }
 

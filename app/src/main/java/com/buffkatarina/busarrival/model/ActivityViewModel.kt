@@ -17,13 +17,10 @@ import kotlinx.coroutines.launch
 class ActivityViewModel(application: Application) : AndroidViewModel(application) {
     /*View model that handles all the HTTP requests and parsing and building of database.*/
 
-    // signal to reset the search result
-    private val _clearSearchHandler = MutableLiveData<Boolean>()
-    val clearSearchHandler: LiveData<Boolean> get() = _clearSearchHandler
 
-    //tore all the retrieved bus timings from the api
+    //store all the retrieved bus timings from the api
     private val _busTimings = MutableLiveData<BusTimings>()
-    val busTimings: LiveData<BusTimings> get() = _busTimings
+    private val busTimings: LiveData<BusTimings> get() = _busTimings
 
     //store search query from the search view
     private val _searchQuery = MutableLiveData<String?>()
@@ -94,7 +91,6 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    val clearSearchQuery = { bool: Boolean -> _clearSearchHandler.value = bool }
 
     fun setSearchQuery(query: String?) {
         _searchQuery.value = query
@@ -116,9 +112,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch(Dispatchers.IO) {
             val direction1 = busArrivalRepository.searchBusRoutes(searchQuery, "1")
             val direction2 = busArrivalRepository.searchBusRoutes(searchQuery, "2")
-            launch(Dispatchers.Main) {
-                _busRoutesList.value = listOf(direction1, direction2)
-            }
+            _busRoutesList.postValue(listOf(direction1, direction2))
         }
     }
 
@@ -209,10 +203,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     fun getFavouriteBusServices(busStopCode: Int) {
         //Get list of favourite bus services after filtered against bus stop code
         viewModelScope.launch(Dispatchers.IO) {
-            val favouriteBusServices = busArrivalRepository.getFavouriteBusService(busStopCode)
-            launch(Dispatchers.Main) {
-                _favouriteBusServices.value = favouriteBusServices
-            }
+            _favouriteBusServices.postValue(busArrivalRepository.getFavouriteBusService(busStopCode))
         }
     }
 
@@ -221,10 +212,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         * Gets build date from the BuildDate table
         * */
         viewModelScope.launch(Dispatchers.IO) {
-            val date = busArrivalRepository.getBuildDate()
-            launch(Dispatchers.Main) {
-                _buildDate.value = date
-            }
+            _buildDate.postValue(busArrivalRepository.getBuildDate())
         }
     }
 
@@ -240,10 +228,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
 
     fun getAllBusStops() {
         viewModelScope.launch(Dispatchers.IO) {
-            val allBusStops = busArrivalRepository.getAllBusStops()
-            launch(Dispatchers.Main) {
-                _busStops.value = allBusStops
-            }
+            _busStops.postValue(busArrivalRepository.getAllBusStops())
         }
     }
 
