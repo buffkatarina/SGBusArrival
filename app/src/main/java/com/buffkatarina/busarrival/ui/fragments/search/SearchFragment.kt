@@ -37,7 +37,7 @@ class SearchFragment : Fragment(),
 
     override fun onDestroy() {
         super.onDestroy()
-        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(true)
+            (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(true)
     }
 
     private fun setUpRecyclerView(view: View) {

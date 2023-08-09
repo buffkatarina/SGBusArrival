@@ -1,17 +1,16 @@
 package com.buffkatarina.busarrival.ui.fragments.home
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import com.buffkatarina.busarrival.data.entities.BusTimings
-import com.buffkatarina.busarrival.data.entities.FavouriteBusServicesWithDescription
 import com.buffkatarina.busarrival.model.ActivityViewModel
 import com.buffkatarina.busarrival.ui.fragments.home.favourites.Favourites
 import com.buffkatarina.busarrival.ui.fragments.home.map.MapView
@@ -43,15 +42,15 @@ fun HomeCompose(
                     .weight(1f),
                 busStops = busStops,
             )
-            Box(modifier = Modifier.weight(1f)) {
+            Box(modifier = Modifier
+                .weight(1f)
+                .align(Alignment.CenterHorizontally)) {
                 favourites?.let { favourites ->
                     timings?.let { timings ->
-                        Log.i("ASD",favourites.toString())
-                        Log.i("ASD",timings.toString())
                         if (favourites.isNotEmpty() && timings.isNotEmpty()) {
                             if (favourites.size == timings.size) {
                                 Favourites(
-                                    (favourites to timings) ,
+                                    (favourites to timings),
                                     viewModel::removeFavouriteBusService
                                 )
 

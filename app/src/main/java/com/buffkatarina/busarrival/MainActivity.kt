@@ -5,12 +5,15 @@ import android.preference.PreferenceManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.ViewModelProvider
 import com.buffkatarina.busarrival.model.ActivityViewModel
 import com.buffkatarina.busarrival.ui.fragments.home.HomeFragment
 import com.buffkatarina.busarrival.ui.fragments.search.SearchFragment
+import com.buffkatarina.busarrival.ui.fragments.search.SearchView
 import org.osmdroid.config.Configuration
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -62,14 +65,13 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
 
     override fun onBackPressed() {
         if (supportFragmentManager.findFragmentByTag("HomeFragment")?.isVisible == true) {
-            super.onBackPressed()
+            finish()
         } else if (supportFragmentManager.findFragmentByTag("SearchFragment")?.isVisible == true) {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragmentHolder, HomeFragment(), "HomeFragment")
                 .commit()
         } else {
-
             supportFragmentManager.popBackStack()
         }
     }
@@ -78,10 +80,16 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         menuInflater.inflate(R.menu.search, menu)
         val search = menu.findItem(R.id.search)
         search.icon?.setTint(ContextCompat.getColor(applicationContext, R.color.black))
-        val searchView = search?.actionView as? androidx.appcompat.widget.SearchView
+        val searchView = search?.actionView as? SearchView
         searchView?.isSubmitButtonEnabled = true
         searchView?.setOnQueryTextListener(this)
-        searchView?.isIconified = false
+
+        //Closes search immediately on single back press
+        searchView?.setOnQueryTextFocusChangeListener {_, hasFocus ->
+            if (!hasFocus) {
+               search.collapseActionView()
+            }
+        }
 
         return true
     }
@@ -102,10 +110,13 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.search -> {
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragmentHolder, SearchFragment(), "SearchFragment")
-                    .commit()
+                if (supportFragmentManager.findFragmentByTag("SearchFragment")?.isVisible != true) {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragmentHolder, SearchFragment(), "SearchFragment")
+                        .commit()
+                }
+
                 true
             }
 

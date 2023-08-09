@@ -96,7 +96,6 @@ fun MapView(
             mapView.setBuiltInZoomControls(false)
             mapView.setMultiTouchControls(true)
             mapView.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE)
-
             val myLocationOverlay = myLocationOverlay(mapView, context)
             myLocationOverlay.runOnFirstFix {
                 location = myLocationOverlay.myLocation
@@ -131,6 +130,7 @@ fun MapView(
             mapView.invalidate()
         }
     }
+
 }
 
 
