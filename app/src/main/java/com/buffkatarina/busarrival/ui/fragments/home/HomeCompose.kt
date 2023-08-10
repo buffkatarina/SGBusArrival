@@ -45,22 +45,28 @@ fun HomeCompose(
             Box(modifier = Modifier
                 .weight(1f)
                 .align(Alignment.CenterHorizontally)) {
-                favourites?.let { favourites ->
-                    timings?.let { timings ->
-                        if (favourites.isNotEmpty() && timings.isNotEmpty()) {
-                            if (favourites.size == timings.size) {
-                                Favourites(
-                                    (favourites to timings),
-                                    viewModel::removeFavouriteBusService
-                                )
+                if (!isNull(favourites, timings)) {
+                    if (favourites!!.isNotEmpty() && timings!!.isNotEmpty()) {
+                        if (favourites!!.size == timings!!.size) {
+                            Favourites(
+                                (favourites!! to timings!!),
+                                viewModel::removeFavouriteBusService
+                            )
 
-                            }
                         }
-
                     }
                 }
-
             }
         }
     }
+}
+
+private fun <T> isNull(vararg param: T?):Boolean {
+    /*
+    * Helper function to check whether multiple values are null
+    * Replaces the need for two null safety check clauses
+    *
+    * Returns true if a parameter is null
+    * */
+    return (null in param)
 }

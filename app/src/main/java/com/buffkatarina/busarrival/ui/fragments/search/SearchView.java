@@ -14,8 +14,6 @@ public class SearchView extends androidx.appcompat.widget.SearchView {
     @Override
     public void onActionViewCollapsed() {
         clearFocus();
-
-
     }
 
 }

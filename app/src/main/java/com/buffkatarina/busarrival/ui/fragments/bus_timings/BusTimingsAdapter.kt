@@ -22,7 +22,7 @@ import kotlin.properties.Delegates
 
 class BusTimingsAdapter(
     private val busStopCode: String,
-    private val favouritesHandler: FavouritesHandler,
+    private val fragmentCallback: FragmentCallback,
 ) :
     RecyclerView.Adapter<BusTimingsAdapter.BusArrivalViewHolder>() {
 
@@ -48,19 +48,19 @@ class BusTimingsAdapter(
         val mainCard: MaterialCardView = holder.mainCard
         var cardMargin = 0
         swipeFrame.visibility = View.INVISIBLE
-        val onCLickListener = OnClickListener {
+        val favouriteClickListener = OnClickListener {
             //Removes bus service from database when an activated button is tapped
             // Deactivates the button afterwards - shows up as uncolored star on display
             if (swipeFrame.cardBackgroundColor.defaultColor == Color.Red.toArgb()) {
-                favouritesHandler.removeFavouriteBusService(busStopCode, serviceNo.text as String)
-                holder.swipeFrame.setCardBackgroundColor(favouritesHandler.getColor(R.color.lime))
+                fragmentCallback.removeFavouriteBusService(busStopCode, serviceNo.text as String)
+                holder.swipeFrame.setCardBackgroundColor(fragmentCallback.getColor(R.color.lime))
                 holder.actionIcon.setBackgroundResource(R.drawable.star_on)
 
             }
             //Add bus service from database when an deactivated button is tapped
             // Activates the button afterwards - shows up as colored star on display
             else {
-                favouritesHandler.addFavouriteBusService(busStopCode, serviceNo.text as String)
+                fragmentCallback.addFavouriteBusService(busStopCode, serviceNo.text as String)
                 holder.swipeFrame.setCardBackgroundColor(Color.Red.toArgb())
                 holder.actionIcon.setBackgroundResource(R.drawable.delete_icon)
             }
@@ -69,7 +69,13 @@ class BusTimingsAdapter(
             swipeFrame.visibility = View.INVISIBLE
 
         }
-        swipeFrame.setOnClickListener(onCLickListener)
+        swipeFrame.setOnClickListener(favouriteClickListener)
+
+        val cardClickListener = OnClickListener {
+            fragmentCallback.toBusRoutes(holder.serviceNoHolder.text.toString())
+        }
+
+        mainCard.setOnClickListener(cardClickListener)
 
         itemView.post {
             swipeFrame.updateLayoutParams {
@@ -134,7 +140,7 @@ class BusTimingsAdapter(
                 holder.swipeFrame.setCardBackgroundColor(Color.Red.toArgb())
                 holder.actionIcon.setBackgroundResource(R.drawable.delete_icon)
             } else {
-                holder.swipeFrame.setCardBackgroundColor(favouritesHandler.getColor(R.color.lime))
+                holder.swipeFrame.setCardBackgroundColor(fragmentCallback.getColor(R.color.lime))
                 holder.actionIcon.setBackgroundResource(R.drawable.star_on)
             }
             //Initialise tuple of estimated arrival time of bus 1/2/3: text view of bus 1/2/3
@@ -176,15 +182,21 @@ class BusTimingsAdapter(
 
     }
 
-    interface FavouritesHandler {
-        /*For recycler view to be able to call view model to remove or add favourite bus services*/
+    interface FragmentCallback {
+        /*
+        * Helper interface for adapter to be able to call fragment methods without
+        * the need for passing context into the adapter
+        * */
+
         fun addFavouriteBusService(busStopCode: String, serviceNo: String)
 
         fun removeFavouriteBusService(busStopCode: String, serviceNo: String)
 
         fun getColor(color: Int): Int //helper function to get color from resources
-    }
 
+        fun toBusRoutes(query: String?) //will pass the service number to the bus routes fragment
+    }
 }
+
 
 

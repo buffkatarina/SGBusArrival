@@ -1,11 +1,13 @@
 package com.buffkatarina.busarrival.ui.fragments.bus_timings
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -13,14 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.model.ActivityViewModel
+import com.buffkatarina.busarrival.ui.fragments.bus_routes.BusRoutesFragment
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class BusTimingFragment : Fragment(), BusTimingsAdapter.FavouritesHandler {
+class BusTimingFragment : Fragment(), BusTimingsAdapter.FragmentCallback {
     private val model: ActivityViewModel by lazy {
         ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
     }
 
+    private var mBusStopCode: String? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,9 +53,9 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FavouritesHandler {
         ) { _, bundle ->
             //Gets the queried bus stop code
             val busStopCode = bundle.getString("busStopCode")
-            (requireActivity() as AppCompatActivity).supportActionBar?.title =
-                busStopCode.toString()
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = busStopCode.toString()
             busStopCode?.let { code ->
+                mBusStopCode = code
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.getFavouriteBusServices(busStopCode)
 
@@ -95,5 +99,14 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FavouritesHandler {
 
     override fun getColor(color: Int): Int {
         return ContextCompat.getColor(requireContext(), color)
+    }
+
+    override fun toBusRoutes(query: String?) {
+        model.setBusStopCode(mBusStopCode)
+        parentFragmentManager.setFragmentResult("query", bundleOf("query" to query))
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentHolder, BusRoutesFragment(), "BusRoutesFragment")
+            .addToBackStack("BusTimingToBusRoutes")
+            .commit()
     }
 }

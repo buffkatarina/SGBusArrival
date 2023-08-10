@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
@@ -36,8 +37,7 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.home_fragment, container, false)
         val composeView: androidx.compose.ui.platform.ComposeView =
             view.findViewById(R.id.compose_view)
-        val locationManager =
-            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.app_name)
 
 
         composeView.apply {

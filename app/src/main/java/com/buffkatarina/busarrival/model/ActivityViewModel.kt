@@ -42,6 +42,9 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     private val _dialogState = mutableStateOf(false)
     val dialogState: State<Boolean> = _dialogState
 
+    private var _busStopCode = MutableLiveData<String?>()
+    val busStopCode: LiveData<String?> = _busStopCode
+
     private val _buildDate = MutableLiveData(BuildDate(9, ""))
     val buildDate: LiveData<BuildDate?> = _buildDate
 
@@ -58,6 +61,7 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         busApiRepository = BusApiRepository(busApiInterface)
     }
 
+    val setBusStopCode = {code: String? -> _busStopCode.value = code}
     fun setDialogState(bool: Boolean) {
         _dialogState.value = bool
     }
