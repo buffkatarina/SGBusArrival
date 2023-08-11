@@ -2,14 +2,10 @@ package com.buffkatarina.busarrival
 
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
-import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.ViewModelProvider
 import com.buffkatarina.busarrival.model.ActivityViewModel
 import com.buffkatarina.busarrival.ui.fragments.home.HomeFragment
@@ -24,6 +20,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     private val model: ActivityViewModel by lazy {
         ViewModelProvider(this)[ActivityViewModel::class.java]
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -75,6 +72,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
             supportFragmentManager.popBackStack()
         }
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search, menu)
         val search = menu.findItem(R.id.search)
@@ -84,9 +82,9 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         searchView?.setOnQueryTextListener(this)
 
         //Closes search immediately on single back press
-        searchView?.setOnQueryTextFocusChangeListener {_, hasFocus ->
+        searchView?.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-               search.collapseActionView()
+                search.collapseActionView()
             }
         }
 

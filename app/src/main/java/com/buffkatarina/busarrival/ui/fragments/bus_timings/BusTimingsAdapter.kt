@@ -101,23 +101,23 @@ class BusTimingsAdapter(
 
                     MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
                         if (shouldClick) fragmentCallback.toBusRoutes(holder.serviceNoHolder.text.toString())
-                            else
-                                if (offSet <= -limit * threshold) { // Complete swipe when drag is longer threshold of 0.5f
-                                    if (!buttonVisibility) {
-                                        offSet = -limit
-                                        mainCard.animate().x(offSet).setDuration(0).start()
-                                        buttonVisibility = true
-                                        swipeFrame.visibility = View.VISIBLE
+                        else
+                            if (offSet <= -limit * threshold) { // Complete swipe when drag is longer threshold of 0.5f
+                                if (!buttonVisibility) {
+                                    offSet = -limit
+                                    mainCard.animate().x(offSet).setDuration(0).start()
+                                    buttonVisibility = true
+                                    swipeFrame.visibility = View.VISIBLE
 
-
-                                    }
-                                }
-                                if (offSet > -limit * threshold) { //undo swipe if below threshold
-                                    mainCard.animate().x(0f + cardMargin).setDuration(0).start()
-                                    buttonVisibility = false
-                                    swipeFrame.visibility = View.INVISIBLE
 
                                 }
+                            }
+                        if (offSet > -limit * threshold) { //undo swipe if below threshold
+                            mainCard.animate().x(0f + cardMargin).setDuration(0).start()
+                            buttonVisibility = false
+                            swipeFrame.visibility = View.INVISIBLE
+
+                        }
                     }
 
                 }

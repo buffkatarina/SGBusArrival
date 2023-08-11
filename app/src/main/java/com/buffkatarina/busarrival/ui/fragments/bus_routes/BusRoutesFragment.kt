@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.util.query
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.data.entities.BusRoutesFiltered
 import com.buffkatarina.busarrival.model.ActivityViewModel
@@ -64,11 +63,13 @@ class BusRoutesFragment : Fragment(), BusRoutesAdapter.ToBusTimings {
         currentDirection.text = directionOne  //Assume direction 1 on fragment open for now
         directionChange.setColorFilter(ContextCompat.getColor(requireContext(), R.color.black))
 
-        //when there is no direction 2 for this bus service
+        //when there is no direction 2 for this bus service, bus routes for
+        // direction 2 are stored at index 1
         if (busRoutesList[1].isEmpty()) {
             directionChange.visibility = View.GONE
         } else {
-            directionChange.setOnClickListener {  //Changes the displayed list of direction when button is pressed
+            //Changes the displayed list of direction when button is pressed
+            directionChange.setOnClickListener {
                 if (currentDirection.text == directionOne) {
                     busRoutesAdapter.setData(busRoutesList[1])
                     currentDirection.text = directionTwo
@@ -84,7 +85,7 @@ class BusRoutesFragment : Fragment(), BusRoutesAdapter.ToBusTimings {
         /*Displays bus routes fragments on the screen
       * Implementation for ToBusRoutes interface in BusServicesSearchAdapter
       * */
-        parentFragmentManager.setFragmentResult("busStopCodeKey", bundleOf("busStopCode" to query))
+        model.setBusStopCode(query)
         parentFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(R.id.fragmentHolder, BusTimingFragment())

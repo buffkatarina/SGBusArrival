@@ -1,15 +1,11 @@
 package com.buffkatarina.busarrival.ui.fragments.bus_timings
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
-
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -50,7 +46,7 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FragmentCallback {
         recyclerView.layoutManager = LinearLayoutManager(context)
         val currentFragment = this
         val viewModel = ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
-        viewModel.busStopCode.observe(viewLifecycleOwner) {busStopCode ->
+        viewModel.busStopCode.observe(viewLifecycleOwner) { busStopCode ->
             busStopCode?.let { code ->
                 (requireActivity() as AppCompatActivity).supportActionBar?.title = code
                 mBusStopCode = code

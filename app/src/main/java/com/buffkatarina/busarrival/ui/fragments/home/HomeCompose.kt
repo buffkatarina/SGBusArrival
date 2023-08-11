@@ -42,9 +42,11 @@ fun HomeCompose(
                     .weight(1f),
                 busStops = busStops,
             )
-            Box(modifier = Modifier
-                .weight(1f)
-                .align(Alignment.CenterHorizontally)) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .align(Alignment.CenterHorizontally)
+            ) {
                 if (!isNull(favourites, timings)) {
                     if (favourites!!.isNotEmpty() && timings!!.isNotEmpty()) {
                         if (favourites!!.size == timings!!.size) {
@@ -61,7 +63,7 @@ fun HomeCompose(
     }
 }
 
-private fun <T> isNull(vararg param: T?):Boolean {
+private fun <T> isNull(vararg param: T?): Boolean {
     /*
     * Helper function to check whether multiple values are null
     * Replaces the need for two null safety check clauses
