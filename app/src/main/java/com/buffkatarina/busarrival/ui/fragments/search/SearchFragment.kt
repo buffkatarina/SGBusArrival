@@ -35,11 +35,6 @@ class SearchFragment : Fragment(),
         setUpRecyclerView(view)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-            (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(true)
-    }
-
     private fun setUpRecyclerView(view: View) {
 //      Set up recycler view for bus stops
         val busStopsRecyclerView: RecyclerView = view.findViewById(R.id.busStops_recycler_view)
@@ -69,7 +64,7 @@ class SearchFragment : Fragment(),
         /*Displays bus routes fragments on the screen
         * Implementation for ToBusTimings interface in BusStopsSearchAdapter
         * */
-        parentFragmentManager.setFragmentResult("query", bundleOf("query" to query))
+        model.setBusServiceNo(query)
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragmentHolder, BusRoutesFragment(), "BusRoutesFragment")
             .addToBackStack(null)
@@ -80,7 +75,7 @@ class SearchFragment : Fragment(),
         /*Displays bus routes fragments on the screen
       * Implementation for ToBusRoutes interface in BusServicesSearchAdapter
       * */
-        parentFragmentManager.setFragmentResult("busStopCodeKey", bundleOf("busStopCode" to query))
+        model.setBusStopCode(query)
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragmentHolder, BusTimingFragment(), "BusTimingFragment")
             .addToBackStack(null)

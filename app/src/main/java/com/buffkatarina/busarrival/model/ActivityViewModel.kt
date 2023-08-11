@@ -51,6 +51,9 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     private val _busStops = MutableLiveData<List<BusStops.BusStopData>>()
     val busStops: LiveData<List<BusStops.BusStopData>> = _busStops
 
+    private val _busServiceNo = MutableLiveData<String?>()
+    val busServiceNo: LiveData<String?> = _busServiceNo
+
     private val busApiRepository: BusApiRepository
     private val busArrivalRepository: BusArrivalRepository
 
@@ -62,6 +65,8 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     }
 
     val setBusStopCode = {code: String? -> _busStopCode.value = code}
+
+    val setBusServiceNo = {code: String? -> _busServiceNo.value = code}
     fun setDialogState(bool: Boolean) {
         _dialogState.value = bool
     }

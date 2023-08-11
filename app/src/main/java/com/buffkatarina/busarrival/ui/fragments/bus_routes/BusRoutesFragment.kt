@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.util.query
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.data.entities.BusRoutesFiltered
 import com.buffkatarina.busarrival.model.ActivityViewModel
@@ -31,6 +33,7 @@ class BusRoutesFragment : Fragment(), BusRoutesAdapter.ToBusTimings {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         getBusRoutes(view)
         super.onViewCreated(view, savedInstanceState)
     }
@@ -38,9 +41,9 @@ class BusRoutesFragment : Fragment(), BusRoutesAdapter.ToBusTimings {
 
     private fun getBusRoutes(view: View) {
         /*Gets the bus routes from the view model */
-        parentFragmentManager.setFragmentResultListener("query", viewLifecycleOwner) { _, bundle ->
-            val query = bundle.getString("query")
-            model.getBusRoutes(query)
+        model.busServiceNo.observe(viewLifecycleOwner) {
+            model.getBusRoutes(it)
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = it
             model.busRoutesList.observe(viewLifecycleOwner) { busRoutesList ->
                 setUpLayout(view, busRoutesList)
             }

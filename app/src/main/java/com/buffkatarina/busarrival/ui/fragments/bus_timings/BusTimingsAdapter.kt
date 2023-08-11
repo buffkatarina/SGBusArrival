@@ -26,10 +26,8 @@ class BusTimingsAdapter(
 ) :
     RecyclerView.Adapter<BusTimingsAdapter.BusArrivalViewHolder>() {
 
-    var busTimings = emptyList<BusTimings.BusData>()
-    private var favouriteBusServices = emptyList<String>(
-
-    )
+    private var busTimings = emptyList<BusTimings.BusData>()
+    private var favouriteBusServices = emptyList<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BusArrivalViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -71,12 +69,6 @@ class BusTimingsAdapter(
         }
         swipeFrame.setOnClickListener(favouriteClickListener)
 
-        val cardClickListener = OnClickListener {
-            fragmentCallback.toBusRoutes(holder.serviceNoHolder.text.toString())
-        }
-
-        mainCard.setOnClickListener(cardClickListener)
-
         itemView.post {
             swipeFrame.updateLayoutParams {
                 height = mainCard.height
@@ -86,15 +78,17 @@ class BusTimingsAdapter(
             var dX by Delegates.notNull<Float>()
             var offSet = 0f
             val threshold = 0.5
+            var shouldClick = false
 
             itemView.setOnTouchListener { _, event ->
-
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
+                        shouldClick = true
                         dX = 0f - event.rawX
                     }
 
                     MotionEvent.ACTION_MOVE -> {
+                        shouldClick = false
                         offSet = event.rawX + dX
 
                         if (!buttonVisibility) {//allow dragging left if button is not visible
@@ -106,23 +100,26 @@ class BusTimingsAdapter(
                     }
 
                     MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
-                        if (offSet <= -limit * threshold) { // Complete swipe when drag is longer threshold of 0.5f
-                            if (!buttonVisibility) {
-                                offSet = -limit
-                                mainCard.animate().x(offSet).setDuration(0).start()
-                                buttonVisibility = true
-                                swipeFrame.visibility = View.VISIBLE
+                        if (shouldClick) fragmentCallback.toBusRoutes(holder.serviceNoHolder.text.toString())
+                            else
+                                if (offSet <= -limit * threshold) { // Complete swipe when drag is longer threshold of 0.5f
+                                    if (!buttonVisibility) {
+                                        offSet = -limit
+                                        mainCard.animate().x(offSet).setDuration(0).start()
+                                        buttonVisibility = true
+                                        swipeFrame.visibility = View.VISIBLE
 
 
-                            }
-                        }
-                        if (offSet > -limit * threshold) { //undo swipe if below threshold
-                            mainCard.animate().x(0f + cardMargin).setDuration(0).start()
-                            buttonVisibility = false
-                            swipeFrame.visibility = View.INVISIBLE
+                                    }
+                                }
+                                if (offSet > -limit * threshold) { //undo swipe if below threshold
+                                    mainCard.animate().x(0f + cardMargin).setDuration(0).start()
+                                    buttonVisibility = false
+                                    swipeFrame.visibility = View.INVISIBLE
 
-                        }
+                                }
                     }
+
                 }
                 true
             }
@@ -195,6 +192,7 @@ class BusTimingsAdapter(
         fun getColor(color: Int): Int //helper function to get color from resources
 
         fun toBusRoutes(query: String?) //will pass the service number to the bus routes fragment
+
     }
 }
 

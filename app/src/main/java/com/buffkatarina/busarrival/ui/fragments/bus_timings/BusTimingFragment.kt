@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -43,23 +45,18 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FragmentCallback {
             /*
             Set ups recycler view
             Gets bus timings and loads them into the recycler view*/ {
+        lateinit var adapter: BusTimingsAdapter
         val recyclerView: RecyclerView = view.findViewById(R.id.busTimings_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(context)
         val currentFragment = this
         val viewModel = ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
-        parentFragmentManager.setFragmentResultListener(
-            "busStopCodeKey",
-            viewLifecycleOwner
-        ) { _, bundle ->
-            //Gets the queried bus stop code
-            val busStopCode = bundle.getString("busStopCode")
-            (requireActivity() as AppCompatActivity).supportActionBar?.title = busStopCode.toString()
+        viewModel.busStopCode.observe(viewLifecycleOwner) {busStopCode ->
             busStopCode?.let { code ->
+                (requireActivity() as AppCompatActivity).supportActionBar?.title = code
                 mBusStopCode = code
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.getFavouriteBusServices(busStopCode)
-
-                    val adapter = BusTimingsAdapter(code, currentFragment)
+                    adapter = BusTimingsAdapter(code, currentFragment)
                     recyclerView.adapter = adapter
                     //Merge data from view model and load into recycler view
                     viewModel.mergeFavouriteAndTimings().observe(viewLifecycleOwner) { result ->
@@ -78,15 +75,9 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FragmentCallback {
 
                 }
             }
+
         }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        (requireActivity() as AppCompatActivity).supportActionBar?.title =
-            getString(R.string.default_title)
-    }
-
 
     override fun addFavouriteBusService(busStopCode: String, serviceNo: String) {
         model.insertFavouriteBusService(busStopCode, serviceNo)
@@ -102,8 +93,7 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FragmentCallback {
     }
 
     override fun toBusRoutes(query: String?) {
-        model.setBusStopCode(mBusStopCode)
-        parentFragmentManager.setFragmentResult("query", bundleOf("query" to query))
+        model.setBusServiceNo(query)
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragmentHolder, BusRoutesFragment(), "BusRoutesFragment")
             .addToBackStack("BusTimingToBusRoutes")

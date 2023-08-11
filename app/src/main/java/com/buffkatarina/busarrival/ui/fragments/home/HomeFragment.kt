@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
         val composeView: androidx.compose.ui.platform.ComposeView =
             view.findViewById(R.id.compose_view)
         (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.app_name)
-
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(true)
 
         composeView.apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)

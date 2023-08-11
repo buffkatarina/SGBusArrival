@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     private val model: ActivityViewModel by lazy {
         ViewModelProvider(this)[ActivityViewModel::class.java]
     }
-    private var busStopCode:String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,9 +37,6 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
             .commit()
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(true)
-        model.busStopCode.observe(this) {
-            busStopCode = it
-        }
     }
 
 
@@ -76,18 +72,8 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
                 .replace(R.id.fragmentHolder, HomeFragment(), "HomeFragment")
                 .commit()
         } else {
-            if (previousFragment() == "BusTimingToBusRoutes")  {
-                supportFragmentManager.setFragmentResult("busStopCodeKey", bundleOf("busStopCode" to busStopCode))
-            }
             supportFragmentManager.popBackStack()
         }
-    }
-    private fun previousFragment(): String? {
-        /*
-        * Gets the name of the previous fragment in stack
-        * */
-        return supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount-1).name
-
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search, menu)
