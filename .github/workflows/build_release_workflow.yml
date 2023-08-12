@@ -3,19 +3,21 @@ on:
     branches: main
     tags:
       - v*
-  release_build:
+
+   
+jobs:
+  build:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
-
     steps:
       - uses: actions/checkout@v2.6.0
-
+  
       - name: Setup JAVA 11
         uses: actions/setup-java@v3
         with:
           distribution: 'corretto'
           java-version: 11
-
+  
       - name: Cache Gradle and wrapper
         uses: actions/cache@v2
         with:
@@ -29,11 +31,11 @@ on:
         env:
           ENCODED_STRING: ${{ secrets.SIGNING_KEY_STORE_BASE64 }}
           SIGNING_KEY_STORE_PATH: ${{ secrets.SIGNING_KEY_STORE_PATH }}
-
+  
         run: |
           echo $ENCODED_STRING > keystore-b64.txt
           base64 -d keystore-b64.txt > $SIGNING_KEY_STORE_PATH
-
+  
       #2
       - name: Build Release apk
         env:
@@ -42,7 +44,7 @@ on:
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
         run: ./gradlew assembleRelease
-
+  
       - name: Build Release bundle
         env:
           SIGNING_KEY_STORE_PATH: ${{ secrets.SIGNING_KEY_STORE_PATH }}
