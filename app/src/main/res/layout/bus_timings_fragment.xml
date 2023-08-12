@@ -8,14 +8,14 @@
     android:background="?attr/colorPrimary">
 
     <androidx.recyclerview.widget.RecyclerView
-        app:layout_constraintEnd_toStartOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toTopOf="@id/guidelineTop"
-        app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
         android:id="@+id/busTimings_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
+        app:layout_constraintEnd_toStartOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toTopOf="@id/guidelineTop"
         tools:listitem="@layout/bus_timings_recyclerview_row" />
 
     <androidx.constraintlayout.widget.Guideline

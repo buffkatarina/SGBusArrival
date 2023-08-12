@@ -90,7 +90,7 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$work_version"
 
     //compose permissions
-    def compose_permission="0.31.6-rc"
+    def compose_permission = "0.31.6-rc"
     implementation "com.google.accompanist:accompanist-permissions:$compose_permission"
 
 

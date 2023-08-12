@@ -1,6 +1,7 @@
 package com.buffkatarina.busarrival.ui.fragments.bus_timings
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -83,8 +84,9 @@ class BusTimingsAdapter(
             itemView.setOnTouchListener { _, event ->
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        shouldClick = true
+                        shouldClick = false
                         dX = 0f - event.rawX
+
                     }
 
                     MotionEvent.ACTION_MOVE -> {
@@ -100,7 +102,8 @@ class BusTimingsAdapter(
                     }
 
                     MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
-                        if (shouldClick) fragmentCallback.toBusRoutes(holder.serviceNoHolder.text.toString())
+                        if (shouldClick)
+                            fragmentCallback.toBusRoutes(holder.serviceNoHolder.text.toString())
                         else
                             if (offSet <= -limit * threshold) { // Complete swipe when drag is longer threshold of 0.5f
                                 if (!buttonVisibility) {
@@ -116,10 +119,8 @@ class BusTimingsAdapter(
                             mainCard.animate().x(0f + cardMargin).setDuration(0).start()
                             buttonVisibility = false
                             swipeFrame.visibility = View.INVISIBLE
-
                         }
                     }
-
                 }
                 true
             }
