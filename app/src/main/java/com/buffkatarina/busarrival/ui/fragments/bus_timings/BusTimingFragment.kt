@@ -49,12 +49,19 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FragmentCallback {
         val currentFragment = this
         val viewModel = ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
 
-        viewModel.busStopCode.switchMap { busStopCode ->
-            busStopCode?.let { it1 ->
-                (requireActivity() as AppCompatActivity).supportActionBar?.title = it1
-                mBusStopCode = it1
-                viewModel.getFavouriteBusServices(it1)
-                adapter = BusTimingsAdapter(it1, currentFragment)
+        viewModel.busStopCode.switchMap {
+            it?.let {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    while (true) {
+                        //Retrieve new bus timings every 1 minute
+                        viewModel.getBusTimings(it)
+                        delay(60000)
+                    }
+                }
+                (requireActivity() as AppCompatActivity).supportActionBar?.title = it
+                mBusStopCode = it
+                viewModel.getFavouriteBusServices(it)
+                adapter = BusTimingsAdapter(it, currentFragment)
                 recyclerView.adapter = adapter
                 viewModel.mergeFavouriteAndTimings()
             }
@@ -64,14 +71,6 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FragmentCallback {
             if (!isNull(busTimings, favouriteBusServices)) {
                 adapter.updateTimings(busTimings!!.services)
                 adapter.updateFavourites(favouriteBusServices!!)
-            }
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                while (true) {
-                    //Retrieve new bus timings every 1 minute
-                    viewModel.getBusTimings(mBusStopCode)
-                    delay(60000)
-                }
             }
         }
     }
