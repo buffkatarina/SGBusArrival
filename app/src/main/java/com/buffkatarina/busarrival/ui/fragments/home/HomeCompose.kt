@@ -11,9 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import com.buffkatarina.busarrival.data.entities.BusTimings
+import com.buffkatarina.busarrival.isNull
 import com.buffkatarina.busarrival.model.ActivityViewModel
 import com.buffkatarina.busarrival.ui.fragments.home.favourites.Favourites
 import com.buffkatarina.busarrival.ui.fragments.home.map.MapView
+
 
 @Composable
 fun HomeCompose(
@@ -63,12 +65,3 @@ fun HomeCompose(
     }
 }
 
-private fun <T> isNull(vararg param: T?): Boolean {
-    /*
-    * Helper function to check whether multiple values are null
-    * Replaces the need for two null safety check clauses
-    *
-    * Returns true if a parameter is null
-    * */
-    return (null in param)
-}

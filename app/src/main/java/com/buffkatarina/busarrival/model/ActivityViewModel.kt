@@ -105,13 +105,13 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         _searchQuery.value = query
     }
 
-    fun searchBusStops(searchQuery: String?): LiveData<List<BusStops.BusStopData>> {
+    private fun searchBusStops(searchQuery: String?): LiveData<List<BusStops.BusStopData>> {
         /*Returns a list of BusStops.BusStopData entities for matching bus stops as live data*/
         return busArrivalRepository.searchBusStops(searchQuery).asLiveData()
 
     }
 
-    fun searchBusServices(searchQuery: String?): LiveData<List<String>> {
+    private fun searchBusServices(searchQuery: String?): LiveData<List<String>> {
         /*Returns a list of string for matching bus services as live data*/
         return busArrivalRepository.searchBusServices(searchQuery).asLiveData()
     }
@@ -249,6 +249,10 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
     //Combines favouriteBusServices and BusTimings for usage by BusTimingFragment
     fun mergeFavouriteAndTimings(): MergedLiveData<List<String>, BusTimings> {
         return MergedLiveData(favouriteBusServices, busTimings)
+    }
+
+    fun mergeSearchResults(query: String?): MergedLiveData<List<BusStops.BusStopData>, List<String>> {
+        return MergedLiveData(searchBusStops(query), searchBusServices(query))
     }
 
     class MergedLiveData<F, S>(first: LiveData<F>, second: LiveData<S>) :

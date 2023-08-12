@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.switchMap
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.buffkatarina.busarrival.R
@@ -49,13 +50,11 @@ class SearchFragment : Fragment(),
         val busServicesAdapter = BusServicesSearchAdapter(this)
         busServicesRecyclerView.adapter = busServicesAdapter
 
-        model.searchQuery.observe(viewLifecycleOwner) { query ->
-            model.searchBusStops(query).observe(viewLifecycleOwner) { data ->
-                busStopsSearchAdapter.updateData(data)
-            }
-            model.searchBusServices(query).observe(viewLifecycleOwner) { data ->
-                busServicesAdapter.updateData(data)
-            }
+        model.searchQuery.switchMap {
+            model.mergeSearchResults(it)
+        }.observe(viewLifecycleOwner) {
+            it.first?.let { it1 -> busStopsSearchAdapter.updateData(it1) }
+            it.second?.let { it1 -> busServicesAdapter.updateData(it1) }
         }
     }
 
