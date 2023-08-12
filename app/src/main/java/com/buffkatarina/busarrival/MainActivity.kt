@@ -68,7 +68,13 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
                 .beginTransaction()
                 .replace(R.id.fragmentHolder, HomeFragment(), "HomeFragment")
                 .commit()
-        } else {
+        }
+        else if (supportFragmentManager.findFragmentByTag("BusTimingFragment")?.isVisible == true) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentHolder, SearchFragment(), "SearchFragment")
+                .commit()
+        }
+        else {
             supportFragmentManager.popBackStack()
         }
     }

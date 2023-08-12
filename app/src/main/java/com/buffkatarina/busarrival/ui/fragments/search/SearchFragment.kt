@@ -76,7 +76,6 @@ class SearchFragment : Fragment(),
         model.setBusStopCode(query)
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragmentHolder, BusTimingFragment(), "BusTimingFragment")
-            .addToBackStack(null)
             .commit()
     }
 }

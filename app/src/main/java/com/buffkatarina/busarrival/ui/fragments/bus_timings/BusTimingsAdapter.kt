@@ -1,7 +1,7 @@
 package com.buffkatarina.busarrival.ui.fragments.bus_timings
 
 import android.annotation.SuppressLint
-import android.util.Log
+import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -24,6 +24,7 @@ import kotlin.properties.Delegates
 class BusTimingsAdapter(
     private val busStopCode: String,
     private val fragmentCallback: FragmentCallback,
+    private val gestureDetector: GestureDetector,
 ) :
     RecyclerView.Adapter<BusTimingsAdapter.BusArrivalViewHolder>() {
 
@@ -70,6 +71,7 @@ class BusTimingsAdapter(
         }
         swipeFrame.setOnClickListener(favouriteClickListener)
 
+
         itemView.post {
             swipeFrame.updateLayoutParams {
                 height = mainCard.height
@@ -79,51 +81,55 @@ class BusTimingsAdapter(
             var dX by Delegates.notNull<Float>()
             var offSet = 0f
             val threshold = 0.5
-            var shouldClick = false
 
-            itemView.setOnTouchListener { _, event ->
-                when (event.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        shouldClick = false
-                        dX = 0f - event.rawX
-
-                    }
-
-                    MotionEvent.ACTION_MOVE -> {
-                        shouldClick = false
-                        offSet = event.rawX + dX
-
-                        if (!buttonVisibility) {//allow dragging left if button is not visible
-                            if (offSet >= -limit && offSet <= 0f) {
-                                swipeFrame.visibility = View.VISIBLE
-                                mainCard.animate().x(offSet).setDuration(0).start()
-                            }
-                        }
-                    }
-
-                    MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
-                        if (shouldClick)
+            itemView.setOnTouchListener(object : View.OnTouchListener {
+                override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                    event?.let {
+                        if (gestureDetector.onTouchEvent(event)) {
                             fragmentCallback.toBusRoutes(holder.serviceNoHolder.text.toString())
-                        else
-                            if (offSet <= -limit * threshold) { // Complete swipe when drag is longer threshold of 0.5f
-                                if (!buttonVisibility) {
-                                    offSet = -limit
-                                    mainCard.animate().x(offSet).setDuration(0).start()
-                                    buttonVisibility = true
-                                    swipeFrame.visibility = View.VISIBLE
+                            return false
+                        }
+                        when (event.action) {
+                            MotionEvent.ACTION_DOWN -> {
+                                dX = 0f - event.rawX
 
+                            }
 
+                            MotionEvent.ACTION_MOVE -> {
+                                offSet = event.rawX + dX
+
+                                if (!buttonVisibility) {//allow dragging left if button is not visible
+                                    if (offSet >= -limit && offSet <= 0f) {
+                                        swipeFrame.visibility = View.VISIBLE
+                                        mainCard.animate().x(offSet).setDuration(0).start()
+                                    }
                                 }
                             }
-                        if (offSet > -limit * threshold) { //undo swipe if below threshold
-                            mainCard.animate().x(0f + cardMargin).setDuration(0).start()
-                            buttonVisibility = false
-                            swipeFrame.visibility = View.INVISIBLE
+
+                            MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
+                                if (offSet <= -limit * threshold) { // Complete swipe when drag is longer threshold of 0.5f
+                                    if (!buttonVisibility) {
+                                        offSet = -limit
+                                        mainCard.animate().x(offSet).setDuration(0).start()
+                                        buttonVisibility = true
+                                        swipeFrame.visibility = View.VISIBLE
+
+
+                                    }
+                                }
+                                if (offSet > -limit * threshold) { //undo swipe if below threshold
+                                    mainCard.animate().x(0f + cardMargin).setDuration(0).start()
+                                    buttonVisibility = false
+                                    swipeFrame.visibility = View.INVISIBLE
+                                }
+                            }
                         }
+                        true
                     }
+                    return true
                 }
-                true
-            }
+
+            })
         }
     }
 
@@ -157,11 +163,13 @@ class BusTimingsAdapter(
 
     override fun getItemCount() = busTimings.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateTimings(timings: List<BusTimings.BusData>) {
         busTimings = timings
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateFavourites(favouritesData: List<String>) {
         if (favouriteBusServices.isEmpty()) {
             favouriteBusServices = favouritesData

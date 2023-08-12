@@ -85,9 +85,10 @@ class BusRoutesFragment : Fragment(), BusRoutesAdapter.ToBusTimings {
       * Implementation for ToBusRoutes interface in BusServicesSearchAdapter
       * */
         model.setBusStopCode(query)
+        parentFragmentManager.popBackStack() //consumes the previous transaction
         parentFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.fragmentHolder, BusTimingFragment())
+            .replace(R.id.fragmentHolder, BusTimingFragment(), "BusTimingFragment")
             .commit()
     }
 

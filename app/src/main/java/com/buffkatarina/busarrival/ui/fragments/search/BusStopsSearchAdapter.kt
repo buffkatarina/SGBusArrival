@@ -1,5 +1,6 @@
 package com.buffkatarina.busarrival.ui.fragments.search
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,7 @@ class BusStopsSearchAdapter(private val busStopsHandler: ToBusTimings) :
         val card: MaterialCardView = view.findViewById(R.id.searchRow)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newData: List<BusStops.BusStopData>) {
         dataList = newData
         notifyDataSetChanged()

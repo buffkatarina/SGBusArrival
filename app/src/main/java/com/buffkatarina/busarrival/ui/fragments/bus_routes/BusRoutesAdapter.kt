@@ -1,5 +1,6 @@
 package com.buffkatarina.busarrival.ui.fragments.bus_routes
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +45,7 @@ class BusRoutesAdapter(private val toBusTimings: ToBusTimings) :
         return data.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(newData: List<BusRoutesFiltered>) {
         data = newData
         notifyDataSetChanged()

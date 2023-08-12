@@ -9,6 +9,7 @@ import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.drawable.VectorDrawable
 import android.location.LocationManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.data.entities.BusStops
+import com.buffkatarina.busarrival.ui.fragments.bus_timings.BusTimingFragment
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -49,8 +51,8 @@ fun MapView(
     modifier: Modifier = Modifier,
     onLoad: ((map: MapView) -> Unit)? = null,
     busStops: List<BusStops.BusStopData>?,
-
-    ) {
+    setBusStopCode: (String?) -> Unit,
+) {
     val locationPermissions = rememberMultiplePermissionsState(
         permissions = listOf(
             Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -100,6 +102,16 @@ fun MapView(
             myLocationOverlay.runOnFirstFix {
                 location = myLocationOverlay.myLocation
             }
+            val onClickAction =
+                MarkerWindow.OnClick { busStopCode ->
+                    val activity = context as AppCompatActivity
+                    setBusStopCode(busStopCode)
+                    activity.supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragmentHolder, BusTimingFragment())
+                        .addToBackStack(null)
+                        .commit()
+                }
 
             val mapController = mapView.controller
             location?.let { that ->
@@ -120,7 +132,8 @@ fun MapView(
                                 busStop.longitude,
                                 context,
                                 busStop.busStopCode,
-                                busStop.description
+                                busStop.description,
+                                onClickAction
                             )
                         }
                     }
@@ -186,6 +199,7 @@ fun setMarker(
     context: Context,
     title: String,
     description: String,
+    onClickAction: MarkerWindow.OnClick,
 ) {
 
     val marker = Marker(mapView)
@@ -193,8 +207,8 @@ fun setMarker(
     marker.position = geoPoint
     marker.icon = ContextCompat.getDrawable(context, R.drawable.bus_icon)
     marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-    marker.infoWindow = MarkerWindow(mapView, context, title, description)
+    marker.infoWindow = MarkerWindow(mapView, title, description, onClickAction)
     mapView.overlays.add(marker)
 
-
 }
+

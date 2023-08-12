@@ -43,6 +43,7 @@ fun HomeCompose(
                     .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
                     .weight(1f),
                 busStops = busStops,
+                setBusStopCode = viewModel::setBusStopCode
             )
             Box(
                 modifier = Modifier

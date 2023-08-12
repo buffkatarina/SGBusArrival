@@ -64,7 +64,9 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
         busApiRepository = BusApiRepository(busApiInterface)
     }
 
-    val setBusStopCode = { code: String? -> _busStopCode.value = code }
+    fun setBusStopCode(code: String?) {
+        _busStopCode.value = code
+    }
 
     val setBusServiceNo = { code: String? -> _busServiceNo.value = code }
     fun setDialogState(bool: Boolean) {

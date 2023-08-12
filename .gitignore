@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+keystore.jks
+encoded_keystore.b64

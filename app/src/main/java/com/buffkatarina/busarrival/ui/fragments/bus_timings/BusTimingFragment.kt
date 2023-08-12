@@ -1,7 +1,9 @@
 package com.buffkatarina.busarrival.ui.fragments.bus_timings
 
 import android.os.Bundle
+import android.view.GestureDetector
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -48,7 +50,11 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FragmentCallback {
         recyclerView.layoutManager = LinearLayoutManager(context)
         val currentFragment = this
         val viewModel = ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
-
+        val gestureDetector = object : GestureDetector.SimpleOnGestureListener() {
+            override fun onSingleTapUp(e: MotionEvent): Boolean {
+                return true
+            }
+        }
         viewModel.busStopCode.switchMap {
             it?.let {
                 viewLifecycleOwner.lifecycleScope.launch {
@@ -61,7 +67,11 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FragmentCallback {
                 (requireActivity() as AppCompatActivity).supportActionBar?.title = it
                 mBusStopCode = it
                 viewModel.getFavouriteBusServices(it)
-                adapter = BusTimingsAdapter(it, currentFragment)
+                adapter = BusTimingsAdapter(
+                    it,
+                    currentFragment,
+                    GestureDetector(context, gestureDetector)
+                )
                 recyclerView.adapter = adapter
                 viewModel.mergeFavouriteAndTimings()
             }
@@ -92,7 +102,7 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FragmentCallback {
         model.setBusServiceNo(query)
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragmentHolder, BusRoutesFragment(), "BusRoutesFragment")
-            .addToBackStack("BusTimingToBusRoutes")
+            .addToBackStack(null)
             .commit()
     }
 }
