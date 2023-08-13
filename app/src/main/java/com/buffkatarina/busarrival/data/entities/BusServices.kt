@@ -1,8 +1,10 @@
 package com.buffkatarina.busarrival.data.entities
 
+import androidx.annotation.Keep
 import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class BusServices(
     @SerializedName("odata.metadata")
     val metadata: String,
@@ -10,6 +12,7 @@ data class BusServices(
     @SerializedName("value")
     val data: List<BusServicesData>,
 ) {
+    @Keep
     @Entity(tableName = "BusServices", primaryKeys = ["serviceNo", "direction"])
     data class BusServicesData(
         @SerializedName("ServiceNo")
