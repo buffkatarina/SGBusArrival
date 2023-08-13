@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -26,16 +27,37 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         setContentView(R.layout.activity_main)
         setUpDatabase()
         Configuration.getInstance().load(
-            applicationContext,
-            PreferenceManager.getDefaultSharedPreferences(applicationContext)
+            this,
+            androidx.preference.PreferenceManager.getDefaultSharedPreferences(this)
         )
         supportFragmentManager.beginTransaction()
             .add(R.id.fragmentHolder, HomeFragment(), "HomeFragment")
             .commit()
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(true)
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
+    private val onBackPressedCallback = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (supportFragmentManager.findFragmentByTag("HomeFragment")?.isVisible == true) {
+                finish()
+            } else if (supportFragmentManager.findFragmentByTag("SearchFragment")?.isVisible == true) {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragmentHolder, HomeFragment(), "HomeFragment")
+                    .commit()
+            }
+            else if (supportFragmentManager.findFragmentByTag("BusTimingFragment")?.isVisible == true) {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentHolder, SearchFragment(), "SearchFragment")
+                    .commit()
+            }
+            else {
+                supportFragmentManager.popBackStack()
+            }
+        }
+    }
 
     private fun setUpDatabase() {
         model.getBuildDate()
@@ -60,24 +82,6 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         }
     }
 
-    override fun onBackPressed() {
-        if (supportFragmentManager.findFragmentByTag("HomeFragment")?.isVisible == true) {
-            finish()
-        } else if (supportFragmentManager.findFragmentByTag("SearchFragment")?.isVisible == true) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentHolder, HomeFragment(), "HomeFragment")
-                .commit()
-        }
-        else if (supportFragmentManager.findFragmentByTag("BusTimingFragment")?.isVisible == true) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentHolder, SearchFragment(), "SearchFragment")
-                .commit()
-        }
-        else {
-            supportFragmentManager.popBackStack()
-        }
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search, menu)
