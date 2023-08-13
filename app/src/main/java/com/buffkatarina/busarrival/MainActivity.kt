@@ -1,7 +1,6 @@
 package com.buffkatarina.busarrival
 
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.OnBackPressedCallback
@@ -38,7 +37,7 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
-    private val onBackPressedCallback = object: OnBackPressedCallback(true) {
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if (supportFragmentManager.findFragmentByTag("HomeFragment")?.isVisible == true) {
                 finish()
@@ -47,13 +46,11 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
                     .beginTransaction()
                     .replace(R.id.fragmentHolder, HomeFragment(), "HomeFragment")
                     .commit()
-            }
-            else if (supportFragmentManager.findFragmentByTag("BusTimingFragment")?.isVisible == true) {
+            } else if (supportFragmentManager.findFragmentByTag("BusTimingFragment")?.isVisible == true) {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentHolder, SearchFragment(), "SearchFragment")
                     .commit()
-            }
-            else {
+            } else {
                 supportFragmentManager.popBackStack()
             }
         }
