@@ -30,7 +30,7 @@ android {
         minSdk 30
         targetSdk 33
         versionCode 1
-        versionName '1.0.4'
+        versionName '1.1.0'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -93,6 +93,7 @@ android {
         def composeVersion = "1.5.1"
         implementation "androidx.compose.compiler:compiler:$composeVersion"
 
+        implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
 
         //Open street map dependencies
         implementation 'org.osmdroid:osmdroid-android:6.1.16'

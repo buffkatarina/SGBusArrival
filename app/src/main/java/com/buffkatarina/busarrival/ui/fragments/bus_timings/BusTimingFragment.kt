@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.switchMap
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.buffkatarina.busarrival.R
 import com.buffkatarina.busarrival.isNull
 import com.buffkatarina.busarrival.model.ActivityViewModel
@@ -46,6 +47,7 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FragmentCallback {
             Set ups recycler view
             Gets bus timings and loads them into the recycler view*/ {
         lateinit var adapter: BusTimingsAdapter
+        val swipeRefresh: SwipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
         val recyclerView: RecyclerView = view.findViewById(R.id.busTimings_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(context)
         val currentFragment = this
@@ -55,6 +57,7 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FragmentCallback {
                 return true
             }
         }
+
         viewModel.busStopCode.switchMap {
             it?.let {
                 viewLifecycleOwner.lifecycleScope.launch {
@@ -64,6 +67,14 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FragmentCallback {
                         delay(60000)
                     }
                 }
+
+                swipeRefresh.setOnRefreshListener {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        //Retrieve new bus timings on refresh
+                        viewModel.getBusTimings(it)
+                    }
+                }
+
                 (requireActivity() as AppCompatActivity).supportActionBar?.title = it
                 mBusStopCode = it
                 viewModel.getFavouriteBusServices(it)
@@ -81,6 +92,7 @@ class BusTimingFragment : Fragment(), BusTimingsAdapter.FragmentCallback {
             if (!isNull(busTimings, favouriteBusServices)) {
                 adapter.updateTimings(busTimings!!.services)
                 adapter.updateFavourites(favouriteBusServices!!)
+                swipeRefresh.isRefreshing = false
             }
         }
     }
